@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I = PAT Environmental Impact Simulator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:        #0f172a;
+      --surface:   #1e293b;
+      --surface-2: #172032;
+      --border:    #2d3f55;
+      --border-lt: #253347;
+      --text:      #f1f5f9;
+      --text-2:    #94a3b8;
+      --text-3:    #64748b;
+      --p:   #60a5fa;
+      --a:   #fbbf24;
+      --t:   #34d399;
+      --i:   #a78bfa;
+      --p-d: rgba(96,165,250,0.1);
+      --a-d: rgba(251,191,36,0.1);
+      --t-d: rgba(52,211,153,0.1);
+      --i-d: rgba(167,139,250,0.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 52px 24px 44px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+    .overline {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--i); margin-bottom: 12px;
+    }
+    header h1 {
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-weight: 700; letter-spacing: -0.02em; color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    /* Context switcher */
+    .ctx-switch {
+      display: inline-flex; gap: 6px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px; padding: 4px;
+      margin-bottom: 22px;
+    }
+    .ctx-btn {
+      padding: 6px 18px; border-radius: 5px; border: none;
+      background: transparent; color: var(--text-2);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      font-family: inherit; transition: all 0.18s;
+    }
+    .ctx-btn:hover { color: var(--text); }
+    .ctx-btn.active { background: var(--i-d); color: var(--i); }
+
+    .eq-hero {
+      display: inline-flex; align-items: baseline; gap: 10px;
+      font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 300;
+      letter-spacing: 0.06em; margin-bottom: 18px;
+    }
+    .eq-i { color: var(--i); font-weight: 700; }
+    .eq-p { color: var(--p); font-weight: 700; }
+    .eq-a { color: var(--a); font-weight: 700; }
+    .eq-t { color: var(--t); font-weight: 700; }
+    .eq-op { color: var(--text-3); font-weight: 300; }
+    header p {
+      color: var(--text-2); max-width: 600px; margin: 0 auto;
+      font-size: 0.93rem; line-height: 1.7;
+    }
+
+    /* ── Shared ── */
+    .tag {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 14px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+    }
+    .divider { border: none; border-top: 1px solid var(--border-lt); margin: 16px 0 20px; }
+
+    /* ── Live Calculator ── */
+    .calc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-bottom: 22px;
+    }
+
+    .eq-row {
+      display: flex; align-items: stretch; gap: 0; margin-bottom: 20px;
+    }
+    .eq-term { flex: 1; text-align: center; padding: 14px 10px; }
+    .eq-term.eq-result {
+      border-right: 1px solid var(--border); padding-right: 24px; margin-right: 8px;
+    }
+    .eq-sep {
+      flex: 0 0 36px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--text-3); font-weight: 300; padding-top: 10px;
+    }
+    .term-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 6px; }
+    .term-value {
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 800;
+      font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 3px;
+      transition: color 0.25s;
+    }
+    .term-name { font-size: 0.7rem; color: var(--text-2); }
+    .tv-i { color: var(--i); } .tv-p { color: var(--p); }
+    .tv-a { color: var(--a); } .tv-t { color: var(--t); }
+
+    .factor-row {
+      background: var(--surface-2); border: 1px solid var(--border-lt);
+      border-radius: 8px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+      font-size: 0.82rem; color: var(--text-2); margin-bottom: 14px;
+    }
+    .factor-row .fl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); margin-right: 4px; }
+    .factor-eq { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .f-val { font-weight: 700; font-variant-numeric: tabular-nums; padding: 2px 7px; border-radius: 4px; font-size: 0.82rem; }
+    .f-i { background: var(--i-d); color: var(--i); } .f-p { background: var(--p-d); color: var(--p); }
+    .f-a { background: var(--a-d); color: var(--a); } .f-t { background: var(--t-d); color: var(--t); }
+    .f-op { color: var(--text-3); font-size: 0.78rem; }
+
+    .change-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+    .change-item { display: flex; flex-direction: column; gap: 2px; }
+    .ch-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: .09em; color: var(--text-3); }
+    .ch-val { font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; transition: color 0.25s; }
+    .ch-note { font-size: 0.72rem; color: var(--text-3); font-style: italic; }
+
+    /* ── Scenario buttons ── */
+    .scn-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 0; }
+    .s-btn {
+      padding: 5px 12px; border-radius: 5px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-2); font-size: 0.76rem; cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .s-btn:hover { border-color: var(--text-3); color: var(--text); }
+    .s-btn.active { background: var(--i-d); border-color: var(--i); color: var(--i); }
+
+    /* ── Horizontal slider panel ── */
+    .sliders-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    .slider-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 24px;
+    }
+    .slider-col + .slider-col {
+      border-left: 1px solid var(--border-lt);
+    }
+
+    .var-pill {
+      width: 26px; height: 26px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 800; flex-shrink: 0;
+    }
+    .pill-p { background: var(--p-d); color: var(--p); }
+    .pill-a { background: var(--a-d); color: var(--a); }
+    .pill-t { background: var(--t-d); color: var(--t); }
+
+    .col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .col-title { font-size: 0.9rem; font-weight: 600; }
+    .col-value { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; margin-bottom: 14px; }
+    .vc-p { color: var(--p); } .vc-a { color: var(--a); } .vc-t { color: var(--t); }
+
+    /* Vertical slider using rotation */
+    .vslider-area {
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      margin-bottom: 18px;
+    }
+    .vrange-lbl {
+      font-size: 0.68rem; color: var(--text-3);
+      font-variant-numeric: tabular-nums;
+    }
+    .vslider-track {
+      position: relative;
+      width: 28px;
+      height: 190px;
+    }
+    .vslider-track input[type=range] {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 190px;
+      height: 6px;
+      margin: 0; padding: 0;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--border);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+    .vslider-track .sl-p { accent-color: var(--p); }
+    .vslider-track .sl-a { accent-color: var(--a); }
+    .vslider-track .sl-t { accent-color: var(--t); }
+
+    .vslider-track .sl-p::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--p);
+      border: 2.5px solid var(--bg); cursor: pointer;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    }
+    .vslider-track .sl-a::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--a);
+      border: 2.5px solid var(--bg); cursor: pointer;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    }
+    .vslider-track .sl-t::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--t);
+      border: 2.5px solid var(--bg); cursor: pointer;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    }
+
+    /* Firefox */
+    .vslider-track .sl-p::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--p); border: 2.5px solid var(--bg); cursor: pointer;
+    }
+    .vslider-track .sl-a::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--a); border: 2.5px solid var(--bg); cursor: pointer;
+    }
+    .vslider-track .sl-t::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--t); border: 2.5px solid var(--bg); cursor: pointer;
+    }
+
+    /* Explanation box inside column */
+    .var-explain {
+      font-size: 0.78rem; color: var(--text-2);
+      line-height: 1.65; padding: 9px 12px;
+      border-left: 2px solid; border-radius: 0 5px 5px 0;
+      background: var(--surface-2); width: 100%;
+    }
+    .vex-p { border-color: var(--p); }
+    .vex-a { border-color: var(--a); }
+    .vex-t { border-color: var(--t); }
+    .var-explain strong { color: var(--text); font-weight: 600; }
+
+    /* ── Charts row ── */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+    @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+
+    /* Scenario Guide */
+    .sgi-list { display: flex; flex-direction: column; gap: 9px; flex: 1; overflow-y: auto; }
+    .sgi-item {
+      border: 1px solid var(--border-lt); border-radius: 8px; padding: 11px 14px;
+      cursor: pointer; transition: border-color 0.15s, background 0.15s;
+      background: var(--surface-2);
+    }
+    .sgi-item:hover { border-color: var(--text-3); }
+    .sgi-item.sgi-active { border-color: var(--i); background: var(--i-d); }
+    .sgi-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+    .sgi-name { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .sgi-item.sgi-active .sgi-name { color: var(--i); }
+    .sgi-i-val { font-size: 0.82rem; font-weight: 700; color: var(--i); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .sgi-vars { font-size: 0.68rem; color: var(--text-3); font-variant-numeric: tabular-nums; margin-bottom: 4px; }
+    .sgi-desc { font-size: 0.78rem; color: var(--text-2); line-height: 1.55; }
+
+    .ch-wrap { position: relative; }
+    .h-fill { flex: 1; min-height: 0; }
+
+    footer {
+      text-align: center; padding: 36px 0 0; margin-top: 48px;
+      border-top: 1px solid var(--border);
+      font-size: 0.71rem; color: var(--text-3); line-height: 1.8;
+    }
+
+    @media (max-width: 800px) {
+      .sliders-row { grid-template-columns: 1fr; }
+      .slider-col + .slider-col { border-left: none; border-top: 1px solid var(--border-lt); padding-top: 20px; margin-top: 4px; }
+    }
+
+    /* References */
+    .refs-section {
+      margin-top: 48px; padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .refs-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 16px;
+    }
+    .refs-list {
+      list-style: none;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px 40px;
+    }
+    @media (max-width: 700px) { .refs-list { grid-template-columns: 1fr; } }
+    .refs-list li {
+      font-size: 0.71rem; color: var(--text-3); line-height: 1.65;
+      padding-left: 10px; border-left: 2px solid var(--border-lt);
+    }
+    .refs-list li strong { color: var(--text-2); font-weight: 600; }
+    .refs-list a { color: var(--text-3); text-decoration: underline; text-underline-offset: 2px; }
+    .refs-list a:hover { color: var(--text-2); }
+    /* Embed mode: host page provides its own header */
+    body.embed header { display: none !important; }
+    body.embed main { padding-top: 1rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="overline">SOS 110 &nbsp;&nbsp;·&nbsp;&nbsp; Arizona State University &nbsp;&nbsp;·&nbsp;&nbsp; Ryan Cornell</div>
+    <h1>I = PAT Environmental Impact Simulator</h1>
+    <div class="eq-hero">
+      <span class="eq-i">I</span>
+      <span class="eq-op">=</span>
+      <span class="eq-p">P</span>
+      <span class="eq-op">×</span>
+      <span class="eq-a">A</span>
+      <span class="eq-op">×</span>
+      <span class="eq-t">T</span>
+    </div>
+    <p id="header-desc" style="margin-bottom:20px;">Because the relationship is multiplicative, each variable scales <strong style="color:var(--i)">I</strong> independently and proportionally. Adjust any lever to observe its direct effect on total environmental impact.</p>
+    <div class="ctx-switch">
+      <button class="ctx-btn active" id="ctx-btn-global" onclick="switchContext('global')">🌍 Global Carbon</button>
+      <button class="ctx-btn" id="ctx-btn-auto" onclick="switchContext('auto')">🚗 Automobiles</button>
+    </div>
+  </header>
+
+  <!-- Live Calculator -->
+  <div class="calc-card">
+    <div class="tag">Live Calculation</div>
+    <div class="eq-row">
+      <div class="eq-term eq-result">
+        <div class="term-label" id="lc-i-label">CO₂ Emissions</div>
+        <div class="term-value tv-i" id="lc-i">34.3 Gt</div>
+        <div class="term-name">I</div>
+      </div>
+      <div class="eq-sep">=</div>
+      <div class="eq-term">
+        <div class="term-label" id="lc-p-label">Population</div>
+        <div class="term-value tv-p" id="lc-p">8.0 B</div>
+        <div class="term-name">P</div>
+      </div>
+      <div class="eq-sep">×</div>
+      <div class="eq-term">
+        <div class="term-label" id="lc-a-label">GDP per Capita</div>
+        <div class="term-value tv-a" id="lc-a">$11,000</div>
+        <div class="term-name">A</div>
+      </div>
+      <div class="eq-sep">×</div>
+      <div class="eq-term">
+        <div class="term-label" id="lc-t-label">Carbon Intensity</div>
+        <div class="term-value tv-t" id="lc-t">0.39 kg/$</div>
+        <div class="term-name">T</div>
+      </div>
+    </div>
+
+    <div class="factor-row">
+      <span class="fl">Multipliers vs. baseline</span>
+      <div class="factor-eq">
+        <span class="f-val f-i" id="fc-i">×1.000</span>
+        <span class="f-op">=</span>
+        <span class="f-val f-p" id="fc-p">×1.000</span>
+        <span class="f-op">×</span>
+        <span class="f-val f-a" id="fc-a">×1.000</span>
+        <span class="f-op">×</span>
+        <span class="f-val f-t" id="fc-t">×1.000</span>
+      </div>
+      <span id="fc-note" class="ch-note" style="margin-left:4px"></span>
+    </div>
+
+    <div class="change-row">
+      <div class="change-item">
+        <span class="ch-label">Overall change from baseline</span>
+        <span class="ch-val" id="ch-total" style="color:var(--text-2)">± 0.0%</span>
+      </div>
+      <div class="change-item">
+        <span class="ch-label" id="ch-p-label">P change</span>
+        <span class="ch-val" id="ch-p" style="color:var(--p)">± 0.0%</span>
+      </div>
+      <div class="change-item">
+        <span class="ch-label" id="ch-a-label">A change</span>
+        <span class="ch-val" id="ch-a" style="color:var(--a)">± 0.0%</span>
+      </div>
+      <div class="change-item">
+        <span class="ch-label" id="ch-t-label">T change</span>
+        <span class="ch-val" id="ch-t" style="color:var(--t)">± 0.0%</span>
+      </div>
+      <div class="change-item" style="margin-left:auto;">
+        <span class="ch-label" id="baseline-label">Baseline</span>
+        <span class="ch-val" id="baseline-val" style="color:var(--text-3)">34.3 Gt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scenarios + Vertical Sliders -->
+  <div class="card" style="margin-bottom:0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+      <div class="tag" style="margin-bottom:0;">Scenarios &amp; Controls</div>
+      <div class="scn-row" id="scn-row" style="margin-bottom:0;"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="sliders-row">
+
+      <!-- P Column -->
+      <div class="slider-col">
+        <div class="col-header">
+          <div class="var-pill pill-p">P</div>
+          <div class="col-title" id="col-title-p">Population</div>
+        </div>
+        <div class="col-value vc-p" id="vp">8.0 B</div>
+        <div class="vslider-area">
+          <div class="vrange-lbl" id="vrange-top-p">15 billion</div>
+          <div class="vslider-track">
+            <input type="range" id="slP" class="sl-p" min="1" max="15" step="0.1" value="8">
+          </div>
+          <div class="vrange-lbl" id="vrange-bot-p">1 billion</div>
+        </div>
+        <div class="var-explain vex-p" id="vex-p">
+          <strong>Population (P)</strong> is the total number of people on Earth. P scales I linearly — a 10% increase in P produces a 10% increase in I, holding A and T constant. Current global population is ~8.1 billion; UN projections estimate 9.7 billion by 2050.
+        </div>
+      </div>
+
+      <!-- A Column -->
+      <div class="slider-col">
+        <div class="col-header">
+          <div class="var-pill pill-a">A</div>
+          <div class="col-title" id="col-title-a">GDP per Capita</div>
+        </div>
+        <div class="col-value vc-a" id="va">$11,000</div>
+        <div class="vslider-area">
+          <div class="vrange-lbl" id="vrange-top-a">$21,000 / person</div>
+          <div class="vslider-track">
+            <input type="range" id="slA" class="sl-a" min="1" max="21" step="0.5" value="11">
+          </div>
+          <div class="vrange-lbl" id="vrange-bot-a">$1,000 / person</div>
+        </div>
+        <div class="var-explain vex-a" id="vex-a">
+          <strong>Affluence (A)</strong> measures per-capita GDP in thousands of dollars per year. Doubling A doubles I. The global average is ~$11,000/yr, ranging from under $1,000 in low-income nations to over $80,000 in high-income ones.
+        </div>
+      </div>
+
+      <!-- T Column -->
+      <div class="slider-col">
+        <div class="col-header">
+          <div class="var-pill pill-t">T</div>
+          <div class="col-title" id="col-title-t">Carbon Intensity</div>
+        </div>
+        <div class="col-value vc-t" id="vt">0.39 kg/$</div>
+        <div class="vslider-area">
+          <div class="vrange-lbl" id="vrange-top-t">0.78 kg/$ (2× baseline)</div>
+          <div class="vslider-track">
+            <input type="range" id="slT" class="sl-t" min="0" max="0.78" step="0.01" value="0.39">
+          </div>
+          <div class="vrange-lbl" id="vrange-bot-t">0 kg/$ (no emissions)</div>
+        </div>
+        <div class="var-explain vex-t" id="vex-t">
+          <strong>Carbon Intensity (T)</strong> measures kg of CO₂ emitted per dollar of GDP. Lower T means cleaner energy and processes. At 0.39 kg/$, it reflects the 2020 global average. Halving T halves total emissions regardless of P and A.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="charts-row">
+
+    <div class="card" style="display:flex;flex-direction:column;">
+      <div class="tag">Scenario Guide</div>
+      <div class="sgi-list" id="sgi-list"></div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;">
+      <div class="tag">Scenario Comparison</div>
+      <div class="ch-wrap h-fill"><canvas id="barChart"></canvas></div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer id="footer-text">
+  Based on the IPAT identity introduced by Paul Ehrlich &amp; John Holdren (1971) and elaborated by Barry Commoner.
+  <br>Global context: I (Gt CO₂/yr) = P (billion people) × A (k$/person/yr) × T (kg CO₂/$) &nbsp;→&nbsp; 8 × 11 × 0.39 = 34.3 Gt CO₂/yr
+</footer>
+
+<div class="container">
+  <section class="refs-section">
+    <div class="refs-title">Data Sources &amp; References</div>
+    <ul class="refs-list">
+
+      <li><strong>IPAT Identity (origin)</strong><br>
+        Ehrlich, P.R. &amp; Holdren, J.P. (1971). Impact of population growth.
+        <em>Science</em>, 171(3977), 1212–1217.
+        <a href="https://doi.org/10.1126/science.171.3977.1212" target="_blank">doi:10.1126/science.171.3977.1212</a>
+      </li>
+
+      <li><strong>IPAT Formulation</strong><br>
+        Commoner, B. (1971). <em>The Closing Circle: Nature, Man, and Technology.</em>
+        Knopf. — Introduced the framework later formalized as I = PAT.
+      </li>
+
+      <li><strong>Global CO₂ Emissions (~34 Gt in 2020)</strong><br>
+        IEA. (2021). <em>Global Energy Review 2021.</em> International Energy Agency.
+        <a href="https://www.iea.org/reports/global-energy-review-2021" target="_blank">iea.org/reports/global-energy-review-2021</a>
+      </li>
+
+      <li><strong>Global GDP per Capita (~$11,000/yr)</strong><br>
+        World Bank. (2023). <em>World Development Indicators: GDP per capita (current US$).</em>
+        <a href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD" target="_blank">data.worldbank.org</a>
+      </li>
+
+      <li><strong>Carbon Intensity of GDP (~0.39 kg CO₂/$)</strong><br>
+        IEA. (2022). <em>CO₂ Emissions from Fuel Combustion — Highlights.</em>
+        Derived as global CO₂ ÷ global GDP (PPP-adjusted).
+        <a href="https://www.iea.org/data-and-statistics" target="_blank">iea.org/data-and-statistics</a>
+      </li>
+
+      <li><strong>2050 Climate Scenarios (BAU, Sustainable, Green Tech)</strong><br>
+        IPCC. (2021). <em>Sixth Assessment Report (AR6), Working Group I.</em> Cambridge University Press.
+        SSP1–1.9 through SSP5–8.5 scenario family.
+        <a href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank">ipcc.ch/report/ar6/wg1</a>
+      </li>
+
+      <li><strong>Net Zero / Green Tech Scenario</strong><br>
+        IEA. (2021). <em>Net Zero by 2050: A Roadmap for the Global Energy Sector.</em>
+        <a href="https://www.iea.org/reports/net-zero-by-2050" target="_blank">iea.org/reports/net-zero-by-2050</a>
+      </li>
+
+      <li><strong>U.S. Licensed Drivers &amp; VMT (~230 M drivers, ~15,000 mi/yr)</strong><br>
+        Federal Highway Administration. (2021). <em>Highway Statistics 2020.</em> U.S. DOT.
+        <a href="https://www.fhwa.dot.gov/policyinformation/statistics/2020/" target="_blank">fhwa.dot.gov/policyinformation/statistics/2020</a>
+      </li>
+
+      <li><strong>Gasoline Car Emissions (~0.35 kg CO₂/mi)</strong><br>
+        U.S. EPA. (2023). <em>Greenhouse Gas Emissions from a Typical Passenger Vehicle.</em>
+        EPA-420-F-23-014. ~404 g CO₂/mi ≈ 0.35 kg CO₂/mi (weighted fleet average).
+        <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank">epa.gov/greenvehicles</a>
+      </li>
+
+      <li><strong>EV Emissions on Average U.S. Grid (~0.07–0.10 kg CO₂/mi)</strong><br>
+        U.S. DOE Alternative Fuels Data Center. (2023). <em>Emissions from Electric Vehicles.</em>
+        Based on ~0.38 kg CO₂/kWh grid intensity × ~0.25 kWh/mi EV efficiency.
+        <a href="https://afdc.energy.gov/vehicles/electric_emissions.html" target="_blank">afdc.energy.gov</a>
+      </li>
+
+      <li><strong>U.S. Grid Carbon Intensity (~0.38 kg CO₂/kWh)</strong><br>
+        U.S. EPA eGRID. (2022). <em>Emissions &amp; Generation Resource Integrated Database, 2020.</em>
+        <a href="https://www.epa.gov/egrid" target="_blank">epa.gov/egrid</a>
+      </li>
+
+      <li><strong>All-Electric Grid / Near-Zero T Scenario</strong><br>
+        NREL. (2021). <em>Electrification Futures Study: Scenarios of Electric Technology Adoption.</em>
+        National Renewable Energy Laboratory. NREL/TP-6A20-71500.
+        <a href="https://www.nrel.gov/docs/fy18osti/71500.pdf" target="_blank">nrel.gov</a>
+      </li>
+
+    </ul>
+  </section>
+</div>
+
+<script>
+// ── Context definitions ─────────────────────────────────────────────────────
+const CONTEXTS = {
+  global: {
+    key: 'global',
+    // Slider values — P in billions, A in k$/yr, T in kg CO₂/$
+    // Unit algebra: [B people] × [k$/person/yr] × [kg CO₂/$] = Gt CO₂/yr
+    pBase: 8,    pMin: 1,    pMax: 15,   pStep: 0.1,
+    aBase: 11,   aMin: 1,    aMax: 21,   aStep: 0.5,
+    tBase: 0.39, tMin: 0,    tMax: 0.78, tStep: 0.01,
+    iUnit: 'Gt CO₂/yr',
+    pLabel: 'Population',     aLabel: 'GDP per Capita',  tLabel: 'Carbon Intensity',
+    iLabel: 'CO₂ Emissions',
+    pChangeLbl: 'Population change', aChangeLbl: 'GDP/capita change', tChangeLbl: 'Intensity change',
+    fmtP: v => `${v.toFixed(1)} B`,
+    fmtA: v => `$${Math.round(v * 1000).toLocaleString()}/yr`,
+    fmtT: v => `${v.toFixed(2)} kg/$`,
+    fmtI: v => `${v.toFixed(1)} Gt`,
+    fmtILong: v => `${v.toFixed(1)} Gt CO₂/yr`,
+    vRangeTopP: '15 billion', vRangeBotP: '1 billion',
+    vRangeTopA: '$21,000 / person', vRangeBotA: '$1,000 / person',
+    vRangeTopT: '0.78 kg/$ (2× baseline)', vRangeBotT: '0 kg/$ (no emissions)',
+    colTitleP: 'Population', colTitleA: 'GDP per Capita', colTitleT: 'Carbon Intensity',
+    lcPLabel: 'Population', lcALabel: 'GDP per Capita', lcTLabel: 'Carbon Intensity',
+    explainP: '<strong>Population (P)</strong> is the total number of people on Earth. P scales I linearly — a 10% increase in P produces a 10% increase in I, holding A and T constant. Current global population is ~8.1 billion; UN projections estimate 9.7 billion by 2050.',
+    explainA: '<strong>GDP per Capita (A)</strong> measures economic activity per person in thousands of dollars per year. Doubling A doubles I. The global average is ~$11,000/yr, ranging from under $1,000 in the poorest nations to over $80,000 in wealthy ones.',
+    explainT: '<strong>Carbon Intensity (T)</strong> measures kg of CO₂ emitted per dollar of GDP. Lower T means cleaner energy and more efficient production. The 2020 global average is ~0.39 kg CO₂/$. Halving T halves total emissions regardless of P and A.',
+    headerDesc: 'Because the relationship is multiplicative, each variable scales <strong style="color:var(--i)">I</strong> independently and proportionally. With P in billions, A in k$/yr, and T in kg CO₂/$, the formula gives I directly in <strong style="color:var(--i)">Gt CO₂/yr</strong> — no index, no scaling factor.',
+    scenarios: [
+      { key: 'baseline', p: 8,    a: 11,  t: 0.39, label: '2020 Baseline', active: true,
+        desc: 'The 2020 global reference point. Eight billion people with an average GDP per capita of $11,000/yr and a carbon intensity of 0.39 kg CO₂ per dollar of economic output.' },
+      { key: 'bau',      p: 9.7,  a: 17,  t: 0.38, label: 'BAU 2050',
+        desc: 'Business-as-usual through 2050: population grows to 9.7 billion, global affluence rises significantly, and carbon intensity barely improves — resulting in emissions nearly doubling.' },
+      { key: 'green',    p: 9.7,  a: 20,  t: 0.06, label: 'Green Tech 2050',
+        desc: 'Aggressive decarbonization cuts carbon intensity by ~85% via renewables and electrification, even as population and wealth continue to grow. Consistent with 1.5°C pathways.' },
+      { key: 'sustain',  p: 8.5,  a: 14,  t: 0.15, label: 'Sustainable 2050',
+        desc: 'Moderate population and economic growth paired with strong policy-driven efficiency gains. A plausible middle path that reduces emissions while allowing development.' },
+      { key: 'higha',    p: 10,   a: 21,  t: 0.39, label: 'High Growth',
+        desc: 'Maximum population and affluence growth with no improvement in technology. Illustrates that economic and demographic growth alone — without decarbonization — dramatically raises I.' },
+    ],
+    barYLabel: 'CO₂ Emissions (Gt CO₂/yr)',
+    footerText: 'Based on the IPAT identity introduced by Paul Ehrlich &amp; John Holdren (1971) and elaborated by Barry Commoner.<br>Global context: I (Gt CO₂/yr) = P (billion people) × A (k$/person/yr) × T (kg CO₂/$) &nbsp;→&nbsp; 8 × 11 × 0.39 = 34.3 Gt CO₂/yr',
+  },
+
+  auto: {
+    key: 'auto',
+    // Slider values — P in millions of drivers, A in k mi/yr, T in kg CO₂/mi
+    // Unit algebra: [M drivers] × [k mi/driver/yr] × [kg CO₂/mi] = Mt CO₂/yr
+    pBase: 230,  pMin: 50,   pMax: 410,  pStep: 5,
+    aBase: 15,   aMin: 1,    aMax: 29,   aStep: 0.5,
+    tBase: 0.35, tMin: 0,    tMax: 0.70, tStep: 0.01,
+    iUnit: 'Mt CO₂/yr',
+    pLabel: 'Drivers',         aLabel: 'Miles Driven',     tLabel: 'Emissions per Mile',
+    iLabel: 'CO₂ Emissions',
+    pChangeLbl: 'Driver change', aChangeLbl: 'Mileage change', tChangeLbl: 'Emissions/mile change',
+    fmtP: v => `${Math.round(v)} M`,
+    fmtA: v => `${Math.round(v * 1000).toLocaleString()} mi/yr`,
+    fmtT: v => `${v.toFixed(2)} kg/mi`,
+    fmtI: v => `${v.toFixed(0)} Mt`,
+    fmtILong: v => `${v.toFixed(0)} Mt CO₂/yr`,
+    vRangeTopP: '410 M drivers', vRangeBotP: '50 M drivers',
+    vRangeTopA: '29,000 mi/yr',  vRangeBotA: '1,000 mi/yr',
+    vRangeTopT: '0.70 kg/mi (2× baseline)', vRangeBotT: '0 kg/mi (zero emissions)',
+    colTitleP: 'Drivers', colTitleA: 'Miles Driven', colTitleT: 'Emissions per Mile',
+    lcPLabel: 'Drivers', lcALabel: 'Miles per Driver', lcTLabel: 'kg CO₂ per Mile',
+    explainP: '<strong>Drivers (P)</strong> is the number of licensed drivers on U.S. roads. More drivers means proportionally more total emissions — a 10% increase in P raises I by 10%, holding A and T constant. Current U.S. licensed driver count is ~230 million.',
+    explainA: '<strong>Miles Driven (A)</strong> is the average annual mileage per driver. Americans drive ~15,000 miles per year on average. Doubling the miles each driver travels doubles total emissions. Shown in thousands of miles; multiplied by P and T to get total CO₂.',
+    explainT: '<strong>Emissions per Mile (T)</strong> is the CO₂ produced per mile driven, in kg CO₂/mile. A typical gasoline car emits ~0.35 kg/mi; a battery EV on the average U.S. grid emits ~0.07 kg/mi. Halving T halves total road emissions regardless of P and A.',
+    headerDesc: 'Because the relationship is multiplicative, each variable scales <strong style="color:var(--i)">I</strong> independently and proportionally. With P in millions of drivers, A in thousands of miles/yr, and T in kg CO₂/mile, the formula gives I directly in <strong style="color:var(--i)">Mt CO₂/yr</strong> — multiply the three numbers and check the result.',
+    scenarios: [
+      { key: 'today',    p: 230, a: 15,   t: 0.35, label: 'US Today (2020)', active: true,
+        desc: 'The 2020 U.S. baseline: 230 million licensed drivers each traveling ~15,000 miles per year in vehicles emitting 0.35 kg CO₂ per mile — roughly the average gasoline car at ~28 mpg.' },
+      { key: 'trend',    p: 280, a: 16,   t: 0.32, label: 'Trend 2040',
+        desc: 'Continuation of current trends to 2040: more drivers and slightly more miles driven, offset only partially by modest fuel economy improvements. Emissions grow.' },
+      { key: 'ev',       p: 260, a: 15,   t: 0.08, label: 'EV Transition',
+        desc: 'Around 80% of new vehicle sales switch to EVs charged on a moderately clean grid. Per-mile emissions drop from 0.35 to 0.08 kg/mi — a 77% reduction in T alone.' },
+      { key: 'lessdrive',p: 230, a: 10,   t: 0.35, label: 'Less Driving',
+        desc: 'Same vehicles, same emissions intensity — but drivers cut average annual mileage from 15,000 to 10,000 miles through transit, remote work, and urban design. A drops by 33%, and so does I.' },
+      { key: 'allbev',   p: 260, a: 15,   t: 0.02, label: 'All-Electric Grid',
+        desc: 'Near-complete EV adoption on a fully renewable electricity grid. At 0.02 kg/mi, total road emissions fall by ~94% from today despite a growing number of drivers.' },
+    ],
+    barYLabel: 'CO₂ Emissions (Mt CO₂/yr)',
+    footerText: 'Based on the IPAT identity introduced by Paul Ehrlich &amp; John Holdren (1971) and elaborated by Barry Commoner.<br>Auto context: I (Mt CO₂/yr) = P (million drivers) × A (k mi/driver/yr) × T (kg CO₂/mi) &nbsp;→&nbsp; 230 × 15 × 0.35 = 1,207.5 Mt CO₂/yr',
+  }
+};
+
+// ── State ───────────────────────────────────────────────────────────────────
+let ctx = CONTEXTS.global;
+let S = { p: ctx.pBase, a: ctx.aBase, t: ctx.tBase };
+let activeScenarioKey = ctx.scenarios[0].key;
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function calcI(p, a, t) { return p * a * t; }
+function fmtPct(v)  { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+function fmtMult(v) { return '×' + v.toFixed(3); }
+
+// ── Chart ────────────────────────────────────────────────────────────────────
+const tick = { color: '#64748b', font: { size: 11 } };
+const grid = { color: 'rgba(255,255,255,0.05)' };
+
+const barCtx2 = document.getElementById('barChart').getContext('2d');
+const barChart = new Chart(barCtx2, {
+  type: 'bar',
+  data: { labels: [], datasets: [{ label: 'CO₂ Emissions', data: [],
+    backgroundColor: [], borderColor: '#a78bfa', borderWidth: 1.5, borderRadius: 4 }] },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => `  I = ${c.parsed.y.toFixed(1)} ${ctx.iUnit}` } },
+    },
+    scales: {
+      x: { ticks: tick, grid },
+      y: { ticks: tick, grid, beginAtZero: true,
+           title: { display: true, text: ctx.barYLabel, color: '#64748b', font: { size: 11 } } }
+    }
+  }
+});
+
+// ── Context switch ────────────────────────────────────────────────────────────
+function switchContext(key) {
+  ctx = CONTEXTS[key];
+  S = { p: ctx.pBase, a: ctx.aBase, t: ctx.tBase };
+
+  // Header buttons
+  document.querySelectorAll('.ctx-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`ctx-btn-${key}`).classList.add('active');
+
+  // Header description
+  document.getElementById('header-desc').innerHTML = ctx.headerDesc;
+
+  // Live calc labels
+  document.getElementById('lc-i-label').textContent = ctx.iLabel;
+  document.getElementById('lc-p-label').textContent = ctx.lcPLabel;
+  document.getElementById('lc-a-label').textContent = ctx.lcALabel;
+  document.getElementById('lc-t-label').textContent = ctx.lcTLabel;
+  document.getElementById('ch-p-label').textContent = ctx.pChangeLbl;
+  document.getElementById('ch-a-label').textContent = ctx.aChangeLbl;
+  document.getElementById('ch-t-label').textContent = ctx.tChangeLbl;
+  document.getElementById('baseline-label').textContent = `Baseline (${key === 'global' ? '2020' : 'US 2020'})`;
+
+  // Slider column headers and labels
+  document.getElementById('col-title-p').textContent = ctx.colTitleP;
+  document.getElementById('col-title-a').textContent = ctx.colTitleA;
+  document.getElementById('col-title-t').textContent = ctx.colTitleT;
+  document.getElementById('vrange-top-p').textContent = ctx.vRangeTopP;
+  document.getElementById('vrange-bot-p').textContent = ctx.vRangeBotP;
+  document.getElementById('vrange-top-a').textContent = ctx.vRangeTopA;
+  document.getElementById('vrange-bot-a').textContent = ctx.vRangeBotA;
+  document.getElementById('vrange-top-t').textContent = ctx.vRangeTopT;
+  document.getElementById('vrange-bot-t').textContent = ctx.vRangeBotT;
+  document.getElementById('vex-p').innerHTML = ctx.explainP;
+  document.getElementById('vex-a').innerHTML = ctx.explainA;
+  document.getElementById('vex-t').innerHTML = ctx.explainT;
+
+  // Slider ranges & values
+  const slP = document.getElementById('slP');
+  slP.min = ctx.pMin; slP.max = ctx.pMax; slP.step = ctx.pStep; slP.value = ctx.pBase;
+  const slA = document.getElementById('slA');
+  slA.min = ctx.aMin; slA.max = ctx.aMax; slA.step = ctx.aStep; slA.value = ctx.aBase;
+  const slT = document.getElementById('slT');
+  slT.min = ctx.tMin; slT.max = ctx.tMax; slT.step = ctx.tStep; slT.value = ctx.tBase;
+
+  // Scenario buttons + guide
+  activeScenarioKey = ctx.scenarios[0].key;
+  renderScenarioButtons();
+  renderScenarioGuide();
+
+  // Bar chart
+  barChart.options.scales.y.title.text = ctx.barYLabel;
+
+  update();
+}
+
+function renderScenarioButtons() {
+  const row = document.getElementById('scn-row');
+  row.innerHTML = '';
+  ctx.scenarios.forEach(sc => {
+    const btn = document.createElement('button');
+    btn.className = 's-btn' + (sc.active ? ' active' : '');
+    btn.textContent = sc.label;
+    btn.onclick = () => loadScenario(btn, sc.key);
+    row.appendChild(btn);
+  });
+}
+
+function renderScenarioGuide() {
+  const list = document.getElementById('sgi-list');
+  list.innerHTML = '';
+  ctx.scenarios.forEach((sc, i) => {
+    const I = calcI(sc.p, sc.a, sc.t);
+    const div = document.createElement('div');
+    div.className = 'sgi-item' + (sc.key === activeScenarioKey ? ' sgi-active' : '');
+    div.id = `sgi-${sc.key}`;
+    div.innerHTML = `
+      <div class="sgi-header">
+        <span class="sgi-name">${sc.label}</span>
+        <span class="sgi-i-val">${ctx.fmtILong(I)}</span>
+      </div>
+      <div class="sgi-vars">${ctx.fmtP(sc.p)} &nbsp;·&nbsp; ${ctx.fmtA(sc.a)} &nbsp;·&nbsp; ${ctx.fmtT(sc.t)}</div>
+      <div class="sgi-desc">${sc.desc}</div>`;
+    div.onclick = () => {
+      const btn = document.querySelectorAll('.s-btn')[i];
+      if (btn) loadScenario(btn, sc.key);
+    };
+    list.appendChild(div);
+  });
+}
+
+// ── Update ────────────────────────────────────────────────────────────────────
+function update() {
+  const I = calcI(S.p, S.a, S.t);
+  const rp = S.p / ctx.pBase, ra = S.a / ctx.aBase, rt = S.t / ctx.tBase;
+  const ri = rp * ra * rt;
+  const ipct = (ri-1)*100, dppct = (rp-1)*100, dapct = (ra-1)*100, dtpct = (rt-1)*100;
+
+  document.getElementById('lc-i').textContent = ctx.fmtI(I);
+  document.getElementById('lc-p').textContent = ctx.fmtP(S.p);
+  document.getElementById('lc-a').textContent = ctx.fmtA(S.a);
+  document.getElementById('lc-t').textContent = ctx.fmtT(S.t);
+
+  document.getElementById('fc-i').textContent = fmtMult(ri);
+  document.getElementById('fc-p').textContent = fmtMult(rp);
+  document.getElementById('fc-a').textContent = fmtMult(ra);
+  document.getElementById('fc-t').textContent = fmtMult(rt);
+
+  const note = document.getElementById('fc-note');
+  note.textContent = Math.abs(ipct) < 0.05
+    ? 'No change from baseline'
+    : `I is ${Math.abs(ipct).toFixed(1)}% ${ipct > 0 ? 'higher' : 'lower'} than baseline`;
+
+  const setChVal = (id, val) => {
+    const el = document.getElementById(id);
+    el.textContent = fmtPct(val);
+    el.style.color = Math.abs(val) < 0.05 ? '#64748b' : val < 0 ? '#34d399' : '#f87171';
+  };
+  setChVal('ch-total', ipct);
+  setChVal('ch-p', dppct);
+  setChVal('ch-a', dapct);
+  setChVal('ch-t', dtpct);
+
+  document.getElementById('vp').textContent = ctx.fmtP(S.p);
+  document.getElementById('va').textContent = ctx.fmtA(S.a);
+  document.getElementById('vt').textContent = ctx.fmtT(S.t);
+
+  const iBase = calcI(ctx.pBase, ctx.aBase, ctx.tBase);
+  document.getElementById('baseline-val').textContent = ctx.fmtILong(iBase);
+
+  // Bar chart
+  const scLabels = [...ctx.scenarios.map(sc => sc.label), '▸ Current'];
+  const scData   = [...ctx.scenarios.map(sc => calcI(sc.p, sc.a, sc.t)), I];
+  const bgColors = [...ctx.scenarios.map(() => 'rgba(167,139,250,0.4)'), 'rgba(167,139,250,0.85)'];
+  barChart.data.labels = scLabels;
+  barChart.data.datasets[0].data = scData;
+  barChart.data.datasets[0].backgroundColor = bgColors;
+  barChart.update('none');
+
+  // Footer
+  document.getElementById('footer-text').innerHTML = ctx.footerText;
+}
+
+// ── Sliders & scenario ────────────────────────────────────────────────────────
+document.getElementById('slP').addEventListener('input', e => { S.p = +e.target.value; activeScenarioKey = null; syncGuideActive(); update(); });
+document.getElementById('slA').addEventListener('input', e => { S.a = +e.target.value; activeScenarioKey = null; syncGuideActive(); update(); });
+document.getElementById('slT').addEventListener('input', e => { S.t = +e.target.value; activeScenarioKey = null; syncGuideActive(); update(); });
+
+function syncGuideActive() {
+  document.querySelectorAll('.sgi-item').forEach(el => el.classList.remove('sgi-active'));
+  document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+  if (activeScenarioKey) {
+    document.getElementById(`sgi-${activeScenarioKey}`)?.classList.add('sgi-active');
+  }
+}
+
+function loadScenario(btn, key) {
+  const sc = ctx.scenarios.find(s => s.key === key);
+  if (!sc) return;
+  S = { p: sc.p, a: sc.a, t: sc.t };
+  document.getElementById('slP').value = sc.p;
+  document.getElementById('slA').value = sc.a;
+  document.getElementById('slT').value = sc.t;
+  activeScenarioKey = key;
+  syncGuideActive();
+  btn.classList.add('active');
+  update();
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+renderScenarioButtons();
+renderScenarioGuide();
+update();
+// Embed mode (?embed=1): hide this app's own header so an embedding page can
+// supply its own. Harmless when opened standalone.
+if (new URLSearchParams(location.search).has('embed')) {
+  document.body.classList.add('embed');
+}
+</script>
+</body>
+</html>
