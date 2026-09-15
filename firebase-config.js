@@ -25,3 +25,58 @@ window.FIREBASE_CONFIG = {
   appId: "1:527114011645:web:6100a50465562924a24f94",
   measurementId: "G-0G7T944VXS"
 };
+
+// ─────────────────────────────────────────────────────────────────────────
+// LIVE ATTENDANCE endpoint (optional — leave "" to disable).
+//
+// Paste the /exec URL of the Google Apps Script web app that writes the
+// attendance Google Sheet and sends the confirmation emails. Full five-minute
+// setup, including the script to paste, is in _deck-builder/ATTENDANCE-SETUP.md.
+//
+// Student names and emails go STRAIGHT from the browser to this endpoint and
+// are never written to Firestore, whose rules are world-readable.
+// ─────────────────────────────────────────────────────────────────────────
+// Bound to the NEW response sheet ("SOS 110 Attendance Fall 26"). Used ONLY by
+// the instructor's "Submit Attendance" press, to mail the roster — students
+// submit to the Google Form below, never here. Deployed "Anyone" access because
+// the host browser posts without a Google session; the endpoint returns only
+// {ok, count} and mails the roster solely to addresses hardcoded in the script,
+// so nothing about it discloses student records.
+window.ATTENDANCE_URL = "https://script.google.com/macros/s/AKfycbwnQfV7X52O2TDTcliBkEcEjvTJ3ZzLaFDMEYif8VeU7xQwwTgRUArfju4kBI4CRt0YpA/exec";
+
+// ─────────────────────────────────────────────────────────────────────────
+// STUDENT SUBMISSIONS go through this Google Form (added 2026-08-25).
+//
+// Why: Apps Script only runs ~30 executions at once and needs a write lock to
+// keep concurrent rows from clobbering each other, which capped a roll call at
+// roughly 10 submissions/second — about two minutes for a 300-student section.
+// Google Forms ingests the same 350 submissions in seconds and does the sheet
+// writing itself, so no row can be lost to a race. Measured: 350 spread over
+// ~20s → 350/350 recorded.
+//
+// `spreadMs` staggers each browser's send by a random 0–N ms. Do not drop it:
+// a tight burst from one IP lost ~8% to rate limiting in testing, and a lecture
+// hall shares a handful of NATed campus IPs.
+//
+// The form must stay PUBLISHED and set to "Anyone with the link", with email
+// collection and "limit to 1 response" OFF — each of those forces a Google
+// sign-in that students posting from the deck will not have.
+//
+// ATTENDANCE_URL above is still used, but only for the INSTRUCTOR's "Submit
+// Attendance" press, which mails the roster — a single request, no burst.
+// ─────────────────────────────────────────────────────────────────────────
+window.ATTENDANCE_FORM = {
+  url: "https://docs.google.com/forms/d/e/1FAIpQLScf80N2r60JQScCWvzfmCwGfSO0JHhkLdgYupGHdxW4ueCTag/formResponse",
+  spreadMs: 6000,
+  fields: {
+    first:   "entry.870053116",
+    last:    "entry.2124478440",
+    email:   "entry.1243640787",
+    section: "entry.2017319722",
+    session: "entry.1949628352",
+    chapter: "entry.1270913812"
+  }
+};
+
+// Exit-survey mailer for the live games (Apps Script, see _deck-builder/survey-mail.gs).
+window.SURVEY_MAIL_URL = "https://script.google.com/macros/s/AKfycbyrRNrQjbAiYugFw131rfJMIt2E2fneUnx9ryatdU98DMdyC4NkZI2LP8dnqQK3E2LZ/exec";

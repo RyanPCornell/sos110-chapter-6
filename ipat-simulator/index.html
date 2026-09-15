@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I = PAT Environmental Impact Simulator</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:        #0f172a;
@@ -328,6 +329,83 @@
     /* Embed mode: host page provides its own header */
     body.embed header { display: none !important; }
     body.embed main { padding-top: 1rem; }
+
+    /* ── Focus mode (?focus=sim | ?focus=scenarios) ────────────────────────
+       For slide decks: shows ONE part of the page sized to the iframe, so the
+       slide never scrolls. Standalone (no ?focus) is untouched. */
+    html:has(body.focus-mode), body.focus-mode { height: 100%; overflow: hidden; }
+    body.focus-mode > div.container ~ div.container, body.focus-mode footer { display: none !important; }
+    body.focus-mode > div.container { max-width: none; height: 100%; padding: 10px 14px 12px; }
+    body.focus-mode .card { padding: 13px 16px; }
+    body.focus-mode .tag { margin-bottom: 8px; }
+
+    /* sim: live calculation on top; the three levers left, the chart right */
+    body.focus-sim { --trk: clamp(80px, calc(100vh - 575px), 200px); }
+    body.focus-sim > div.container {
+      display: grid; gap: 12px;
+      grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      grid-template-areas: "calc calc" "ctrl chart";
+    }
+    body.focus-sim .calc-card { grid-area: calc; margin: 0; padding: 12px 20px; }
+    body.focus-sim .eq-row { margin-bottom: 8px; }
+    body.focus-sim .eq-term { padding: 4px 8px; }
+    body.focus-sim .factor-row { padding: 6px 12px; margin-bottom: 7px; }
+    body.focus-sim .ip-ctrl { grid-area: ctrl; min-height: 0; display: flex; flex-direction: column; }
+    body.focus-sim .ip-ctrl .divider { margin: 8px 0 10px; }
+    body.focus-sim .sliders-row { flex: 1 1 0; min-height: 0; }
+    body.focus-sim .slider-col { padding: 0 14px; min-height: 0; }
+    body.focus-sim .col-value { font-size: 1.2rem; margin-bottom: 4px; }
+    body.focus-sim .vslider-area { flex: 1 1 0; min-height: 0; margin-bottom: 8px; gap: 4px; justify-content: center; }
+    body.focus-sim .vslider-track { height: var(--trk); }
+    body.focus-sim .vslider-track input[type=range] { width: var(--trk); }
+    body.focus-sim .var-explain { font-size: .72rem; line-height: 1.5; padding: 6px 10px; }
+    body.focus-sim .charts-row { display: contents; }
+    body.focus-sim .ip-guide { display: none !important; }
+    body.focus-sim .ip-chart { grid-area: chart; min-height: 0; }
+
+    /* scenarios: the clickable scenario guide beside the comparison chart */
+    body.focus-scenarios > div.container { display: flex; flex-direction: column; }
+    body.focus-scenarios .calc-card, body.focus-scenarios .ip-ctrl { display: none !important; }
+    body.focus-scenarios .charts-row { flex: 1 1 0; min-height: 0; margin-top: 0; gap: 12px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+    body.focus-scenarios .ip-guide, body.focus-scenarios .ip-chart { min-height: 0; }
+    body.focus-scenarios .sgi-list { overflow: hidden; gap: 7px; }
+    body.focus-scenarios .sgi-item { padding: 8px 12px; }
+    body.focus-scenarios .sgi-desc { font-size: .75rem; line-height: 1.45; }
+
+    /* ── Parchment register (embedded) ─────────────────────────────────────
+       Inside a slide deck the tool is set in the same academic register as the
+       Chapter 4 class tools: parchment ground, ink type, hairline rules instead
+       of shadows, small-caps labels, Merriweather for every figure.
+       Standalone keeps the original dark theme. Chart colours are set in JS. */
+    body.embed {
+      --bg: #f4efe3; --surface: #fffdf6; --surface-2: #f7f1e3;
+      --border: rgba(120,100,60,.30); --border-lt: rgba(120,100,60,.18);
+      --text: #3b3222; --text-2: #5e5340; --text-3: #8a8069;
+      --p: #2f6690; --a: #9a6a12; --t: #2D6A4F; --i: #6b4f8a;
+      --p-d: rgba(47,102,144,.10); --a-d: rgba(154,106,18,.11); --t-d: rgba(45,106,79,.10); --i-d: rgba(107,79,138,.10);
+      background: linear-gradient(158deg, #faf7f0, #f1ebdd);
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+    body.embed .card, body.embed .calc-card { box-shadow: none; }
+    body.embed .tag { color: #8a6a2f; font-weight: 800; letter-spacing: .14em; }
+    body.embed .term-value, body.embed .col-value, body.embed .sgi-i-val,
+    body.embed .ch-val, body.embed .f-val { font-family: 'Merriweather', Georgia, serif; font-weight: 900; }
+    body.embed .col-title, body.embed .sgi-name { font-family: 'Merriweather', Georgia, serif; }
+    body.embed .term-label, body.embed .ch-label, body.embed .factor-row .fl,
+    body.embed .vrange-lbl { color: #9a917c; }
+    body.embed .factor-row { background: transparent; border: 0; border-radius: 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    body.embed .var-explain { background: transparent; border-radius: 0; color: #5e5340; }
+    body.embed .var-explain strong { color: #3b3222; }
+    body.embed .s-btn { background: #fdfbf5; border-color: rgba(120,100,60,.32); color: #4a4436; border-radius: 7px; }
+    body.embed .s-btn:hover { border-color: #8a6a2f; color: #3b3222; }
+    body.embed .s-btn.active { background: #8a6a2f; border-color: #8a6a2f; color: #fff; }
+    body.embed .sgi-item { background: #fdfbf5; }
+    body.embed .sgi-item:hover { border-color: #8a6a2f; }
+    body.embed .sgi-item.sgi-active { background: #f3ead8; border-color: #8a6a2f; }
+    body.embed .sgi-item.sgi-active .sgi-name, body.embed .sgi-i-val { color: #8a6a2f; }
   </style>
 </head>
 <body>
@@ -421,7 +499,7 @@
   </div>
 
   <!-- Scenarios + Vertical Sliders -->
-  <div class="card" style="margin-bottom:0;">
+  <div class="card ip-ctrl" style="margin-bottom:0;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
       <div class="tag" style="margin-bottom:0;">Scenarios &amp; Controls</div>
       <div class="scn-row" id="scn-row" style="margin-bottom:0;"></div>
@@ -494,12 +572,12 @@
   <!-- Charts row -->
   <div class="charts-row">
 
-    <div class="card" style="display:flex;flex-direction:column;">
+    <div class="card ip-guide" style="display:flex;flex-direction:column;">
       <div class="tag">Scenario Guide</div>
       <div class="sgi-list" id="sgi-list"></div>
     </div>
 
-    <div class="card" style="display:flex;flex-direction:column;">
+    <div class="card ip-chart" style="display:flex;flex-direction:column;">
       <div class="tag">Scenario Comparison</div>
       <div class="ch-wrap h-fill"><canvas id="barChart"></canvas></div>
     </div>
@@ -685,6 +763,9 @@ function fmtPct(v)  { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
 function fmtMult(v) { return '×' + v.toFixed(3); }
 
 // ── Chart ────────────────────────────────────────────────────────────────────
+// Colours that differ between the dark standalone theme and the parchment embed.
+const THEME = { bar: 'rgba(167,139,250,0.4)', barNow: 'rgba(167,139,250,0.85)',
+                up: '#f87171', down: '#34d399', flat: '#64748b' };
 const tick = { color: '#64748b', font: { size: 11 } };
 const grid = { color: 'rgba(255,255,255,0.05)' };
 
@@ -822,7 +903,7 @@ function update() {
   const setChVal = (id, val) => {
     const el = document.getElementById(id);
     el.textContent = fmtPct(val);
-    el.style.color = Math.abs(val) < 0.05 ? '#64748b' : val < 0 ? '#34d399' : '#f87171';
+    el.style.color = Math.abs(val) < 0.05 ? THEME.flat : val < 0 ? THEME.down : THEME.up;
   };
   setChVal('ch-total', ipct);
   setChVal('ch-p', dppct);
@@ -839,7 +920,7 @@ function update() {
   // Bar chart
   const scLabels = [...ctx.scenarios.map(sc => sc.label), '▸ Current'];
   const scData   = [...ctx.scenarios.map(sc => calcI(sc.p, sc.a, sc.t)), I];
-  const bgColors = [...ctx.scenarios.map(() => 'rgba(167,139,250,0.4)'), 'rgba(167,139,250,0.85)'];
+  const bgColors = [...ctx.scenarios.map(() => THEME.bar), THEME.barNow];
   barChart.data.labels = scLabels;
   barChart.data.datasets[0].data = scData;
   barChart.data.datasets[0].backgroundColor = bgColors;
@@ -883,7 +964,25 @@ update();
 // supply its own. Harmless when opened standalone.
 if (new URLSearchParams(location.search).has('embed')) {
   document.body.classList.add('embed');
+  // parchment register for slide decks — the matching CSS is under body.embed
+  Object.assign(THEME, { bar: 'rgba(138,106,47,0.28)', barNow: 'rgba(138,106,47,0.82)',
+                         up: '#A4373A', down: '#2D6A4F', flat: '#8a8069' });
+  barChart.data.datasets[0].borderColor = '#8a6a2f';
+  for (const ax of ['x', 'y']) {
+    barChart.options.scales[ax].ticks.color = '#7a7260';
+    barChart.options.scales[ax].grid.color = 'rgba(120,100,60,0.14)';
+  }
+  barChart.options.scales.y.title.color = '#7a7260';
+  update();
 }
+// Focus mode (?focus=sim | ?focus=scenarios): a slide deck shows ONE part of the
+// page sized to its iframe. The chart re-measures itself via Chart.js's observer.
+(function () {
+  const want = new URLSearchParams(location.search).get('focus');
+  if (want === 'sim' || want === 'scenarios') {
+    document.body.classList.add('focus-mode', 'focus-' + want);
+  }
+})();
 </script>
 </body>
 </html>
