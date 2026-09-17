@@ -257,23 +257,46 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 }
 
 
-/* ── 6.8 "What Can I Do?" hand-drawn pledge panel (slide 26) ────────────── */
-.cando-media{background:#F1F7F2; padding:clamp(.7rem,2.2vh,1.6rem);}
-.cando-svg{width:100%; height:100%; display:block;}
-.cando-cap{font-family:inherit; font-size:17px; font-style:italic; fill:#5A6B5A;}
-.cando-lbl{font-family:inherit; font-size:19.5px; fill:#33453D; transition:fill .18s ease;}
-.cando-row{cursor:pointer;}
-.cando-box{fill:#fff; stroke:#2D6A4F; stroke-width:2.6; transition:fill .18s ease, stroke-width .18s ease;}
-.cando-ico{fill:none; stroke:#2D6A4F; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;}
-.cando-tick{fill:none; stroke:#1B4332; stroke-width:4.2; stroke-linecap:round; stroke-linejoin:round;
-            opacity:0; transition:opacity .18s ease;}
-.cando-row.on .cando-tick{opacity:1;}
-.cando-row.on .cando-box{fill:rgba(64,145,108,.20);}
-.cando-row.on .cando-lbl{fill:#1B4332; font-weight:700;}
-.cando-row:hover .cando-box{fill:rgba(64,145,108,.11);}
-.cando-row:focus{outline:none;}
-.cando-row:focus-visible .cando-box{stroke-width:3.6;}
-@media (max-width:900px){ .cando-lbl{font-size:22px;} .cando-cap{font-size:19px;} }
+/* ── 6.8 "What Can I Do?" plate (slide 24) ───────────────────────────────
+   Set in the same academic register as the tool slides: parchment ground, ink
+   drawing, bronze accent, hairline rules, small caps, Merriweather for the
+   reading line. Impact is drawn as an area: drag an edge or press a chip. */
+.pl-media{background:linear-gradient(158deg,#faf7f0,#f1ebdd); padding:clamp(.7rem,2.2vh,1.5rem);}
+.pl-plate{width:100%; height:100%; display:flex; flex-direction:column; background:#fffdf6;
+  border:1px solid rgba(120,100,60,.32); border-radius:12px;
+  padding:clamp(.65rem,1.9vh,1.1rem) clamp(.8rem,2vw,1.3rem) clamp(.55rem,1.6vh,.9rem);}
+.pl-eyebrow{font-size:clamp(.56rem,.92vw,.68rem); font-weight:800; letter-spacing:.16em;
+  text-transform:uppercase; color:#8a6a2f;}
+.pl-title{font-family:'Merriweather',serif; font-size:clamp(.92rem,1.65vw,1.18rem);
+  font-weight:700; color:#3b3222; margin:.12rem 0 .3rem;}
+.pl-rule{border:0; border-top:1px solid rgba(120,100,60,.35); margin:0 0 .2rem;}
+.pl-art{flex:1 1 auto; min-height:0; width:100%; display:block;}
+.pl-chips{display:flex; gap:.28rem; flex-wrap:wrap; margin:.25rem 0 .3rem;}
+.pl-chip{font-family:inherit; font-size:clamp(.55rem,.9vw,.65rem); font-weight:800; letter-spacing:.04em;
+  text-transform:uppercase; cursor:pointer; padding:.26rem .46rem; border-radius:6px;
+  border:1px solid rgba(120,100,60,.38); background:#fdfbf5; color:#7a7260; transition:all .15s;}
+.pl-chip:hover{border-color:#8a6a2f; color:#3b3222;}
+.pl-chip.on{background:#8a6a2f; border-color:#8a6a2f; color:#fff;}
+.pl-read{font-family:'Merriweather',serif; font-size:clamp(.74rem,1.24vw,.92rem); color:#3b3222;
+  line-height:1.45; min-height:2.9em;}
+.pl-cap{font-size:clamp(.58rem,.96vw,.69rem); color:#7a7260; line-height:1.42;
+  border-top:1px solid rgba(120,100,60,.35); padding-top:.32rem; margin-top:.15rem;}
+/* the drawing: impact as an area. width = population, height = use per person */
+.pl-art{touch-action:none; user-select:none; -webkit-user-select:none;}
+.pl-grid{stroke:rgba(120,100,60,.16); stroke-width:1;}
+.pl-axis{fill:none; stroke:#3b3222; stroke-width:1.8; stroke-linecap:round;}
+.pl-tick{font-size:11px; fill:#9a917c; font-family:'Merriweather',serif;}
+.pl-lbl{font-size:11.5px; font-weight:800; letter-spacing:.1em; fill:#8a6a2f;
+  text-transform:uppercase; font-family:inherit;}
+.pl-base{fill:none; stroke:#3b3222; stroke-width:1.4; stroke-dasharray:5 4; opacity:.55;}
+.pl-baselbl{font-size:10.5px; font-style:italic; fill:#7a7260; font-family:'Merriweather',serif;}
+.pl-area{fill:rgba(138,106,47,.26); stroke:#3b3222; stroke-width:2.2; stroke-linejoin:round;}
+.pl-val{font-family:'Merriweather',serif; font-weight:900; font-size:22px; fill:#3b3222;}
+.pl-valsub{font-size:9.5px; font-weight:800; letter-spacing:.12em; fill:#8a6a2f; text-transform:uppercase;}
+.pl-h{fill:#fffdf6; stroke:#8a6a2f; stroke-width:2.4; cursor:grab;}
+.pl-h:hover,.pl-h.drag{fill:#8a6a2f;}
+.pl-h.x{cursor:ew-resize;} .pl-h.y{cursor:ns-resize;} .pl-h.xy{cursor:nwse-resize;}
+.pl-read b{font-weight:900; color:#8a6a2f;}
 
 /* ── embedded tool slides (15-16, 23-24) in the Chapter 4 parchment register ──
    The apps restyle themselves under ?embed=1; this dresses the slide around
@@ -3278,106 +3301,148 @@ window.__deckLiveReady.then(function(live){
       <div class="eyebrow">6.8 &middot; What Can I Do?</div>
       <h2 class="heading">Population, Consumption, and Your Choices</h2>
       <ul class="bullets">
-        <li>Know your personal ecological footprint at footprintcalculator.org &mdash; then make targeted changes.</li>
+        <li>Know your personal ecological footprint at footprintcalculator.org, then make targeted changes.</li>
         <li>Get involved with education programs that help young people in developing countries stay in school.</li>
-        <li>Advocate for women's education, health care access, and economic opportunity &mdash; the most effective approaches to voluntary population stabilization.</li>
-        <li>Understand the difference between population size and consumption &mdash; reducing your footprint matters regardless of where you live.</li>
+        <li>Advocate for women's education, health care access, and economic opportunity. These are the most effective approaches to voluntary population stabilization.</li>
+        <li>Understand the difference between population size and consumption. Reducing your footprint matters regardless of where you live.</li>
       </ul>
     </div>
-    <div class="bleed-media contain cando-media">
-      <svg class="cando-svg" viewBox="0 0 440 610" xmlns="http://www.w3.org/2000/svg" role="img"
-           aria-label="A hand-drawn footprint cradling the Earth, above four tappable pledges: measure my footprint, keep kids in school, empower women, and consume less.">
-        <defs><clipPath id="cd-globe"><circle cx="220" cy="150" r="46"/></clipPath></defs>
+    <div class="bleed-media contain pl-media">
+      <div class="pl-plate" id="pl-plate">
+        <div class="pl-eyebrow">Weighing impact</div>
+        <div class="pl-title">We can visualize impact as an Area</div>
+        <hr class="pl-rule">
 
-        <!-- the footprint, sketched -->
-        <g fill="none" stroke="#2D6A4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-          <ellipse cx="166" cy="76" rx="13" ry="15"/>
-          <ellipse cx="194" cy="59" rx="13.5" ry="15.5"/>
-          <ellipse cx="223" cy="53" rx="14" ry="16"/>
-          <ellipse cx="252" cy="60" rx="13" ry="15"/>
-          <ellipse cx="278" cy="77" rx="12" ry="14"/>
-          <path d="M146 142 C144 106 178 84 220 84 C263 84 296 106 294 142 C292 177 262 209 220 209 C179 209 148 177 146 142 Z"/>
-          <path d="M178 250 C178 232 196 222 220 222 C245 222 262 232 262 250 C262 273 246 291 220 291 C195 291 178 273 178 250 Z"/>
-        </g>
-
-        <!-- one planet, held inside it -->
-        <circle cx="220" cy="150" r="46" fill="#D8F3DC" stroke="#1B4332" stroke-width="2.6"/>
-        <g clip-path="url(#cd-globe)" fill="#74C69D">
-          <path d="M182 128 c12 -10 26 -6 32 4 c8 12 -4 20 -14 20 c-12 0 -22 -14 -18 -24 Z"/>
-          <path d="M228 117 c14 -6 26 2 28 12 c2 10 -10 12 -16 8 c-8 -6 -16 -14 -12 -20 Z"/>
-          <path d="M210 166 c14 -8 34 -2 38 10 c4 12 -10 22 -24 20 c-14 -2 -26 -22 -14 -30 Z"/>
-          <path d="M176 161 c8 -4 16 2 14 10 c-2 8 -14 8 -18 2 c-4 -6 -2 -10 4 -12 Z"/>
-        </g>
-        <g clip-path="url(#cd-globe)" fill="none" stroke="#1B4332" stroke-width="1.4" opacity=".5">
-          <path d="M174 150 h92"/><path d="M181 128 c26 10 52 10 78 0"/><path d="M181 172 c26 -10 52 -10 78 0"/>
-          <path d="M220 104 c-16 18 -16 74 0 92"/><path d="M220 104 c16 18 16 74 0 92"/>
-        </g>
-
-        <!-- nudge toward the checklist -->
-        <text class="cando-cap" x="220" y="330" text-anchor="middle">one footprint, one planet &mdash; start here</text>
-        <path d="M220 340 v14 M214 349 l6 7 l6 -7" fill="none" stroke="#2D6A4F" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>
-
-        <g transform="translate(14,0)">
-        <g class="cando-row" tabindex="0" role="checkbox" aria-checked="false">
-          <rect class="cando-box" x="40" y="374" width="34" height="34" rx="8"/>
-          <path class="cando-tick" d="M48 392 l8 9 l17 -21"/>
-          <g class="cando-ico">
-            <path d="M92 383 h26 v16 h-26 z"/>
-            <path d="M99 383 v6 M105 383 v9 M111 383 v6"/>
+        <svg class="pl-art" id="pl-art" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg" role="img"
+             aria-label="A rectangle whose width is population and whose height is use per person. Its area is total environmental impact.">
+          <g class="pl-grid">
+            <path d="M136 36 V316 M212 36 V316 M288 36 V316 M364 36 V316"/>
+            <path d="M60 246 H376 M60 176 H376 M60 106 H376 M60 36 H376"/>
           </g>
-          <text class="cando-lbl" x="130" y="398">Measure my footprint</text>
-        </g>
+          <rect class="pl-base" x="60" y="176" width="152" height="140"/>
+          <text class="pl-baselbl" x="208" y="171" text-anchor="end">today</text>
 
-        <g class="cando-row" tabindex="0" role="checkbox" aria-checked="false">
-          <rect class="cando-box" x="40" y="432" width="34" height="34" rx="8"/>
-          <path class="cando-tick" d="M48 450 l8 9 l17 -21"/>
-          <g class="cando-ico">
-            <path d="M105 442 c-5 -4 -10 -5 -13 -4 v18 c3 -1 8 0 13 4 z"/>
-            <path d="M105 442 c5 -4 10 -5 13 -4 v18 c-3 -1 -8 0 -13 4 z"/>
-          </g>
-          <text class="cando-lbl" x="130" y="456">Keep kids in school</text>
-        </g>
+          <rect class="pl-area" id="pl-area" x="60" y="176" width="152" height="140"/>
+          <text class="pl-val" id="pl-val" x="136" y="251" text-anchor="middle">1.00&#215;</text>
+          <text class="pl-valsub" id="pl-valsub" x="136" y="265" text-anchor="middle">impact</text>
 
-        <g class="cando-row" tabindex="0" role="checkbox" aria-checked="false">
-          <rect class="cando-box" x="40" y="490" width="34" height="34" rx="8"/>
-          <path class="cando-tick" d="M48 508 l8 9 l17 -21"/>
-          <g class="cando-ico">
-            <circle cx="105" cy="498" r="8"/>
-            <path d="M105 506 v12 M98 512 h14"/>
-          </g>
-          <text class="cando-lbl" x="130" y="514">Empower women</text>
-        </g>
+          <path class="pl-axis" d="M60 30 V316 H382"/>
+          <text class="pl-tick" x="212" y="332" text-anchor="middle">1&#215;</text>
+          <text class="pl-tick" x="364" y="332" text-anchor="middle">2&#215;</text>
+          <text class="pl-tick" x="52" y="180" text-anchor="end">1&#215;</text>
+          <text class="pl-tick" x="52" y="40" text-anchor="end">2&#215;</text>
+          <text class="pl-lbl" x="221" y="352" text-anchor="middle">Population &#8594;</text>
+          <text class="pl-lbl" x="20" y="176" text-anchor="middle" transform="rotate(-90 20 176)">Use per person &#8594;</text>
 
-        <g class="cando-row" tabindex="0" role="checkbox" aria-checked="false">
-          <rect class="cando-box" x="40" y="548" width="34" height="34" rx="8"/>
-          <path class="cando-tick" d="M48 566 l8 9 l17 -21"/>
-          <g class="cando-ico">
-            <path d="M92 558 h26 l-4 16 h-18 z"/>
-            <path d="M99 558 c0 -7 12 -7 12 0"/>
-          </g>
-          <text class="cando-lbl" x="130" y="572">Consume less</text>
-        </g>
-        </g>
-      </svg>
+          <circle class="pl-h x"  id="pl-hx"  cx="212" cy="246" r="7"/>
+          <circle class="pl-h y"  id="pl-hy"  cx="136" cy="176" r="7"/>
+          <circle class="pl-h xy" id="pl-hxy" cx="212" cy="176" r="7.5"/>
+        </svg>
+
+        <div class="pl-chips">
+          <button class="pl-chip on" type="button" data-p="1"   data-u="1">Today</button>
+          <button class="pl-chip" type="button" data-p="0.8" data-u="1">Fewer people</button>
+          <button class="pl-chip" type="button" data-p="1"   data-u="0.8">Less per person</button>
+          <button class="pl-chip" type="button" data-p="0.9" data-u="0.9">Both fall</button>
+          <button class="pl-chip" type="button" data-p="1.6" data-u="0.625">Same impact</button>
+        </div>
+        <div class="pl-read" id="pl-read">Drag an edge, or pick a case. The shaded area is total impact.</div>
+        <div class="pl-cap">Population and use per person can each rise or fall on their own, and a change
+          in either changes the area. A few people using a lot can cover as much ground as many people
+          using little.</div>
+      </div>
     </div>
   </div>
   <div class="footer">© 2023 W. W. Norton &amp; Company, Inc.</div>
 </section>
 <script>
-(function(){
-  var root = document.getElementById('cando-6');
-  if (!root) return;
-  Array.prototype.forEach.call(root.querySelectorAll('.cando-row'), function(g){
-    function toggle(){
-      var on = g.classList.toggle('on');
-      g.setAttribute('aria-checked', on ? 'true' : 'false');
+(function () {
+  var plate = document.getElementById('pl-plate');
+  var svg = document.getElementById('pl-art');
+  if (!plate || !svg) return;
+  var area = document.getElementById('pl-area'), val = document.getElementById('pl-val'),
+      sub = document.getElementById('pl-valsub'), read = document.getElementById('pl-read'),
+      hx = document.getElementById('pl-hx'), hy = document.getElementById('pl-hy'),
+      hxy = document.getElementById('pl-hxy'), chips = plate.querySelectorAll('.pl-chip');
+
+  // geometry: origin (60,316); "today" is 152 wide x 140 tall; axes run to 2x
+  var X0 = 60, Y0 = 316, W1 = 152, H1 = 140, MIN = 0.2, MAX = 2;
+  var st = { p: 1, u: 1 }, anim = null;
+  var notes = {
+    '1|1':       'Today. Every other case is measured against this dashed outline.',
+    '0.8|1':     'Twenty percent fewer people, each using the same: impact falls to <b>0.80&#215;</b>.',
+    '1|0.8':     'The same people, each using twenty percent less: impact also falls to <b>0.80&#215;</b>.',
+    '0.9|0.9':   'Both fall ten percent at once. The cuts multiply, so impact drops to <b>0.81&#215;</b>, not 0.80&#215;.',
+    '1.6|0.625': 'Far more people, each using much less, covers the <b>same area</b> as today. Shape changes; impact does not.'
+  };
+  var clamp = function (v) { return Math.max(MIN, Math.min(MAX, v)); };
+
+  function draw() {
+    var w = W1 * st.p, h = H1 * st.u, i = st.p * st.u;
+    area.setAttribute('x', X0); area.setAttribute('y', Y0 - h);
+    area.setAttribute('width', w); area.setAttribute('height', h);
+    val.setAttribute('x', X0 + w / 2); sub.setAttribute('x', X0 + w / 2);
+    val.setAttribute('y', Y0 - h / 2 + 5); sub.setAttribute('y', Y0 - h / 2 + 19);
+    val.textContent = i.toFixed(2) + '×';
+    var roomy = w > 58 && h > 38;
+    val.style.display = sub.style.display = roomy ? '' : 'none';
+    hx.setAttribute('cx', X0 + w);     hx.setAttribute('cy', Y0 - h / 2);
+    hy.setAttribute('cx', X0 + w / 2); hy.setAttribute('cy', Y0 - h);
+    hxy.setAttribute('cx', X0 + w);    hxy.setAttribute('cy', Y0 - h);
+  }
+  function describe() {
+    var key = (+st.p.toFixed(3)) + '|' + (+st.u.toFixed(3));
+    if (notes[key]) { read.innerHTML = notes[key]; return; }
+    var i = st.p * st.u;
+    read.innerHTML = 'Population <b>' + st.p.toFixed(2) + '&#215;</b> times use per person <b>'
+      + st.u.toFixed(2) + '&#215;</b> gives impact <b>' + i.toFixed(2) + '&#215;</b> today.';
+  }
+  function setChip(btn) {
+    chips.forEach(function (c) { c.classList.toggle('on', c === btn); });
+  }
+  function animateTo(p, u) {
+    if (anim) cancelAnimationFrame(anim);
+    var p0 = st.p, u0 = st.u, t0 = null, dur = 420;
+    function step(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min(1, (t - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      st.p = p0 + (p - p0) * e; st.u = u0 + (u - u0) * e; draw();
+      if (k < 1) anim = requestAnimationFrame(step); else { st.p = p; st.u = u; draw(); describe(); anim = null; }
     }
-    g.addEventListener('click', toggle);
-    g.addEventListener('keydown', function(e){
-      if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+    anim = requestAnimationFrame(step);
+  }
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () { setChip(c); animateTo(+c.dataset.p, +c.dataset.u); });
+  });
+
+  // dragging: convert the pointer into viewBox units, then into multiples of "today"
+  function toSvg(e) {
+    var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
+  [[hx, true, false], [hy, false, true], [hxy, true, true]].forEach(function (d) {
+    var el = d[0];
+    el.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (anim) { cancelAnimationFrame(anim); anim = null; }
+      try { el.setPointerCapture(e.pointerId); } catch (_) {}
+      el.classList.add('drag'); setChip(null);
+      function move(ev) {
+        var q = toSvg(ev);
+        if (d[1]) st.p = clamp((q.x - X0) / W1);
+        if (d[2]) st.u = clamp((Y0 - q.y) / H1);
+        draw(); describe();
+      }
+      function up(ev) {
+        el.classList.remove('drag');
+        el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up);
+        el.removeEventListener('pointercancel', up);
+      }
+      el.addEventListener('pointermove', move); el.addEventListener('pointerup', up);
+      el.addEventListener('pointercancel', up);
     });
   });
+  draw(); describe();
 })();
 </script>
 <section class="slide" data-type="grid" style="--accent:#2D6A4F">

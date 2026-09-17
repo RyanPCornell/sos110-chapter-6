@@ -47,7 +47,7 @@ browser.
   transition, and a second chart simulates the resulting population curve.
 - **Slide 23 — I = PAT Simulator.** The info button beside "Scenarios & Controls" opens the scenario write-ups. Dial Population × Affluence × Technology and
   watch environmental impact respond.
-- **Slide 24 — What Can I Do?** Four hand-drawn pledges that tick when tapped.
+- **Slide 24 — What Can I Do?** "We can visualize impact as an Area": drag a rectangle whose width is population and height is use per person, or pick a case.
 - **Slides 5 and 14** embed Our World in Data charts (live from their site).
 
 ### Keyboard
