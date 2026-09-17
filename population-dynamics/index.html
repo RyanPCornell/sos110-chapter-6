@@ -595,6 +595,52 @@
         body.embed .stage-trans-table td strong { font-family: 'Merriweather', serif; }
         body.embed sup.cite { color: #8a6a2f; }
 
+        /* ── "What drives these rates?" pop-up (focus=builder) ────────────────
+           The influence guide and stage table used to be a second slide. In a deck
+           they now open over the builder from a button in its header, so the whole
+           tool lives on one slide. The blocks are MOVED into the panel by the focus
+           script, so the references travel with their citations. */
+        .dz-btn { background: #fdfbf5; border: 1.5px solid #8a6a2f; color: #8a6a2f; border-radius: 7px;
+                  padding: .5rem 1rem; font-family: 'Inter', sans-serif; font-size: .82rem;
+                  font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all .18s; }
+        .dz-btn:hover { background: #8a6a2f; color: #fff; }
+        .dz-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center;
+                      justify-content: center; background: rgba(40,32,18,.45); padding: 2vh 2vw; }
+        .dz-overlay[hidden] { display: none !important; }
+        .dz-panel { background: linear-gradient(158deg, #faf7f0, #f1ebdd);
+                    border: 1px solid rgba(120,100,60,.4); border-radius: 14px;
+                    box-shadow: 0 18px 50px rgba(40,32,18,.35); width: min(1500px, 96vw);
+                    max-height: 99vh; overflow: auto; padding: .5rem .85rem .6rem; }
+        .dz-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+                   border-bottom: 1px solid rgba(120,100,60,.32); padding-bottom: .35rem; margin-bottom: .45rem; }
+        .dz-title { font-family: 'Merriweather', serif; font-size: 1.02rem; font-weight: 700; color: #3b3222; }
+        .dz-close { background: none; border: 0; font-size: 1.6rem; line-height: 1; color: #7a7260;
+                    cursor: pointer; padding: 0 .2rem; }
+        .dz-close:hover { color: #3b3222; }
+        /* everything is sized to land inside one panel: the references have to be
+           visible without scrolling, since the citations above point at them */
+        /* a last uniform trim so the whole guide, references included, lands inside the
+           panel; scaling beats shrinking individual sizes, which stops being legible */
+        .dz-panel .section-head { margin-bottom: .35rem !important; }
+        .dz-panel .section-head h2 { display: none; }
+        .dz-panel .section-head p { display: none; }
+        .dz-panel .grid-2 { margin-bottom: .4rem !important; gap: .6rem; }
+        .dz-panel .card { margin-bottom: .4rem !important; padding: .4rem .75rem; }
+        .dz-panel .card-title { font-size: .82rem; margin-bottom: .25rem; }
+        .dz-panel .influence-card { padding: .5rem .8rem; }
+        .dz-panel .influence-card h4 { font-size: .8rem; margin-bottom: .2rem; padding-bottom: .25rem; }
+        .dz-panel .influence-list li { padding: .07rem 0; }
+        .dz-panel .li-icon { font-size: .9rem; }
+        .dz-panel .li-text strong { font-size: .71rem; margin-bottom: 0; }
+        .dz-panel .li-text span { font-size: .645rem; line-height: 1.27; }
+        .dz-panel .stage-trans-table { font-size: .655rem; }
+        .dz-panel .stage-trans-table th { padding: .2rem .5rem; }
+        .dz-panel .stage-trans-table td { padding: .13rem .5rem; line-height: 1.25; }
+        .dz-panel .references { margin: 0 !important; padding-top: .3rem !important; }
+        .dz-panel .references h4 { font-size: .72rem; margin-bottom: .2rem; }
+        .dz-panel .ref-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .05rem 1rem; }
+        .dz-panel .ref-list li { font-size: .57rem; line-height: 1.35; margin: 0; }
+
         /* ── Focus mode (?focus=builder | ?focus=drivers) ─────────────────────
            For slide decks: shows ONE part of the page, sized to the iframe, so the
            slide never scrolls. Standalone (no ?focus) is untouched. Parts are
@@ -767,7 +813,7 @@
                 </tr>
                 <tr>
                     <td><strong>Stage 2</strong><br><span style="color:var(--muted); font-size:0.72rem">Mortality Transition</span></td>
-                    <td>Vaccines, antibiotics, DDT (for malaria), clean water, and better nutrition sharply reduce death rates. Infant mortality falls first.</td>
+                    <td>Vaccines, antibiotics, pesticides, clean water, and better nutrition sharply reduce death rates. Infant mortality falls first.</td>
                     <td>Family norms haven't changed yet. Women still average 5–7 children. Cultural expectations, limited contraception, and rural economies sustain high birth rates.</td>
                 </tr>
                 <tr>
@@ -818,6 +864,52 @@
     if (!hits.length) return;
     document.body.classList.add('focus-mode', 'focus-' + want);
     for (var i = 0; i < hits.length; i++) hits[i].classList.add('focus-on');
+
+    if (want !== 'builder') return;
+    /* Move the influence guide, the stage table and the references into a pop-up
+       opened from the header. They keep working because nothing re-queries them
+       by position, and the citations keep their reference list alongside. */
+    var parts = document.querySelectorAll('#tab-builder > [data-block="drivers-intro"],'
+                                        + '#tab-builder > [data-block="drivers"]');
+    if (!parts.length) return;
+
+    var ov = document.createElement('div');
+    ov.className = 'dz-overlay';
+    ov.hidden = true;
+    ov.innerHTML = '<div class="dz-panel" role="dialog" aria-modal="true"'
+                 + ' aria-label="What drives birth and death rates">'
+                 + '<div class="dz-head"><span class="dz-title">What Drives Birth and Death Rates?</span>'
+                 + '<button class="dz-close" type="button" aria-label="Close">\u00d7</button></div>'
+                 + '<div class="dz-body"></div></div>';
+    var body = ov.querySelector('.dz-body');
+    for (var k = 0; k < parts.length; k++) body.appendChild(parts[k]);
+    document.body.appendChild(ov);
+
+    var btn = document.createElement('button');
+    btn.className = 'dz-btn';
+    btn.type = 'button';
+    btn.textContent = '\u24d8 What drives these rates?';
+    var bar = document.querySelector('.builder-header > div:last-child');
+    if (bar) bar.insertBefore(btn, bar.firstChild);
+
+    /* Scale the guide down just enough to land inside the panel at whatever size
+       the deck gives the iframe, so the references are never below the fold. */
+    function fit() {
+        var panel = ov.querySelector('.dz-panel');
+        body.style.zoom = '';
+        for (var t = 0; t < 4; t++) {
+            var over = panel.scrollHeight - panel.clientHeight;
+            if (over <= 1) break;
+            var cur = parseFloat(body.style.zoom) || 1;
+            body.style.zoom = Math.max(0.68, cur * (panel.clientHeight / panel.scrollHeight) * 0.995);
+        }
+    }
+    function close() { ov.hidden = true; }
+    btn.addEventListener('click', function () { ov.hidden = false; fit(); });
+    window.addEventListener('resize', function () { if (!ov.hidden) fit(); });
+    ov.querySelector('.dz-close').addEventListener('click', close);
+    ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 
 /* Curves are sampled on a fine grid (0 → 13 "time" units, one unit ≈ a decade)

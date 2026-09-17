@@ -1,7 +1,7 @@
 # SOS 110 — Chapter 6 Web Slideshow
 
 A click-through web version of the Chapter 6 ("Human Population: Can We Have Too
-Many People?") slides — 27 slides.
+Many People?") slides — 25 slides.
 
 This folder is **self-contained** — everything it needs is inside it (only Google
 Fonts, the Firebase SDK, Chart.js, and the two Our World in Data charts come from
@@ -10,8 +10,8 @@ public URLs).
 ## Contents
 - `index.html` — the slideshow (open this)
 - `media/` — slide images
-- `population-dynamics/` — the **DTM Explorer** app embedded on slides 15–16
-- `ipat-simulator/` — the **I = PAT Simulator** app embedded on slides 24–25
+- `population-dynamics/` — the **DTM Explorer** app embedded on slide 15
+- `ipat-simulator/` — the **I = PAT Simulator** app embedded on slide 23
 - `firebase-config.js` — Firestore config for the live class poll
 - `.nojekyll` — tells GitHub Pages to serve all files as-is
 
@@ -42,12 +42,12 @@ browser.
 
 ## Other interactives (no backend needed)
 
-- **Slides 15–16 — DTM Explorer** (the builder, then what drives each rate). Sliders set the birth and death rate for each of
+- **Slide 15 — DTM Explorer.** The header's info button opens the guide to what drives each rate, with its references. Sliders set the birth and death rate for each of
   the five stages; "↺ Reset to Standard Model" draws the textbook demographic
   transition, and a second chart simulates the resulting population curve.
-- **Slides 24–25 — I = PAT Simulator** (the levers, then the scenario comparison). Dial Population × Affluence × Technology and
+- **Slide 23 — I = PAT Simulator.** The info button beside "Scenarios & Controls" opens the scenario write-ups. Dial Population × Affluence × Technology and
   watch environmental impact respond.
-- **Slide 26 — What Can I Do?** Four hand-drawn pledges that tick when tapped.
+- **Slide 24 — What Can I Do?** Four hand-drawn pledges that tick when tapped.
 - **Slides 5 and 14** embed Our World in Data charts (live from their site).
 
 ### Keyboard

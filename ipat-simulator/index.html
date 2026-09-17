@@ -330,6 +330,29 @@
     body.embed header { display: none !important; }
     body.embed main { padding-top: 1rem; }
 
+    /* ── Scenario guide pop-up (focus=sim) ─────────────────────────────────
+       The scenario write-ups used to be a second slide. In a deck they now open
+       over the simulator from the info button beside "Scenarios & Controls". */
+    .ip-info { font-family: 'Inter', sans-serif; font-size: .74rem; font-weight: 700; cursor: pointer;
+      background: transparent; border: 1px solid var(--border); color: var(--text-2);
+      border-radius: 6px; padding: 3px 10px; margin-left: 10px; transition: all .15s; }
+    .ip-info:hover { border-color: var(--i); color: var(--text); }
+    .ip-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center;
+      justify-content: center; background: rgba(20,16,8,.5); padding: 3vh 3vw; }
+    .ip-overlay[hidden] { display: none !important; }
+    .ip-panel { background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(20,16,8,.4); width: min(1080px, 94vw); max-height: 92vh;
+      overflow: auto; padding: 14px 18px 16px; }
+    .ip-mhead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px; }
+    .ip-mtitle { font-family: 'Merriweather', Georgia, serif; font-weight: 900; font-size: 1.05rem; color: var(--text); }
+    .ip-close { background: none; border: 0; font-size: 1.6rem; line-height: 1; color: var(--text-3); cursor: pointer; }
+    .ip-close:hover { color: var(--text); }
+    body.focus-sim .ip-guide.ip-guide-modal { display: flex !important; background: transparent;
+      border: 0; box-shadow: none; padding: 0; }
+    .ip-guide-modal .tag { display: none; }
+    .ip-guide-modal .sgi-list { overflow: visible; }
+
     /* ── Focus mode (?focus=sim | ?focus=scenarios) ────────────────────────
        For slide decks: shows ONE part of the page sized to the iframe, so the
        slide never scrolls. Standalone (no ?focus) is untouched. */
@@ -979,9 +1002,37 @@ if (new URLSearchParams(location.search).has('embed')) {
 // page sized to its iframe. The chart re-measures itself via Chart.js's observer.
 (function () {
   const want = new URLSearchParams(location.search).get('focus');
-  if (want === 'sim' || want === 'scenarios') {
-    document.body.classList.add('focus-mode', 'focus-' + want);
-  }
+  if (want !== 'sim' && want !== 'scenarios') return;
+  document.body.classList.add('focus-mode', 'focus-' + want);
+  if (want !== 'sim') return;
+
+  // Move the scenario guide into a pop-up opened from the info button. The list
+  // is still #sgi-list, so renderScenarioGuide() and its click-to-load keep working.
+  const guide = document.querySelector('.ip-guide');
+  const tag = document.querySelector('.ip-ctrl .tag');
+  if (!guide || !tag) return;
+
+  const ov = document.createElement('div');
+  ov.className = 'ip-overlay';
+  ov.hidden = true;
+  ov.innerHTML = '<div class="ip-panel" role="dialog" aria-modal="true" aria-label="Scenario guide">'
+               + '<div class="ip-mhead"><span class="ip-mtitle">Scenario Guide</span>'
+               + '<button class="ip-close" type="button" aria-label="Close">\u00d7</button></div></div>';
+  guide.classList.add('ip-guide-modal');
+  ov.querySelector('.ip-panel').appendChild(guide);
+  document.body.appendChild(ov);
+
+  const btn = document.createElement('button');
+  btn.className = 'ip-info';
+  btn.type = 'button';
+  btn.textContent = '\u24d8 What do these scenarios mean?';
+  tag.insertAdjacentElement('afterend', btn);
+
+  const close = () => { ov.hidden = true; };
+  btn.addEventListener('click', () => { ov.hidden = false; });
+  ov.querySelector('.ip-close').addEventListener('click', close);
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
 </script>
 </body>
