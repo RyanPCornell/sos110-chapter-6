@@ -298,6 +298,23 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .pl-h.x{cursor:ew-resize;} .pl-h.y{cursor:ns-resize;} .pl-h.xy{cursor:nwse-resize;}
 .pl-read b{font-weight:900; color:#8a6a2f;}
 
+/* ── schedule picker on the Announcements slide ──────────────────────────
+   The two sections meet on different days, so each sees its own due dates. */
+.sch-bar{display:flex; align-items:center; gap:.55rem; margin:0 0 clamp(.5rem,1.4vh,.9rem);}
+.sch-lbl{font-size:clamp(.62rem,1vw,.74rem); font-weight:800; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted);}
+.sch-sel{font-family:inherit; font-size:clamp(.82rem,1.35vw,1rem); font-weight:700; color:var(--forest);
+  background:#fff; border:1.5px solid var(--line); border-radius:9px; padding:.34rem .7rem; cursor:pointer;}
+.sch-sel:hover{border-color:var(--accent);}
+.sch-sel:focus{outline:none; border-color:var(--accent);}
+/* .an-list is a flex container, so the attribute alone would not hide it */
+.an-list.sch-list[hidden]{display:none !important;}
+
+/* ── the "Disclaimer" interstitial (slide 5) ───────────────────────────── */
+.dis-root{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
+.dis-word{font-family:'Merriweather',serif; font-weight:700; color:var(--forest);
+  font-size:clamp(2.2rem,6.4vw,4.6rem); line-height:1.1; letter-spacing:.005em; text-align:center;}
+
 /* ── embedded tool slides (15-16, 23-24) in the Chapter 4 parchment register ──
    The apps restyle themselves under ?embed=1; this dresses the slide around
    them to match: parchment ground, ink heading, bronze accent, hairline rule. */
@@ -1051,7 +1068,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-tabs{display:flex; flex-wrap:wrap; align-items:center; gap:.25rem .3rem;}
 .nt-tgroup{display:inline-flex; align-items:center; gap:.25rem; margin-left:.4rem; padding-left:.45rem; border-left:1px solid rgba(120,100,60,.3);}
 .nt-slide .ev-bandlbl{font-size:.6rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#9a917c;}
-.nt-slide .ev-bandbtn{font:inherit; font-size:clamp(.58rem,.92vw,.7rem); font-weight:700; cursor:pointer;
+.nt-slide .ev-bandbtn{font:inherit; font-size:clamp(.56rem,.9vw,.68rem); font-weight:700; cursor:pointer;
   background:#fffdf8; color:#5e5340; border:1px solid rgba(120,100,60,.3); border-radius:999px; padding:.12rem .5rem;}
 .nt-slide .ev-bandbtn.on{background:#8a6a2f; border-color:#8a6a2f; color:#fff;}
 .nt-disc{font-size:clamp(.54rem,.84vw,.64rem); color:#8a8069; line-height:1.4; margin-top:.35rem;
@@ -1062,13 +1079,18 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 /* designer */
 .nt-design{display:flex; flex-direction:column; gap:.42rem;}
 .nt-dsec{background:#fffdf8; border:1px solid rgba(120,100,60,.24); border-radius:10px; padding:.4rem .55rem .48rem;}
+.nt-dsec.rev{border-left:4px solid #3f6b73;}
+.nt-revnote{font-size:clamp(.62rem,.97vw,.73rem); color:#5e5340; line-height:1.35;}
 .nt-dlbl{font-size:clamp(.6rem,.95vw,.71rem); font-weight:800; text-transform:uppercase; letter-spacing:.05em;
   color:#8a6a2f; margin-bottom:.3rem; display:flex; justify-content:space-between; gap:.4rem;}
 .nt-pts{color:#A4373A;} .nt-pts.done{color:#2D6A4F;}
-.nt-namerow{display:flex; align-items:center; justify-content:space-between; gap:.4rem; margin-bottom:.32rem;}
-.nt-namerow b{font-family:'Merriweather',serif; font-style:italic; font-weight:900; color:#3b3222; font-size:clamp(.9rem,1.45vw,1.1rem);}
-.nt-mini{font:inherit; font-size:clamp(.56rem,.88vw,.66rem); font-weight:700; cursor:pointer; color:#8a6a2f;
-  background:transparent; border:1px solid rgba(120,100,60,.35); border-radius:999px; padding:.1rem .45rem;}
+.nt-namerow{display:flex; align-items:center; gap:.35rem; margin-bottom:.32rem;}
+.nt-nameinput{flex:1 1 auto; min-width:0; font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900;
+  font-size:clamp(.88rem,1.4vw,1.06rem); color:#3b3222; background:#fffdf6; border:1px solid rgba(120,100,60,.3);
+  border-radius:8px; padding:.22rem .45rem;}
+.nt-nameinput:focus{outline:none; border-color:#8a6a2f; box-shadow:0 0 0 2px rgba(138,106,47,.18);}
+.nt-mini{flex:none; font:inherit; font-size:.85rem; font-weight:700; cursor:pointer; color:#8a6a2f; line-height:1;
+  background:transparent; border:1px solid rgba(120,100,60,.35); border-radius:999px; padding:.3rem .5rem;}
 .nt-flagrow{display:flex; align-items:center; gap:.45rem; margin-top:.22rem;}
 .nt-flabel{flex:0 0 3.6rem; font-size:clamp(.56rem,.88vw,.66rem); font-weight:700; color:#7a7260;}
 .nt-swatches{display:flex; gap:.28rem; flex-wrap:wrap;}
@@ -1077,16 +1099,20 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-emb{width:1.7rem; height:1.7rem; padding:0; border:0; background:none; cursor:pointer; border-radius:5px; box-shadow:0 0 0 1px rgba(59,50,34,.3);}
 .nt-emb svg{width:100%; height:100%; display:block; border-radius:5px;}
 .nt-emb.on{box-shadow:0 0 0 2.5px #3b3222;}
-.nt-srow{display:grid; grid-template-columns:.5rem 1fr auto auto auto; gap:.3rem; align-items:center; padding:.18rem 0; border-bottom:1px solid rgba(120,100,60,.12);}
+.nt-srow{display:grid; grid-template-columns:.5rem 1fr auto auto auto; gap:.3rem; align-items:center; padding:.16rem 0; border-bottom:1px solid rgba(120,100,60,.12);}
 .nt-srow:last-child{border-bottom:0;}
-.nt-lsw{width:.5rem; height:1.7rem; border-radius:3px; display:inline-block;}
+.nt-lsw{width:.5rem; height:1.6rem; border-radius:3px; display:inline-block;}
 .nt-lsw.sm{width:.55rem; height:.55rem; margin-right:.3rem; vertical-align:-1px;}
-.nt-sn{min-width:0; line-height:1.15;}
-.nt-sn b{display:block; font-size:clamp(.64rem,1vw,.76rem); color:#3b3222;}
-.nt-sn em{font-style:normal; font-size:clamp(.52rem,.82vw,.62rem); color:#8a8069;}
+.nt-sn{min-width:0; line-height:1.12;}
+.nt-sn b{display:block; font-size:clamp(.62rem,.98vw,.74rem); color:#3b3222;}
+.nt-sn em{font-style:normal; font-size:clamp(.5rem,.8vw,.6rem); color:#8a8069;}
+.nt-dif{font-size:.62rem; font-weight:800; border-radius:4px; padding:0 .22rem; margin-left:.2rem;}
+.nt-dif.up{background:#e3efe6; color:#2D6A4F;} .nt-dif.dn{background:#f6e6e4; color:#A4373A;}
+.nt-cmp{display:inline-block; font-size:.62rem; font-weight:800; margin-left:.3rem; color:#8a8069;}
+.nt-cmp.up{color:#2D6A4F;} .nt-cmp.dn{color:#A4373A;}
 .nt-pips{display:flex; gap:2px;}
-.nt-pips i{width:.5rem; height:.72rem; border-radius:2px; background:#e7dfcd;}
-.nt-tb{width:1.3rem; height:1.3rem; font:inherit; font-weight:900; line-height:1; cursor:pointer;
+.nt-pips i{width:.5rem; height:.68rem; border-radius:2px; background:#e7dfcd;}
+.nt-tb{width:1.25rem; height:1.25rem; font:inherit; font-weight:900; line-height:1; cursor:pointer;
   border:1px solid rgba(120,100,60,.35); border-radius:6px; background:#fff; color:#3b3222;}
 .nt-tb:hover:not(:disabled){background:#f3ead8;}
 .nt-tb:disabled{opacity:.3; cursor:default;}
@@ -1102,6 +1128,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-planbar{display:flex; height:.8rem; border-radius:4px; overflow:hidden; gap:1px; background:#fff;}
 .nt-planbar.big{height:1rem; margin-bottom:.3rem;}
 .nt-plankey{font-size:clamp(.56rem,.88vw,.66rem); color:#8a8069; margin-top:.2rem;}
+.nt-startdesc{display:block; font-size:clamp(.52rem,.82vw,.62rem); color:#9a917c; line-height:1.3; margin-top:.1rem;}
 .nt-gauge{position:relative; height:.7rem; background:linear-gradient(90deg,#b7cfa4,#e7dfcd 50%,#c7a98a); border-radius:4px; margin-top:.35rem;}
 .nt-gauge i{position:absolute; top:-3px; width:3px; height:calc(100% + 6px); background:#3b3222; transform:translateX(-1px);}
 .nt-gauge.e{background:#e7dfcd;}
@@ -1139,6 +1166,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-ctitle{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; font-size:22px; fill:#3b3222;}
 .nt-csub{font-family:'Inter',sans-serif; font-size:13px; font-weight:500; fill:#8a8069;}
 .nt-cbig{font-family:'Merriweather',serif; font-weight:900; font-size:26px; fill:#8a6a2f;}
+.nt-brief{font-family:'Merriweather',serif; font-weight:900; font-size:24px; fill:#3b3222;}
 .nt-empty{font-family:'Merriweather',serif; font-style:italic; font-size:22px; fill:#9a8f78;}
 .nt-empty.sm{font-size:15px;}
 .nt-tname{font-family:'Merriweather',serif; font-style:italic; font-weight:700; fill:#3b3222;}
@@ -1157,11 +1185,10 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-grid{stroke:rgba(120,100,60,.18); stroke-width:1; fill:none;}
 .nt-mine{font-family:'Merriweather',serif; font-style:italic; font-weight:900; font-size:15px; fill:#8a6a2f;
   paint-order:stroke; stroke:#fbf6ea; stroke-width:4px;}
-text.nt-mine{display:inline;}
 
 /* motion */
-[data-pb]{transition:transform 1.25s cubic-bezier(.4,0,.2,1);}
-[data-dtmark]{transition:transform .9s cubic-bezier(.4,0,.2,1);}
+[data-pb]{transition:transform 1.5s cubic-bezier(.4,0,.2,1);}
+[data-dtmark]{transition:transform 1s cubic-bezier(.4,0,.2,1);}
 @keyframes nt-pop{0%{transform:scale(.2) translateY(14px); opacity:0} 60%{transform:scale(1.1); opacity:1} 100%{transform:scale(1)}}
 .nt-pop{animation:nt-pop .55s cubic-bezier(.3,1.4,.5,1) both; transform-box:fill-box; transform-origin:50% 100%;}
 @keyframes nt-wave{0%{transform:scale(.85)} 60%{transform:scale(1.06)} 100%{transform:scale(1)}}
@@ -1358,12 +1385,23 @@ text.nt-mine{display:inline;}
       <h2 class="heading">Upcoming Assignments</h2>
       <p class="an-sub">Here's what's on deck. Check Canvas for full instructions and submission links.</p>
     </div>
-    <div class="an-list"><div class="an-row"><span class="an-num">1</span><div class="an-main"><div class="an-name">InQuizitive: Chapter 5 — Conservation: Why Is It Important to Protect Biodiversity?</div></div></div><div class="an-row"><span class="an-num">2</span><div class="an-main"><div class="an-name">Discussion: What Would You Do? Exercise 1</div></div></div></div>
+    <div class="sch-bar"><label class="sch-lbl" for="sch-pick">Class</label><select id="sch-pick" class="sch-sel"><option value="mwf">M/W/F</option><option value="tth">T/TH</option></select></div><div class="an-list sch-list" data-sched="mwf"><div class="an-row"><span class="an-num">1</span><div class="an-main"><div class="an-name">In-class Module 2 Review Assignment</div></div><div class="an-due"><span class="an-due-lbl">Due</span><span class="an-due-val">Friday</span></div></div><div class="an-row"><span class="an-num">2</span><div class="an-main"><div class="an-name">InQuizitive: Chapter 6 (Human Population)</div></div><div class="an-due"><span class="an-due-lbl">Due</span><span class="an-due-val">Sunday</span></div></div></div><div class="an-list sch-list" data-sched="tth" hidden><div class="an-row"><span class="an-num">1</span><div class="an-main"><div class="an-name">InQuizitive: Chapter 6 (Human Population)</div></div><div class="an-due"><span class="an-due-lbl">Due</span><span class="an-due-val">Sunday</span></div></div><div class="an-row"><span class="an-num">2</span><div class="an-main"><div class="an-name">InQuizitive: Chapter 7 (Water)</div></div><div class="an-due"><span class="an-due-lbl">Due</span><span class="an-due-val">Sunday</span></div></div></div>
     
     <div class="an-att" data-at-bar hidden><button class="an-att-btn" type="button" data-at-open>Attendance</button><select class="an-att-sel" data-at-section aria-label="Class section"><option value="MWF0905">MWF 9:05 am</option><option value="MWF1220">MWF 12:20 pm</option><option value="TTH1200">TTh 12:00 pm</option></select><button class="an-att-btn go" type="button" data-at-finalize hidden>Submit Attendance</button><button class="an-att-cancel" type="button" data-at-cancel hidden>Cancel</button><button class="an-att-cancel" type="button" data-at-clear hidden>Clear last roll call</button><span class="an-att-status" data-at-status></span></div>
   </div>
   <div class="footer">© 2023 W. W. Norton &amp; Company, Inc.</div>
 </section>
+<script>
+(function () {
+  var sel = document.getElementById('sch-pick');
+  if (!sel) return;
+  sel.addEventListener('change', function () {
+    document.querySelectorAll('.sch-list').forEach(function (l) {
+      l.hidden = l.dataset.sched !== sel.value;
+    });
+  });
+})();
+</script>
 <section class="slide" data-type="content" style="--accent:#2D6A4F">
   <div class="slide-inner col">
     <div class="col-text">
@@ -1373,6 +1411,10 @@ text.nt-mine{display:inline;}
 <div class="stat-row"><div class="stat-box"><div class="stat-num">33%</div><div class="stat-lbl">more people on Earth than if you were born in 1995</div></div><div class="stat-box"><div class="stat-num">2×</div><div class="stat-lbl">global population doubled within one lifetime (born before 1970)</div></div><div class="stat-box"><div class="stat-num">4+ Earths</div><div class="stat-lbl">needed if all 8 billion consumed at the average US level</div></div></div>
     </div>
   </div>
+  <div class="footer">© 2023 W. W. Norton &amp; Company, Inc.</div>
+</section>
+<section class="slide" data-type="content" style="--accent:#2D6A4F">
+  <div class="dis-root"><div class="dis-word">Disclaimer</div></div>
   <div class="footer">© 2023 W. W. Norton &amp; Company, Inc.</div>
 </section>
 <section class="slide embed" data-type="embed" style="--accent:#1C7293">
@@ -1575,10 +1617,10 @@ text.nt-mine{display:inline;}
     </g>
   </g>
 </svg>
-        <p class="cg-sub">Spend 12 points shaping a nation before you know where it starts. Then sixty years arrive.</p>
+        <p class="cg-sub">Spend 14 points shaping a nation before you know where it starts. Then sixty years arrive.</p>
       </div>
       <div class="cg-clockwrap" data-clockwrap hidden>
-        <div class="cg-phase">Design</div>
+        <div class="cg-phase" data-phasename>Design</div>
         <div class="cg-clock" data-clock>0:00</div>
       </div>
     </div>
@@ -1593,8 +1635,9 @@ text.nt-mine{display:inline;}
           <option value="7">7 min</option>
         </select></label>
       <button class="cg-btn" type="button" data-start hidden>Start designing &#9654;</button>
+      <button class="cg-btn go" type="button" data-begin hidden>Start the sixty years &#9654;</button>
       <button class="cg-btn" type="button" data-step hidden>Next 5 years &#9654;</button>
-      <button class="cg-btn go" type="button" data-twist hidden>The twist &#9654;</button>
+      <button class="cg-btn go" type="button" data-revise hidden>Revise policies &#9654;</button>
       <button class="cg-btn ghost" type="button" data-skip hidden>Skip ahead &#9654;</button>
       <button class="cg-btn go" type="button" data-again hidden>Play again?</button>
       <button class="cg-btn" type="button" data-survey hidden>Survey</button>
@@ -1672,12 +1715,12 @@ text.nt-mine{display:inline;}
       <div class="nt-stage">
         <div class="nt-tabs" data-tabs hidden>
           <span class="ev-bandlbl">Show</span>
-          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What worked</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="momentum">Momentum</button>
+          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What made an impact</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="compare">Compare runs</button><button class="ev-bandbtn" type="button" data-tab="delta">What changed</button>
           <span class="nt-tgroup" data-scopewrap hidden><span class="ev-bandlbl">Of</span><button class="ev-bandbtn" type="button" data-scope="mine">My nation</button><button class="ev-bandbtn" type="button" data-scope="class">Whole class</button></span>
-          <span class="nt-tgroup" data-scenwrap hidden><span class="ev-bandlbl">Run</span><button class="ev-bandbtn" type="button" data-scen="normal">Policies</button><button class="ev-bandbtn" type="button" data-scen="replace">Replacement</button></span>
+          <span class="nt-tgroup" data-scenwrap hidden><span class="ev-bandlbl">Run</span><button class="ev-bandbtn" type="button" data-scen="first">First</button><button class="ev-bandbtn" type="button" data-scen="revised">After changes</button><button class="ev-bandbtn" type="button" data-scen="diff">Difference</button></span>
           <span class="nt-tgroup" data-yrwrap hidden><span class="ev-bandlbl">Year</span><button class="ev-bandbtn" type="button" data-yr="0">0</button><button class="ev-bandbtn" type="button" data-yr="4">20</button><button class="ev-bandbtn" type="button" data-yr="8">40</button><button class="ev-bandbtn" type="button" data-yr="12">60</button></span>
-          <span class="nt-tgroup" data-lvwrap hidden><span class="ev-bandlbl">By</span><button class="ev-bandbtn" type="button" data-lv="health">Health</button><button class="ev-bandbtn" type="button" data-lv="edu">Education</button><button class="ev-bandbtn" type="button" data-lv="fp">Family planning</button><button class="ev-bandbtn" type="button" data-lv="jobs">Jobs</button><button class="ev-bandbtn" type="button" data-lv="care">Elder care</button></span>
-          <span class="nt-tgroup" data-outwrap hidden><span class="ev-bandlbl">Outcome</span><button class="ev-bandbtn" type="button" data-out="tfr">Children</button><button class="ev-bandbtn" type="button" data-out="grow">Growth</button><button class="ev-bandbtn" type="button" data-out="old">Aged 65+</button><button class="ev-bandbtn" type="button" data-out="foot">Footprint</button></span>
+          <span class="nt-tgroup" data-lvwrap hidden><span class="ev-bandlbl">By</span><button class="ev-bandbtn" type="button" data-lv="health">Health</button><button class="ev-bandbtn" type="button" data-lv="edu">Education</button><button class="ev-bandbtn" type="button" data-lv="fp">Family planning</button><button class="ev-bandbtn" type="button" data-lv="jobs">Jobs</button><button class="ev-bandbtn" type="button" data-lv="care">Elder care</button><button class="ev-bandbtn" type="button" data-lv="clean">Clean energy</button><button class="ev-bandbtn" type="button" data-lv="land">Land</button></span>
+          <span class="nt-tgroup" data-outwrap hidden><span class="ev-bandlbl">Outcome</span><button class="ev-bandbtn" type="button" data-out="tfr">TFR</button><button class="ev-bandbtn" type="button" data-out="grow">Growth</button><button class="ev-bandbtn" type="button" data-out="old">Aged 65+</button><button class="ev-bandbtn" type="button" data-out="foot">Footprint</button></span>
         </div>
         <div class="ev-scenewrap nt-scenewrap">
           <div class="ev-genbadge" data-genbadge hidden>
@@ -1698,8 +1741,10 @@ text.nt-mine{display:inline;}
 
     <p class="nt-disc"><b>About the model:</b> a teaching simulation, not a forecast. Each nation is projected the way
       statistics offices do it, by five-year age groups and sex: births come from women aged 15&ndash;49, everyone moves up
-      one group every five years, and deaths follow child and adult mortality. The policies change those rates, some
+      one group every five years, and deaths follow child and adult mortality. The <b>total fertility rate (TFR)</b> is the
+      average number of births a woman would have over a lifetime at current rates. Policies change those rates, some
       quickly (family planning, child health) and some with a delay (education acts as schoolgirls reach adulthood).
+      Clean energy cuts the footprint each person carries, and protected land raises what the nation renews.
       Every nation starts with 30 million people; its starting fertility, life expectancy and income are drawn at random.
       When the class&#8217;s combined footprint exceeds what its share of the planet renews, income growth slows and death
       rates rise slightly for everyone.
@@ -1759,49 +1804,57 @@ function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
 function num(n){ return Math.round(n).toLocaleString('en-US'); }
 function pct(v){ return Math.round(v*100)+'%'; }
 function sgn(v){ return (v>=0?'+':'−')+Math.abs(Math.round(v*100))+'%'; }
+function sgnN(v,d){ return (v>=0?'+':'−')+Math.abs(v).toFixed(d==null?1:d); }
+/* a difference that rounds to nothing should say so, not print "+0.0" */
+function diffTxt(t){ return /^[+−]0(\.0+)?%?$/.test(String(t))? 'no change' : String(t); }
 function mil(k){ var m=k/1000; return (m>=100? Math.round(m) : m.toFixed(1))+'M'; }
 function ordinal(n){ var s=['th','st','nd','rd'], v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
 var INK='#3b3222';
 
 /* ══ the choices ══ */
-var PTS=12, SMAX=5, STEPS=12, STEPY=5, YEARS=60, NA=17;
+var PTS=14, SMAX=5, STEPS=12, STEPY=5, YEARS=60, NA=17;
 var LEVERS=[
  {k:'health', n:'Child health',        c:'#b5533c', note:'Vaccines, clean water, clinics.'},
  {k:'edu',    n:'Girls’ education', c:'#3f6b73', note:'Slow: today’s schoolgirls are tomorrow’s mothers.'},
  {k:'fp',     n:'Family planning',     c:'#6d597a', note:'Access to contraception.'},
  {k:'jobs',   n:'Jobs and cities',     c:'#8a6a2f', note:'Higher incomes, urban work.'},
- {k:'care',   n:'Elder care',          c:'#5f8a6a', note:'Pensions and health care for older people.'}
+ {k:'care',   n:'Elder care',          c:'#5f8a6a', note:'Pensions and health care for older people.'},
+ {k:'clean',  n:'Clean energy and air', c:'#2f7f9f', note:'Cuts the footprint of each person, and the soot they breathe.'},
+ {k:'land',   n:'Farmland and forests', c:'#6f8f5e', note:'Protects soil and forest, so the land renews more.'}
 ];
 var LKEYS=LEVERS.map(function(l){ return l.k; }), LBY={}; LEVERS.forEach(function(l){ LBY[l.k]=l; });
 var FLAGC=['#b5533c','#3f6b73','#c9a24a','#5f8a6a','#6d597a','#2f4858'];
 var EMBLEMS=['sun','star','leaf','peak','wave'];
 var START=[
- {k:'young', n:'Young and growing fast', sh:'Young',  tfr:5.6, e0:55, q5:0.105, inc:1.6, p:0.30, c:'#b5533c'},
- {k:'early', n:'Early in the transition', sh:'Early', tfr:4.1, e0:63, q5:0.058, inc:4.5, p:0.30, c:'#c9a24a'},
- {k:'late',  n:'Late in the transition',  sh:'Late',  tfr:2.6, e0:71, q5:0.026, inc:12,  p:0.25, c:'#5f8a6a'},
- {k:'low',   n:'Low births, aging',       sh:'Aging', tfr:1.6, e0:79, q5:0.006, inc:38,  p:0.15, c:'#3f6b73'}
+ {k:'young', n:'Young and growing fast', sh:'Young',  tfr:5.6, e0:55, q5:0.105, inc:1.6, p:0.30, c:'#b5533c',
+  st:'Stage 2', desc:'A low-income country. Deaths have fallen; births have not.'},
+ {k:'early', n:'Early in the transition', sh:'Early', tfr:4.1, e0:63, q5:0.058, inc:4.5, p:0.30, c:'#c9a24a',
+  st:'Stage 2 into 3', desc:'A lower-middle-income country. Births are starting to fall.'},
+ {k:'late',  n:'Late in the transition',  sh:'Late',  tfr:2.6, e0:71, q5:0.026, inc:12,  p:0.25, c:'#5f8a6a',
+  st:'Stage 3', desc:'A middle-income country. Births are close to replacement.'},
+ {k:'low',   n:'Low births, aging',       sh:'Aging', tfr:1.6, e0:79, q5:0.006, inc:38,  p:0.15, c:'#3f6b73',
+  st:'Stage 4 into 5', desc:'A high-income country, below replacement and aging.'}
 ];
 var SBY={}; START.forEach(function(a){ SBY[a.k]=a; });
 var ASFR=[0.07,0.21,0.27,0.22,0.14,0.07,0.02], POP0=30000, BIO=POP0*2.0;
 var AGEL=['0–4','5–9','10–14','15–19','20–24','25–29','30–34','35–39','40–44','45–49','50–54','55–59','60–64','65–69','70–74','75–79','80+'];
 var STAGEN=['','Stage 1 · high births, high deaths','Stage 2 · deaths falling','Stage 3 · births falling','Stage 4 · low births, low deaths','Stage 5 · deaths exceed births'];
+var STC=['','#b5533c','#d69a2d','#c9b27e','#7fa3a8','#3f6b73'];
 
 var NM_A=['Aster','Corva','Delm','Ember','Fenn','Galda','Halver','Isar','Juno','Kestr','Lumen','Marro','Norra','Orel','Pella','Quillon','Rosk','Selva','Tamar','Ulen','Varra','Wendel','Yarrow','Zefir'];
 var NM_B=['ia','ova','ara','enne','oria','and','avia','ella','ethe','un','ica','os'];
 function nationName(seed){ return NM_A[CG.pick(seed+':a',NM_A.length)]+NM_B[CG.pick(seed+':b',NM_B.length)]; }
+function safeName(s){ return String(s==null?'':s).replace(/[<>&"]/g,'').replace(/\s+/g,' ').trim().slice(0,24); }
 
 /* ══ shared state ══ */
 var backend=null, HOST=false, state={}, PK=CG.pid(GID), myD=null;
 function phase(){ return state.phase||'idle'; }
 function players(){ return state.players||{}; }
-function designs(){ return state.designs||{}; }
 function gid(){ return String(state.gameId||0); }
 function step(){ return state.st||0; }
-function tstep(){ return state.tst||0; }
-function twistDone(){ return !!state.twistDone; }
+function step2(){ return state.st2||0; }
+function revisedDone(){ return !!state.revised; }
 function joined(){ return !HOST && players()[PK]!==undefined; }
-function myDesign(){ return cleanDesigns()[PK]||null; }
-function nDesigns(){ return Object.keys(cleanDesigns()).length; }
 function spent(d){ var s=0; LKEYS.forEach(function(k){ s+=d.s[k]||0; }); return s; }
 function cleanOne(d){
   if(!d||typeof d!=='object'||!d.s) return null;
@@ -1812,14 +1865,36 @@ function cleanOne(d){
   if(tot>PTS) return null;
   function pint(v,max){ v=parseInt(v,10); return (v>=0)? Math.min(max,v) : 0; }
   return {s:s, g:pint(d.g,10), fc:pint(d.fc,FLAGC.length-1), em:pint(d.em,EMBLEMS.length-1),
-          nm:String(d.nm||'').slice(0,24)||'Unnamed'};
+          nm:safeName(d.nm)||'Unnamed'};
 }
-var cleanSig='', cleanVal={};
+/* designs arrive from a shard anybody can write, so they are checked, not trusted */
+var cleanSig='', cleanVal={}, cleanSig2='', cleanVal2={};
 function cleanDesigns(){
-  var raw=designs(), sig=gid()+'|'+JSON.stringify(raw);
+  var raw=state.designs||{}, sig=gid()+'|'+JSON.stringify(raw);
   if(sig===cleanSig) return cleanVal;
   var o={}; Object.keys(raw).forEach(function(k){ var c=cleanOne(raw[k]); if(c) o[k]=c; });
   cleanSig=sig; cleanVal=o; return o;
+}
+/* the revised policies: whoever did not revise keeps their first plan */
+function cleanDesigns2(){
+  var raw=state.designs2||{}, base=cleanDesigns(), sig=gid()+'|'+cleanSig+'|'+JSON.stringify(raw);
+  if(sig===cleanSig2) return cleanVal2;
+  var o={}; Object.keys(base).forEach(function(k){ o[k]=base[k]; });
+  Object.keys(raw).forEach(function(k){ if(base[k]){ var c=cleanOne(raw[k]); if(c) o[k]=c; } });
+  cleanSig2=sig; cleanVal2=o; return o;
+}
+function designsFor(kind){ return kind==='revised'? cleanDesigns2() : cleanDesigns(); }
+function myDesign(){ return cleanDesigns()[PK]||null; }
+function myDesign2(){ return cleanDesigns2()[PK]||null; }
+function revisedMine(){
+  var a=myDesign(), b=myDesign2();
+  return (a&&b&&JSON.stringify(a.s)!==JSON.stringify(b.s))? b : null;
+}
+function nDesigns(){ return Object.keys(cleanDesigns()).length; }
+function nRevised(){
+  var a=cleanDesigns(), b=cleanDesigns2(), n=0;
+  Object.keys(a).forEach(function(k){ if(JSON.stringify(a[k].s)!==JSON.stringify(b[k].s)) n++; });
+  return n;
 }
 function leadOf(d){
   var best=-1, who=null, tie=false;
@@ -1874,12 +1949,12 @@ function initNation(pr){
 function cloneN(c){ var o={}; for(var k in c) o[k]=Array.isArray(c[k])? c[k].slice() : c[k]; return o; }
 function sum(a){ var s=0; for(var i=0;i<a.length;i++) s+=a[i]; return s; }
 function levers(d){ var o={}; LKEYS.forEach(function(k){ o[k]=d.s[k]/SMAX; }); return o; }
-var ZERO={s:{health:0,edu:0,fp:0,jobs:0,care:0}, g:5};
+function capacityOf(d){ return BIO*(1+0.35*(d.s.land/SMAX)); }
 
-/* one five-year step: births, aging, deaths — then the levers move the rates */
-function advanceN(c, d, drag, kind){
+/* one five-year step: births, aging, deaths — then the policies move the rates */
+function advanceN(c, d, drag){
   var LV=levers(d), gE=d.g/10, om=1+0.06*Math.max(0,drag), i;
-  var tfr = kind==='replace'? 2.1 : c.W+c.U;
+  var tfr=c.W+c.U;
   var N1=sum(c.F)+sum(c.M), births=0;
   for(i=0;i<7;i++) births+=c.F[3+i]*tfr*ASFR[i];
   var F2=[], M2=[];
@@ -1895,12 +1970,12 @@ function advanceN(c, d, drag, kind){
   var N2=sum(F2)+sum(M2), deaths=N1+births-N2, avg=(N1+N2)/2;
   c.F=F2; c.M=M2;
   var rates={tfr:tfr, cbr:births/STEPY/avg*1000, cdr:deaths/STEPY/avg*1000};
-  /* the levers act on the rates of the NEXT five years */
+  /* the policies act on the rates of the NEXT five years */
   var work=0; for(i=3;i<13;i++) work+=F2[i]+M2[i];
   var ws=work/N2, incL=clamp(Math.log(c.inc/1.5)/Math.log(40),0,1);
   c.eduS += (LV.edu-c.eduS)*(1-Math.exp(-STEPY/12));
-  c.q5=Math.max(0.003, c.q5*Math.exp(-STEPY*(0.004+0.05*LV.health+0.012*incL)));
-  c.cA=Math.max(0.00018, c.cA*Math.exp(-STEPY*(0.003+0.012*LV.care+0.004*LV.health+0.004*incL)));
+  c.q5=Math.max(0.003, c.q5*Math.exp(-STEPY*(0.004+0.05*LV.health+0.008*LV.clean+0.004*LV.land+0.012*incL)));
+  c.cA=Math.max(0.00018, c.cA*Math.exp(-STEPY*(0.003+0.012*LV.care+0.004*LV.health+0.004*LV.clean+0.004*incL)));
   c.inc*=Math.exp(STEPY*(0.006+0.020*LV.jobs+0.010*c.eduS+0.014*gE+0.05*(ws-0.6)-0.015*Math.max(0,drag)));
   var surv=clamp((c.q50-c.q5)/c.q50,0,1);
   var kw=0.002+0.036*c.eduS+0.010*LV.jobs+0.003*incL+0.010*surv+0.005*LV.care;
@@ -1918,7 +1993,8 @@ function snapOf(c, rates, d){
   var half=tot/2, cum=0, med=85;
   for(i=0;i<NA;i++){ if(cum+N[i]>=half){ med=5*i+5*(half-cum)/N[i]; break; } cum+=N[i]; }
   var young=N[0]+N[1]+N[2], old=N[13]+N[14]+N[15]+N[16], work=tot-young-old;
-  var gE=d? d.g/10 : 0.5, fpc=(0.8+0.75*Math.log(1+c.inc/4))*(0.75+0.5*gE);
+  var gE=d? d.g/10 : 0.5, cl=d? d.s.clean/SMAX : 0;
+  var fpc=(0.8+0.75*Math.log(1+c.inc/4))*(0.75+0.5*gE)*(1-0.42*cl);
   return {F:c.F.map(Math.round), M:c.M.map(Math.round), N:tot, tfr:rates.tfr, cbr:rates.cbr, cdr:rates.cdr,
           stage:stageOf(rates.cbr,rates.cdr), e:lifeExp(c.cA,c.q5), q5:c.q5, inc:c.inc, med:med,
           dep:(young+old)/work, old:old/tot, kids:young/tot, fpc:fpc, foot:tot*fpc/1000};
@@ -1926,22 +2002,22 @@ function snapOf(c, rates, d){
 
 var simCache={};
 function simulate(kind){
-  var D=cleanDesigns(), sig=kind+'|'+cleanSig;
+  var D=designsFor(kind), sig=kind+'|'+(kind==='revised'? cleanSig2 : cleanSig);
   if(simCache[kind] && simCache[kind].sig===sig) return simCache[kind];
-  var ks=Object.keys(D).sort(), n=ks.length, nat={}, world=[], drag=0, t;
-  ks.forEach(function(k){ var pr=profileOf(k); nat[k]={k:k, d:D[k], pr:pr, c:initNation(pr), snap:[]}; });
+  var ks=Object.keys(D).sort(), n=ks.length, nat={}, world=[], drag=0, cap=0, t;
+  ks.forEach(function(k){ var pr=profileOf(k); nat[k]={k:k, d:D[k], pr:pr, c:initNation(pr), snap:[]}; cap+=capacityOf(D[k]); });
   for(t=0;t<=STEPS;t++){
     var W={N:0, foot:0, byA:{}, footA:{}, nA:{}, stages:[0,0,0,0,0,0]};
     START.forEach(function(a){ W.byA[a.k]=0; W.footA[a.k]=0; W.nA[a.k]=0; });
     ks.forEach(function(k){
       var x=nat[k], rates;
-      if(t===0) rates=advanceN(cloneN(x.c), x.d, 0, kind);
-      else rates=advanceN(x.c, x.d, drag, kind);
+      if(t===0) rates=advanceN(cloneN(x.c), x.d, 0);
+      else rates=advanceN(x.c, x.d, drag);
       var s=snapOf(x.c, rates, x.d);
       x.snap.push(s);
       W.N+=s.N; W.foot+=s.foot; W.byA[x.pr.k]+=s.N; W.footA[x.pr.k]+=s.foot; W.nA[x.pr.k]++; W.stages[s.stage]++;
     });
-    W.earths=n? W.foot/(n*BIO/1000) : 0;
+    W.earths=cap? W.foot/(cap/1000) : 0;
     world.push(W);
     drag=W.earths-1;
   }
@@ -1950,22 +2026,27 @@ function simulate(kind){
     x.snap.forEach(function(s,i){ if(s.N>peak){ peak=s.N; py=i*STEPY; } });
     x.grow=s1.N/s0.N-1; x.peak=peak; x.peakYear=py; x.s0=s0; x.s1=s1;
   });
-  var out={sig:sig, kind:kind, ks:ks, n:n, nat:nat, world:world};
+  var out={sig:sig, kind:kind, ks:ks, n:n, nat:nat, world:world, cap:cap};
   simCache[kind]=out; return out;
 }
-
-/* ══ the planning projection shown while a student designs: this plan, run
-   in each of the four possible starting nations (no planet feedback) ══ */
+/* one nation, run on its own (no class feedback) — used by both projections */
+function runOne(pr, d){
+  var c=initNation(pr), s0=null, s=null;
+  for(var t=0;t<=STEPS;t++){
+    var r=advanceN(t===0? cloneN(c) : c, d, 0);
+    s=snapOf(c, r, d); if(t===0) s0=s;
+  }
+  return {s0:s0, s1:s};
+}
+/* the design-phase projection: this plan in each of the four starting points */
 function estimate(d){
   return START.map(function(A){
-    var pr=profileOf('est', A.k), c=initNation(pr), s0=null, s;
-    for(var t=0;t<=STEPS;t++){
-      var r=advanceN(t===0? cloneN(c) : c, d, 0, 'normal');
-      s=snapOf(c, r, d); if(t===0) s0=s;
-    }
-    return {A:A, s0:s0, s1:s};
+    var r=runOne(profileOf('est', A.k), d);
+    return {A:A, s0:r.s0, s1:r.s1};
   });
 }
+/* the revision projection: this plan in the nation the student actually drew */
+function estimateMine(d){ return runOne(profileOf(PK), d); }
 
 function f1(v){ return (+v).toFixed(1); }
 function ntDefs(id){
@@ -1974,7 +2055,6 @@ function ntDefs(id){
    +'<feDisplacementMap in="SourceGraphic" scale="2.4"/></filter>'
    +'<filter id="'+id+'-w" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="9"/>'
    +'<feDisplacementMap in="SourceGraphic" scale="10"/><feGaussianBlur stdDeviation=".8"/></filter>'
-   +'<pattern id="'+id+'-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0,0 V6" stroke="#8a7a5c" stroke-width="1" opacity=".5"/></pattern>'
    +'</defs>';
 }
 /* ── emblems and flags ── */
@@ -2008,7 +2088,6 @@ function flagSVG(x, y, w, h, fc, em, wave){
     +(wave? '<animate attributeName="d" values="'+A+';'+B+';'+A+'" dur="3.2s" repeatCount="indefinite"/>' : '')+'</path>'
     +emblem(EMBLEMS[em], w/2, h/2, h*.3)+'</g>';
 }
-/* a flag on a short pole, for tiles, cards and the map legend */
 function miniFlag(d, cx, by, sc){
   var w=46, h=30;
   return '<g transform="translate('+f1(cx)+','+f1(by)+') scale('+sc.toFixed(3)+')">'
@@ -2062,6 +2141,20 @@ function elders(x,y){
     +'<circle cx="'+f1(x+28)+'" cy="'+f1(y-12)+'" r="2.4" fill="#f4efe4" stroke="'+INK+'" stroke-width="1"/>'
     +'<path d="M'+f1(x+20)+','+f1(y-9.5)+' v5 M'+f1(x+28)+','+f1(y-9.5)+' v5 M'+f1(x+33)+','+f1(y)+' l-2,-10" stroke="'+INK+'" stroke-width="1.3"/>';
 }
+/* clean energy: a tilted solar array, catching a glint */
+function solar(x,y){
+  return '<path d="M'+f1(x-17)+','+f1(y-4)+' L'+f1(x-9)+','+f1(y-19)+' L'+f1(x+19)+','+f1(y-19)+' L'+f1(x+11)+','+f1(y-4)+' Z" fill="#2f5f7f" stroke="'+INK+'" stroke-width="1.4" stroke-linejoin="round"/>'
+    +'<path d="M'+f1(x-13.5)+','+f1(y-11.5)+' L'+f1(x+14.5)+','+f1(y-11.5)+' M'+f1(x-3)+','+f1(y-4)+' L'+f1(x+5)+','+f1(y-19)+'" stroke="#9fc4d8" stroke-width="1.1"/>'
+    +'<path d="M'+f1(x-5)+','+f1(y-4)+' v4 M'+f1(x+7)+','+f1(y-4)+' v4" stroke="'+INK+'" stroke-width="1.3"/>'
+    +'<path d="M'+f1(x+9)+','+f1(y-16)+' l4,-4" stroke="#fbf3dc" stroke-width="2" stroke-linecap="round" opacity=".9"><animate attributeName="opacity" values=".2;.95;.2" dur="3.6s" repeatCount="indefinite"/></path>';
+}
+/* protected land: a little grove behind a marker post */
+function grove(x,y){
+  return tree(x-11,y,0.85)+tree(x+9,y-3,1.05)+tree(x+1,y+3,0.7)
+    +'<path d="M'+f1(x+22)+','+f1(y)+' v-16" stroke="'+INK+'" stroke-width="1.4"/>'
+    +'<rect x="'+f1(x+18)+'" y="'+f1(y-24)+'" width="12" height="9" rx="2" fill="#fbf3dc" stroke="'+INK+'" stroke-width="1.1"/>'
+    +'<path d="M'+f1(x+21)+','+f1(y-19.5)+' q3,-4 6,0 q-3,3 -6,0 z" fill="#6f8f5e"/>';
+}
 function turbine(x,y){
   return '<path d="M'+f1(x)+','+f1(y)+' L'+f1(x)+','+f1(y-40)+'" stroke="'+INK+'" stroke-width="2"/>'
     +'<g><path d="M'+f1(x)+','+f1(y-40)+' l0,-17 M'+f1(x)+','+f1(y-40)+' l14.7,8.5 M'+f1(x)+','+f1(y-40)+' l-14.7,8.5" stroke="'+INK+'" stroke-width="2.2" stroke-linecap="round"/>'
@@ -2087,12 +2180,14 @@ var SLOT={
   health:[[200,305],[255,410],[430,300],[505,215],[600,400]],
   edu:[[125,300],[175,455],[360,350],[430,215],[525,455]],
   fp:[[240,355],[315,470],[470,355],[575,300],[420,492]],
-  care:[[705,432],[760,418],[812,398],[730,482],[775,458]]
+  care:[[705,432],[760,418],[812,398],[730,482],[775,458]],
+  clean:[[398,182],[448,168],[498,158],[548,164],[348,196]],
+  land:[[145,258],[205,478],[302,506],[498,506],[792,332]]
 };
 var VILL=[[160,330],[215,432],[392,322],[472,242],[560,420]];
 var FARMS=[[118,372],[262,470],[420,372],[522,282],[612,470]];
 var TREES=[[335,268],[357,288],[318,302],[112,300],[134,392],[570,235],[600,255],[628,222],[812,300],[838,332],[846,270],[395,418]];
-var TURB=[[560,178],[610,168],[660,178],[705,193],[750,213]];
+var TURB=[[660,178],[705,193],[750,213],[610,168],[560,178]];
 var FACT=[[815,352],[612,362],[842,305],[662,402]];
 function cityBlocks(j, cls){
   var n=3+2*j, h='', i;
@@ -2117,12 +2212,13 @@ function drawNation(svg, d, prev){
     waves+='M'+wx+','+wy+' q6,-5 12,0 q6,5 12,0 '; }
   h.push('<path d="'+waves+'" stroke="#7fa3a8" stroke-width="1.3" fill="none" opacity=".55"/>');
   h.push('<g transform="translate(90,0)">');
-  /* land: wash under ink */
   h.push('<path d="'+LAND+'" fill="#e3d3a8" filter="url(#'+id+'-w)"/>');
   var green=1-g/10;
   h.push('<g filter="url(#'+id+'-w)" opacity="'+(0.2+0.4*green).toFixed(2)+'"><ellipse cx="200" cy="330" rx="110" ry="80" fill="#8fa874"/>'
     +'<ellipse cx="600" cy="230" rx="120" ry="60" fill="#8fa874"/><ellipse cx="430" cy="440" rx="120" ry="55" fill="#8fa874"/></g>');
-  if(g>=7) h.push('<ellipse cx="720" cy="290" rx="'+(70+g*6)+'" ry="'+(34+g*2)+'" fill="#a89a80" opacity="'+(0.12*(g-6)).toFixed(2)+'" filter="url(#'+id+'-w)"/>');
+  /* heavy industry hazes the city over; clean energy clears it again */
+  var smog=Math.max(0, (g-6)-1.1*s.clean);
+  if(smog>0) h.push('<ellipse cx="720" cy="290" rx="'+(70+g*6)+'" ry="'+(34+g*2)+'" fill="#a89a80" opacity="'+(0.12*smog).toFixed(2)+'" filter="url(#'+id+'-w)"/>');
   h.push('<g filter="url(#'+id+'-r)">');
   h.push('<path d="'+LAND+'" fill="none" stroke="'+INK+'" stroke-width="2.4"/>');
   h.push('<path d="M100,318 l-12,4 M112,420 l-12,6 M200,500 l-8,9 M380,538 l-3,10 M560,526 l2,10 M760,488 l8,8 M858,378 l11,4 M838,236 l10,-6 M620,132 l3,-10 M330,140 l-2,-10" stroke="'+INK+'" stroke-width="1.2"/>');
@@ -2137,7 +2233,7 @@ function drawNation(svg, d, prev){
     +'<ellipse cx="350" cy="214" rx="15" ry="6" fill="#9c8260" stroke="'+INK+'" stroke-width="1"/><path d="M372,206 l14,-8" stroke="'+INK+'" stroke-width="1.4"/></g>');
   var nTrees=Math.round(TREES.length*(1-g/12));
   for(i=0;i<nTrees;i++) h.push(tree(TREES[i][0],TREES[i][1],0.9));
-  FARMS.forEach(function(p){ h.push(fields(p[0],p[1], g<=5)); });
+  FARMS.forEach(function(p){ h.push(fields(p[0],p[1], g<=5 || s.land>=3)); });
   VILL.forEach(function(p){ h.push(village(p[0],p[1])); });
   if(s.jobs){
     h.push('<path d="M640,338 C580,328 530,292 486,248 M640,350 C606,396 590,408 572,418 M640,344 C560,352 470,330 406,326" stroke="#8a6a2f" stroke-width="1.8" stroke-dasharray="6 4" fill="none"/>');
@@ -2149,38 +2245,34 @@ function drawNation(svg, d, prev){
   for(i=0;i<nTurb;i++) h.push('<g class="'+((prev && i>=Math.round((10-prev.g)/2))?'nt-pop':'')+'">'+turbine(TURB[i][0],TURB[i][1])+'</g>');
   var nFact=Math.max(0,Math.round((g-3)/1.7));
   for(i=0;i<Math.min(nFact,FACT.length);i++) h.push('<g class="'+((prev && i>=Math.max(0,Math.round((prev.g-3)/1.7)))?'nt-pop':'')+'">'+factory(FACT[i][0],FACT[i][1])+'</g>');
-  var DRAW={health:clinic, edu:school, fp:fpPost, care:elders};
-  ['care','fp','health','edu'].forEach(function(k){
+  var DRAW={health:clinic, edu:school, fp:fpPost, care:elders, clean:solar, land:grove};
+  ['land','care','fp','health','edu','clean'].forEach(function(k){
     for(var j=0;j<s[k];j++) h.push('<g class="'+pop(k,j)+'">'+DRAW[k](SLOT[k][j][0],SLOT[k][j][1])+'</g>');
   });
-  h.push('</g>');   /* end ink */
-  /* the flag, planted on the eastern headland */
+  h.push('</g>');
   h.push('<g filter="url(#'+id+'-r)"><ellipse cx="815" cy="206" rx="26" ry="7" fill="#d6c190" stroke="'+INK+'" stroke-width="1.4"/>'
     +'<path d="M815,206 V58" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/><circle cx="815" cy="56" r="4" fill="#c9a24a" stroke="'+INK+'" stroke-width="1.2"/></g>');
   h.push('<g class="'+((prev && (prev.fc!==d.fc||prev.em!==d.em))?'nt-wave':'')+'">'+flagSVG(816,62,92,58,d.fc,d.em,true)+'</g>');
-  h.push('</g>');   /* end land shift */
-  /* a compass rose and scale bar, cartographer-style */
+  h.push('</g>');
   h.push('<g transform="translate(948,500)"><circle r="20" fill="none" stroke="'+INK+'" stroke-width="1"/>'
     +'<path d="M0,-26 L5,0 L0,26 L-5,0 Z" fill="#fbf6ea" stroke="'+INK+'" stroke-width="1.1"/><path d="M0,-26 L5,0 L-5,0 Z" fill="'+INK+'"/>'
     +'<path d="M-26,0 L0,4 L26,0 L0,-4 Z" fill="none" stroke="'+INK+'" stroke-width="1"/>'
     +'<text y="-30" text-anchor="middle" class="nt-cap sm">N</text></g>');
-  /* the key */
-  var rows=[];
-  var KN={health:'Clinics',edu:'Schools',fp:'Family planning',jobs:'Cities and jobs',care:'Elder care'};
+  var rows=[], KN={health:'Clinics',edu:'Schools',fp:'Family planning',jobs:'Cities and jobs',care:'Elder care',clean:'Solar and clean air',land:'Protected land'};
   LKEYS.forEach(function(k){ if(s[k]) rows.push([LBY[k].c, KN[k]+' · '+s[k]]); });
   rows.push(['#8fa874', g<=3? 'Economy · green and modest' : g>=7? 'Economy · fast and heavy' : 'Economy · mixed']);
-  var ky=548-rows.length*20-22;
-  h.push('<g transform="translate(14,'+ky+')"><rect width="178" height="'+(rows.length*20+26)+'" rx="6" fill="#fbf6ea" stroke="#bda77c" opacity=".95"/>'
+  var ky=548-rows.length*19-24;
+  h.push('<g transform="translate(14,'+ky+')"><rect width="168" height="'+(rows.length*19+26)+'" rx="6" fill="#fbf6ea" stroke="#bda77c" opacity=".95"/>'
     +'<text x="12" y="17" class="nt-sc">Key</text>');
-  rows.forEach(function(r,i2){ h.push('<rect x="12" y="'+(26+i2*20)+'" width="10" height="10" fill="'+r[0]+'" stroke="'+INK+'" stroke-width=".8"/>'
-    +'<text x="30" y="'+(35+i2*20)+'" class="nt-cap sm">'+esc(r[1])+'</text>'); });
+  rows.forEach(function(r,i2){ h.push('<rect x="12" y="'+(25+i2*19)+'" width="9" height="9" fill="'+r[0]+'" stroke="'+INK+'" stroke-width=".8"/>'
+    +'<text x="28" y="'+(33+i2*19)+'" class="nt-cap sm">'+esc(r[1])+'</text>'); });
   h.push('</g>');
   h.push('<text x="24" y="50" class="nt-name">'+esc(d.nm)+'</text>');
   h.push('<text x="25" y="75" class="nt-sub">30 million people · where they start is drawn after design</text>');
   var left=PTS-spent(d);
   h.push('<g transform="translate(24,92)">');
-  for(i=0;i<PTS;i++) h.push('<circle cx="'+(i*15+6)+'" cy="6" r="5.2" fill="'+(i<PTS-left?'#8a6a2f':'none')+'" stroke="#8a6a2f" stroke-width="1.6"/>');
-  h.push('<text x="'+(PTS*15+6)+'" y="10" class="nt-sub">'+(left? left+' of 12 points left' : 'all 12 points spent')+'</text></g>');
+  for(i=0;i<PTS;i++) h.push('<circle cx="'+(i*13+6)+'" cy="6" r="4.6" fill="'+(i<PTS-left?'#8a6a2f':'none')+'" stroke="#8a6a2f" stroke-width="1.6"/>');
+  h.push('<text x="'+(PTS*13+6)+'" y="10" class="nt-sub">'+(left? left+' of '+PTS+' points left' : 'all '+PTS+' points spent')+'</text></g>');
   svg.innerHTML=h.join('');
   svg.dataset.mode='nation';
 }
@@ -2213,7 +2305,7 @@ function drawBoard(svg){
       var sx=cx+10, sw=(tw-20)/PTS, j=0;
       LKEYS.forEach(function(lk){ for(var m=0;m<d.s[lk];m++,j++)
         h.push('<rect x="'+f1(sx+j*sw)+'" y="'+f1(cy+th*0.66)+'" width="'+f1(sw-1)+'" height="'+f1(Math.max(3,th*0.07))+'" fill="'+LBY[lk].c+'"/>'); });
-      if(th>58 && tw>84) h.push('<text x="'+f1(cx+tw/2)+'" y="'+f1(cy+th*0.88)+'" text-anchor="middle" class="nt-tname" style="font-size:'+Math.min(14,tw/8).toFixed(1)+'px">'+esc(d.nm)+'</text>');
+      if(th>58 && tw>84) h.push('<text x="'+f1(cx+tw/2)+'" y="'+f1(cy+th*0.88)+'" text-anchor="middle" class="nt-tname" style="font-size:'+Math.min(13,tw/9).toFixed(1)+'px">'+esc(d.nm)+'</text>');
     }
     h.push('</g>');
   });
@@ -2221,21 +2313,20 @@ function drawBoard(svg){
 }
 
 var MEN='#7d9bb0', WOMEN='#c98a5e';
-/* a group of nations summed into one population, step by step */
 function aggSnaps(sim, keep){
   var out=[];
   for(var t=0;t<=STEPS;t++){
-    var F=[], M=[], N=0, wb=0, wd=0, wt=0, foot=0, cnt=0, i;
+    var F=[], M=[], N=0, wb=0, wd=0, wt=0, we=0, wf=0, foot=0, cnt=0, i;
     for(i=0;i<NA;i++){ F[i]=0; M[i]=0; }
     sim.ks.forEach(function(k){
       var x=sim.nat[k]; if(keep && !keep(x)) return;
       var s=x.snap[t]; cnt++;
       for(var j=0;j<NA;j++){ F[j]+=s.F[j]; M[j]+=s.M[j]; }
-      N+=s.N; wb+=s.cbr*s.N; wd+=s.cdr*s.N; wt+=s.tfr*s.N; foot+=s.foot;
+      N+=s.N; wb+=s.cbr*s.N; wd+=s.cdr*s.N; wt+=s.tfr*s.N; we+=s.e*s.N; wf+=s.fpc*s.N; foot+=s.foot;
     });
     var tot=N||1, half=tot/2, cum=0, med=0;
     for(i=0;i<NA;i++){ var v=F[i]+M[i]; if(cum+v>=half){ med=5*i+5*(half-cum)/(v||1); break; } cum+=v; }
-    out.push({F:F, M:M, N:N, cbr:wb/tot, cdr:wd/tot, tfr:wt/tot, med:med, foot:foot, n:cnt,
+    out.push({F:F, M:M, N:N, cbr:wb/tot, cdr:wd/tot, tfr:wt/tot, e:we/tot, fpc:wf/tot, med:med, foot:foot, n:cnt,
               stage:stageOf(wb/tot, wd/tot)});
   }
   return out;
@@ -2243,8 +2334,7 @@ function aggSnaps(sim, keep){
 function maxBar(snaps){
   var m=1; snaps.forEach(function(s){ for(var i=0;i<NA;i++) m=Math.max(m, s.F[i], s.M[i]); }); return m;
 }
-/* ── pyramids: built once, then only their bars' scale changes, so each
-   five-year step glides instead of redrawing ── */
+/* ── pyramids: built once, then only the bars' scale changes ── */
 function pyrHtml(p, id){
   var lw=p.labels? 46 : 6, cx=p.x+p.w/2, hw=(p.w-lw)/2, rh=p.h/NA, h='', i;
   h+='<text x="'+f1(p.x)+'" y="'+f1(p.y-(p.labels?30:22))+'" class="'+(p.labels?'nt-ptitle':'nt-ptitle sm')+'" data-pt="'+p.key+'">'+esc(p.title)+'</text>';
@@ -2302,7 +2392,7 @@ function drawPyramids(svg, layoutKey, panels, extraBuild, extraUpdate){
     if(extraBuild) h.push(extraBuild());
     svg.innerHTML=h.join('');
     svg.dataset.mode='pyr:'+layoutKey;
-    svg.getBoundingClientRect();   /* commit the full-width bars so the first update glides */
+    svg.getBoundingClientRect();
   }
   panels.forEach(function(p){ pyrUpdate(svg,p); });
   if(extraUpdate) extraUpdate();
@@ -2349,27 +2439,81 @@ function drawMineRun(svg, sim, t, label){
       +'<text x="640" y="530" class="nt-cap" data-mv="stage"></text>';
   }, function(){
     function T(k,v){ var e=svg.querySelector('[data-mv="'+k+'"]'); if(e) e.textContent=v; }
-    T('pop', mil(s.N)); T('tfr', s.tfr.toFixed(1)+' children per woman'); T('e', Math.round(s.e)+' years life expectancy');
+    T('pop', mil(s.N)); T('tfr', 'TFR '+s.tfr.toFixed(1)); T('e', Math.round(s.e)+' years life expectancy');
     T('med', 'Median age '+Math.round(s.med)); T('rates', Math.round(s.cbr)+' births, '+Math.round(s.cdr)+' deaths per 1,000');
     T('stage', STAGEN[s.stage]);
     dtmMove(svg,640,330,s.stage);
   });
 }
-function classPanels(sim, t, twin, yoff){
+function classPanels(sim, t){
   var P=[], big=aggSnaps(sim,null), W=big[t];
-  P.push({key:'w', x:40, y:120+(yoff||0), w:420, h:380-(yoff||0), labels:true, cur:W, ghost:t? big[0] : null, max:maxBar(big),
-          title:'The class’s world · year '+(t*STEPY), sub:mil(big[0].N)+' → '+mil(W.N)+' people · '+W.tfr.toFixed(1)+' children per woman'});
+  P.push({key:'w', x:40, y:120, w:420, h:380, labels:true, cur:W, ghost:t? big[0] : null, max:maxBar(big),
+          title:'The class’s world · year '+(t*STEPY), sub:mil(big[0].N)+' → '+mil(W.N)+' people · TFR '+W.tfr.toFixed(1)});
   START.forEach(function(A,i){
     var g=aggSnaps(sim,function(x){ return x.pr.k===A.k; }), cur=g[t];
     var cx=500+(i%2)*250, cy=150+Math.floor(i/2)*205;
     P.push({key:'a'+A.k, x:cx, y:cy, w:220, h:150, labels:false, cur:cur, ghost:t? g[0] : null, max:maxBar(g),
-      title:A.sh+' · '+g[0].n+(g[0].n===1?' nation':' nations'),
-      sub: g[0].n? mil(g[0].N)+' → '+mil(cur.N)+' · '+cur.tfr.toFixed(1)+' children' : 'none drawn'});
+      title:A.sh+' ('+A.st.replace('Stage ','St ')+') · '+g[0].n+(g[0].n===1?' nation':' nations'),
+      sub: g[0].n? mil(g[0].N)+' → '+mil(cur.N)+' · TFR '+cur.tfr.toFixed(1) : 'none drawn'});
   });
   return P;
 }
-function drawClassRun(svg, sim, t){
-  drawPyramids(svg, 'class', classPanels(sim,t));
+function drawClassRun(svg, sim, t){ drawPyramids(svg, 'class', classPanels(sim,t)); }
+
+/* ── THE BRIEFING: where the whole class is starting ── */
+function drawBriefing(svg, sim){
+  var id=UID+'f', W=sim.world[0], n=sim.n, h=[ntDefs(id), '<rect x="-700" y="-700" width="2400" height="1960" fill="#f7f0e0"/>'];
+  h.push('<text x="60" y="44" class="nt-ctitle">Where the class is starting</text>');
+  h.push('<text x="60" y="66" class="nt-csub">Every nation began with 30 million people. The rest was drawn at random.</text>');
+  var cx=250, cy=246, r=110, a0=-Math.PI/2, any=false;
+  h.push('<g filter="url(#'+id+'-r)">');
+  for(var st=1;st<=5;st++){
+    var c=W.stages[st]; if(!c) continue;
+    any=true;
+    var frac=c/n, a1=a0+frac*Math.PI*2, big=frac>0.5?1:0;
+    var x0=cx+Math.cos(a0)*r, y0=cy+Math.sin(a0)*r, x1=cx+Math.cos(a1)*r, y1=cy+Math.sin(a1)*r;
+    if(frac>0.999) h.push('<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+STC[st]+'" fill-opacity=".85" stroke="'+INK+'" stroke-width="2"/>');
+    else h.push('<path d="M'+cx+','+cy+' L'+f1(x0)+','+f1(y0)+' A'+r+','+r+' 0 '+big+' 1 '+f1(x1)+','+f1(y1)+' Z" fill="'+STC[st]+'" fill-opacity=".85" stroke="'+INK+'" stroke-width="2" stroke-linejoin="round"/>');
+    var am=(a0+a1)/2, lx=cx+Math.cos(am)*(r+24), ly=cy+Math.sin(am)*(r+24), right=Math.cos(am)>=0;
+    h.push('<path d="M'+f1(cx+Math.cos(am)*(r-6))+','+f1(cy+Math.sin(am)*(r-6))+' L'+f1(lx)+','+f1(ly)+'" stroke="'+INK+'" stroke-width="1.2"/>');
+    h.push('<text x="'+f1(lx+(right?6:-6))+'" y="'+f1(ly-2)+'" text-anchor="'+(right?'start':'end')+'" class="nt-tk b">Stage '+st+'</text>');
+    h.push('<text x="'+f1(lx+(right?6:-6))+'" y="'+f1(ly+14)+'" text-anchor="'+(right?'start':'end')+'" class="nt-tk">'+c+(c===1?' nation · ':' nations · ')+Math.round(frac*100)+'%</text>');
+    a0=a1;
+  }
+  h.push('</g>');
+  if(!any) h.push('<text x="'+cx+'" y="'+cy+'" text-anchor="middle" class="nt-empty">No nations were founded</text>');
+  var tfr=0, e=0, q5=0, inc=0, N=0;
+  sim.ks.forEach(function(k){ var s2=sim.nat[k].snap[0]; N+=s2.N; tfr+=s2.tfr*s2.N; e+=s2.e*s2.N; q5+=s2.q5*s2.N; inc+=s2.inc*s2.N; });
+  N=N||1;
+  var rows=[['Nations', String(n)], ['People', mil(W.N)],
+            ['Average TFR', (tfr/N).toFixed(1)],
+            ['Life expectancy', Math.round(e/N)+' years'],
+            ['Child deaths before age 5', '1 in '+Math.round(1/(q5/N))],
+            ['Income per person', '$'+num(inc/N*1000)],
+            ['The planet', W.earths.toFixed(2)+' Earths']];
+  h.push('<g transform="translate(560,108)"><text x="0" y="0" class="nt-sc">The class at year 0</text>');
+  rows.forEach(function(rw,i){
+    var y=30+i*35;
+    h.push('<text x="0" y="'+y+'" class="nt-tk">'+rw[0]+'</text>');
+    h.push('<text x="380" y="'+(y+2)+'" text-anchor="end" class="nt-brief">'+esc(rw[1])+'</text>');
+    h.push('<path d="M0,'+(y+12)+' H380" stroke="rgba(120,100,60,.22)" stroke-width="1"/>');
+  });
+  h.push('</g>');
+  /* what each starting point means, in plain words */
+  var ky=406;
+  h.push('<path d="M60,'+(ky-22)+' H940" stroke="rgba(120,100,60,.3)" stroke-width="1"/>');
+  h.push('<text x="60" y="'+(ky-6)+'" class="nt-sc">What the four starting points mean</text>');
+  h.push('<text x="940" y="'+(ky-6)+'" text-anchor="end" class="nt-cap">The instructor starts the sixty years.</text>');
+  START.forEach(function(A,i){
+    var x=60+i*228, parts=A.desc.split('. ');
+    h.push('<rect x="'+x+'" y="'+(ky+8)+'" width="12" height="12" fill="'+A.c+'" stroke="'+INK+'" stroke-width=".8"/>');
+    h.push('<text x="'+(x+18)+'" y="'+(ky+18)+'" class="nt-tk b">'+esc(A.n)+'</text>');
+    h.push('<text x="'+x+'" y="'+(ky+38)+'" class="nt-tk">'+esc(parts[0])+(parts.length>1?'.':'')+'</text>');
+    if(parts[1]) h.push('<text x="'+x+'" y="'+(ky+54)+'" class="nt-tk">'+esc(parts[1])+'</text>');
+    h.push('<text x="'+x+'" y="'+(ky+76)+'" class="nt-ax">'+A.st.replace('Stage ','St ')+' · TFR ~'+A.tfr.toFixed(1)+' · life ~'+A.e0+'</text>');
+    h.push('<text x="'+x+'" y="'+(ky+92)+'" class="nt-ax">'+W.nA[A.k]+(W.nA[A.k]===1?' nation':' nations')+' in this class</text>');
+  });
+  svg.innerHTML=h.join(''); svg.dataset.mode='brief';
 }
 
 /* ══ CHARTS ══ */
@@ -2398,7 +2542,8 @@ function chartHead(title, sub, right){
 function linePath(vals, x0, x1, Y){
   return 'M'+vals.map(function(v,i){ return f1(x0+(x1-x0)*i/(vals.length-1))+','+f1(Y(v)); }).join(' L');
 }
-/* I · birth and death rates, with the stage each five years falls in */
+function runName(kind){ return kind==='revised'? 'after the changes' : 'the first run'; }
+/* I · birth and death rates */
 function ratesPanel(snaps, x0, y0, x1, y1, big, title){
   var h='', maxR=50;
   function Y(v){ return y1-(y1-y0)*clamp(v,0,maxR)/maxR; }
@@ -2411,15 +2556,15 @@ function ratesPanel(snaps, x0, y0, x1, y1, big, title){
   h+='<path d="'+linePath(cd,x0,x1,Y)+'" fill="none" stroke="'+INK+'" stroke-width="'+(big?2.6:1.8)+'" stroke-dasharray="7 4"/>';
   var bw=(x1-x0)/STEPS;
   snaps.forEach(function(s,i){ if(i===STEPS) return;
-    h+='<rect x="'+f1(x0+i*bw)+'" y="'+f1(y0-(big?20:14))+'" width="'+f1(bw-1)+'" height="'+(big?14:10)+'" fill="'+['','#b5533c','#d69a2d','#c9b27e','#7fa3a8','#3f6b73'][s.stage]+'" opacity=".85"/>'
+    h+='<rect x="'+f1(x0+i*bw)+'" y="'+f1(y0-(big?20:14))+'" width="'+f1(bw-1)+'" height="'+(big?14:10)+'" fill="'+STC[s.stage]+'" opacity=".85"/>'
       +(big? '<text x="'+f1(x0+i*bw+bw/2)+'" y="'+f1(y0-9)+'" text-anchor="middle" class="nt-stg">'+s.stage+'</text>' : '');
   });
   h+=yearAxis(x0,x1,y1,big);
   if(title) h+='<text x="'+x0+'" y="'+f1(y0-(big?30:22))+'" class="nt-ptitle sm">'+esc(title)+'</text>';
   return h;
 }
-function chartRates(svg, sim, who, kind){
-  var sfx=kind==='replace'? ' — replacement from day one' : '';
+function chartRates(svg, sim, who){
+  var sfx=sim.kind==='revised'? ' — after the changes' : '';
   if(who){
     var x=sim.nat[who];
     var h=[chartHead('Birth and death rates in '+x.d.nm+sfx, 'Shaded: births minus deaths, the growth rate. The strip on top is the stage of the transition.', '')];
@@ -2442,33 +2587,33 @@ function ratesKey(){
     +'<path d="M84,0 h24" stroke="'+INK+'" stroke-width="2.4" stroke-dasharray="7 4"/><text x="114" y="4" class="nt-tk">Deaths</text>'
     +'<rect x="176" y="-6" width="18" height="12" fill="#e7cfae"/><text x="200" y="4" class="nt-tk">Growth</text></g>';
 }
-/* II · every nation's population over sixty years */
-function chartGrowth(svg, simN, simR, who){
-  var ks=simN.ks, max=POP0;
-  ks.forEach(function(k){ simN.nat[k].snap.forEach(function(s){ max=Math.max(max,s.N); });
-    if(simR) simR.nat[k].snap.forEach(function(s){ max=Math.max(max,s.N); }); });
+/* II · population of every nation */
+function chartGrowth(svg, simA, simB, who){
+  var ks=simA.ks, max=POP0;
+  ks.forEach(function(k){ simA.nat[k].snap.forEach(function(s){ max=Math.max(max,s.N); });
+    if(simB) simB.nat[k].snap.forEach(function(s){ max=Math.max(max,s.N); }); });
   max=Math.ceil(max/10000)*10000;
-  var h=[chartHead('Population of every nation', simR? 'Solid: each nation’s policies. Dashed: the same nation at replacement fertility from day one.' : 'Every nation started with 30 million. Color: where it started.', '')];
+  var h=[chartHead('Population of every nation', simB? 'Solid: the first run. Dashed: the same nation after the policy changes.' : 'Every nation started with 30 million. Color: where it started.', '')];
   h.push(axisY(0,max,function(v){ return Math.round(v/1000)+'M'; }, 'People'));
   function Y(v){ return (CH-CB)-(CH-CB-CT)*v/max; }
   ks.forEach(function(k){
     if(k===who) return;
-    var x=simN.nat[k];
-    h.push('<path d="'+linePath(x.snap.map(function(s){ return s.N; }),CL,CW-CR,Y)+'" fill="none" stroke="'+x.pr.A.c+'" stroke-width="1.6" opacity="'+(simR?.25:.55)+'"/>');
+    var x=simA.nat[k];
+    h.push('<path d="'+linePath(x.snap.map(function(s){ return s.N; }),CL,CW-CR,Y)+'" fill="none" stroke="'+x.pr.A.c+'" stroke-width="1.6" opacity="'+(simB?.25:.55)+'"/>');
   });
-  if(simR){
+  if(simB){
     START.forEach(function(A){
-      var gN=aggSnaps(simN,function(n){ return n.pr.k===A.k; }), gR=aggSnaps(simR,function(n){ return n.pr.k===A.k; });
-      if(!gN[0].n) return;
-      var c=gN[0].n;
-      h.push('<path d="'+linePath(gN.map(function(s){ return s.N/c; }),CL,CW-CR,Y)+'" fill="none" stroke="'+A.c+'" stroke-width="3.4"/>');
-      h.push('<path d="'+linePath(gR.map(function(s){ return s.N/c; }),CL,CW-CR,Y)+'" fill="none" stroke="'+A.c+'" stroke-width="3" stroke-dasharray="8 5"/>');
+      var gA=aggSnaps(simA,function(n){ return n.pr.k===A.k; }), gB=aggSnaps(simB,function(n){ return n.pr.k===A.k; });
+      if(!gA[0].n) return;
+      var c=gA[0].n;
+      h.push('<path d="'+linePath(gA.map(function(s){ return s.N/c; }),CL,CW-CR,Y)+'" fill="none" stroke="'+A.c+'" stroke-width="3.4"/>');
+      h.push('<path d="'+linePath(gB.map(function(s){ return s.N/c; }),CL,CW-CR,Y)+'" fill="none" stroke="'+A.c+'" stroke-width="3" stroke-dasharray="8 5"/>');
     });
   }
-  if(who && simN.nat[who]){
-    var me=simN.nat[who], vals=me.snap.map(function(s){ return s.N; });
+  if(who && simA.nat[who]){
+    var me=simA.nat[who], vals=me.snap.map(function(s){ return s.N; });
     h.push('<path d="'+linePath(vals,CL,CW-CR,Y)+'" fill="none" stroke="#8a6a2f" stroke-width="5"/>');
-    if(simR) h.push('<path d="'+linePath(simR.nat[who].snap.map(function(s){ return s.N; }),CL,CW-CR,Y)+'" fill="none" stroke="#8a6a2f" stroke-width="3.4" stroke-dasharray="8 5"/>');
+    if(simB) h.push('<path d="'+linePath(simB.nat[who].snap.map(function(s){ return s.N; }),CL,CW-CR,Y)+'" fill="none" stroke="#8a6a2f" stroke-width="3.4" stroke-dasharray="8 5"/>');
     h.push('<text x="'+(CW-CR-4)+'" y="'+f1(Y(vals[STEPS])-10)+'" text-anchor="end" class="nt-mine">'+esc(me.d.nm)+'</text>');
   }
   h.push(yearAxis(CL,CW-CR,CH-CB,true));
@@ -2480,21 +2625,23 @@ function archKey(x,y){
   START.forEach(function(A){ h+='<rect x="'+off+'" y="-8" width="14" height="10" fill="'+A.c+'"/><text x="'+(off+19)+'" y="1" class="nt-tk">'+A.sh+'</text>'; off+=A.sh.length*8+44; });
   return h+'</g>';
 }
-/* III · what worked: one dot per nation, by points on a lever */
+/* III · what made an impact */
 var xLever='fp', yOut='tfr';
-var OUTN={tfr:'Children per woman, year 60', grow:'Population change over 60 years', old:'Share aged 65 and over, year 60', foot:'Footprint per person, year 60 (global hectares)'};
-function outVal(x){
+var OUTN={tfr:'Total fertility rate in year 60', grow:'Population change over 60 years', old:'Share aged 65 and over, year 60', foot:'Footprint per person, year 60 (global hectares)'};
+var OUTS={tfr:'TFR, year 60', grow:'Population change', old:'Aged 65+', foot:'Footprint per person'};
+function outValOf(x){
   return yOut==='tfr'? x.s1.tfr : yOut==='grow'? x.grow : yOut==='old'? x.s1.old : x.s1.fpc;
 }
 function outFmt(v){ return yOut==='tfr'? v.toFixed(1) : yOut==='grow'? sgn(v) : yOut==='old'? pct(v) : v.toFixed(1); }
 function chartLevers(svg, sim, who){
   var ks=sim.ks, lo=Infinity, hi=-Infinity;
-  ks.forEach(function(k){ var v=outVal(sim.nat[k]); lo=Math.min(lo,v); hi=Math.max(hi,v); });
+  ks.forEach(function(k){ var v=outValOf(sim.nat[k]); lo=Math.min(lo,v); hi=Math.max(hi,v); });
   if(yOut==='tfr'){ lo=0; hi=Math.max(3,Math.ceil(hi)); }
   else if(yOut==='old'){ lo=0; hi=Math.max(0.2,Math.ceil(hi*10)/10); }
   else if(yOut==='foot'){ lo=0; hi=Math.max(2,Math.ceil(hi)); }
   else { lo=Math.min(0,Math.floor(lo*5)/5); hi=Math.max(0.2,Math.ceil(hi*5)/5); }
-  var h=[chartHead(OUTN[yOut]+', by points on '+LBY[xLever].n.toLowerCase(), 'One dot per nation. Color: where it started. Lines: the average for each starting point.', '')];
+  var h=[chartHead(OUTN[yOut]+', by points on '+LBY[xLever].n.toLowerCase(),
+    'One dot per nation'+(sim.kind==='revised'? ', after the changes' : '')+'. Color: where it started. Lines: the average for each starting point.', '')];
   h.push(axisY(lo,hi,outFmt,''));
   var xw=(CW-CL-CR)/6, yb=CH-CB, ph=CH-CB-CT;
   function X(v,k){ return CL+xw*(v+0.5)+(CG.rnd(k+':jx')-.5)*xw*0.5; }
@@ -2504,13 +2651,13 @@ function chartLevers(svg, sim, who){
   h.push('<text x="'+f1((CL+CW-CR)/2)+'" y="'+(yb+46)+'" text-anchor="middle" class="nt-axl">Points on '+LBY[xLever].n.toLowerCase()+'</text>');
   START.forEach(function(A){
     var sm=[0,0,0,0,0,0], cn=[0,0,0,0,0,0], pts=[];
-    ks.forEach(function(k){ var x=sim.nat[k]; if(x.pr.k!==A.k) return; var p=x.d.s[xLever]; sm[p]+=outVal(x); cn[p]++; });
+    ks.forEach(function(k){ var x=sim.nat[k]; if(x.pr.k!==A.k) return; var p=x.d.s[xLever]; sm[p]+=outValOf(x); cn[p]++; });
     for(var i=0;i<=SMAX;i++) if(cn[i]) pts.push(f1(CL+xw*(i+.5))+','+f1(Y(sm[i]/cn[i])));
     if(pts.length>1) h.push('<path d="M'+pts.join(' L')+'" fill="none" stroke="'+A.c+'" stroke-width="3" stroke-linejoin="round" opacity=".9"/>');
   });
   var mk=null;
   ks.forEach(function(k){
-    var x=sim.nat[k], cx=X(x.d.s[xLever],k), cy=Y(outVal(x));
+    var x=sim.nat[k], cx=X(x.d.s[xLever],k), cy=Y(outValOf(x));
     h.push('<circle cx="'+f1(cx)+'" cy="'+f1(cy)+'" r="6" fill="'+x.pr.A.c+'" stroke="'+INK+'" stroke-width=".8" opacity=".85"/>');
     if(k===who) mk={x:cx, y:cy, nm:x.d.nm};
   });
@@ -2518,12 +2665,14 @@ function chartLevers(svg, sim, who){
   h.push(archKey(CW-CR-470, CH-10));
   svg.innerHTML=h.join(''); svg.dataset.mode='chart';
 }
-/* IV · the planet: the class's footprint, in Earths */
+/* IV · the planet */
 function chartPlanet(svg, sim){
-  var W=sim.world, n=sim.n||1, cap=n*BIO/1000, max=1.5;
+  var W=sim.world, cap=sim.cap/1000, max=1.5;
   W.forEach(function(w){ max=Math.max(max, w.earths); });
   max=Math.ceil(max*2)/2;
-  var h=[chartHead('The class’s footprint, measured in Earths', 'Stacked by starting point. Above the line, the class uses more than its share of the planet renews.', W[STEPS].earths.toFixed(2)+'<tspan class="nt-csub"> Earths in year 60</tspan>')];
+  var h=[chartHead('The class’s footprint, measured in Earths'+(sim.kind==='revised'? ' — after the changes' : ''),
+    'Stacked by starting point. Above the line, the class uses more than its share of the planet renews.',
+    W[STEPS].earths.toFixed(2)+'<tspan class="nt-csub"> Earths in year 60</tspan>')];
   h.push(axisY(0,max,function(v){ return v.toFixed(1); }, 'Earths'));
   function Y(v){ return (CH-CB)-(CH-CB-CT)*v/max; }
   var base=W.map(function(){ return 0; });
@@ -2541,33 +2690,38 @@ function chartPlanet(svg, sim){
   h.push(archKey(CW-CR-470, CH-10));
   svg.innerHTML=h.join(''); svg.dataset.mode='chart';
 }
-/* V · momentum: the same nations, at replacement fertility from day one */
-function chartMomentum(svg, simN, simR, who){
+/* V · the two runs, side by side */
+function chartCompare(svg, simA, simB, who){
   var rows=[];
-  if(who && simN.nat[who]) rows.push({n:'Your nation · '+simN.nat[who].pr.A.sh, a:simN.nat[who].grow, b:simR.nat[who].grow, c:'#8a6a2f', mine:true});
+  function outOf(sim,k){ return outValOf(sim.nat[k]); }
+  if(who && simA.nat[who]) rows.push({n:'Your nation · '+simA.nat[who].pr.A.sh, a:outOf(simA,who), b:outOf(simB,who), c:'#8a6a2f', mine:true});
   START.forEach(function(A){
-    var ks=simN.ks.filter(function(k){ return simN.nat[k].pr.k===A.k; });
+    var ks=simA.ks.filter(function(k){ return simA.nat[k].pr.k===A.k; });
     if(!ks.length) return;
-    var a=0, b=0; ks.forEach(function(k){ a+=simN.nat[k].grow; b+=simR.nat[k].grow; });
+    var a=0, b=0; ks.forEach(function(k){ a+=outOf(simA,k); b+=outOf(simB,k); });
     rows.push({n:A.n+' ('+ks.length+')', a:a/ks.length, b:b/ks.length, c:A.c});
   });
-  var lo=0, hi=0.2;
+  var lo=Infinity, hi=-Infinity;
   rows.forEach(function(r){ lo=Math.min(lo,r.a,r.b); hi=Math.max(hi,r.a,r.b); });
-  lo=Math.floor(lo*5)/5; hi=Math.ceil(hi*5)/5;
-  var h=[chartHead('Population change over 60 years: policies vs. replacement from day one', 'Solid: each nation’s policies. Hatched: 2.1 children per woman from the first year.', '')];
+  if(yOut==='grow'){ lo=Math.min(0,lo); } else { lo=0; }
+  hi=hi*1.12;
+  var ch=nRevised();
+  var h=[chartHead(OUTS[yOut]+': first run vs. after the changes',
+    'Solid: the policies they started with. Hatched: the policies they changed to.',
+    ch+'<tspan class="nt-csub"> of '+simA.n+' changed a policy</tspan>')];
   h.push('<defs><pattern id="'+UID+'hb" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#fbf6ea"/><path d="M0,0 V7" stroke="#8a7a5c" stroke-width="2.6"/></pattern></defs>');
-  var bx=330, bw=CW-CR-bx-60, rh=Math.min(92,(CH-CT-40)/Math.max(1,rows.length));
+  var bx=330, bw=CW-CR-bx-70, rh=Math.min(92,(CH-CT-40)/Math.max(1,rows.length));
   function X(v){ return bx+bw*(v-lo)/((hi-lo)||1); }
   for(var t=0;t<=4;t++){ var v=lo+(hi-lo)*t/4;
-    h.push('<path d="M'+f1(X(v))+','+(CT-4)+' V'+(CH-30)+'" class="nt-grid"/><text x="'+f1(X(v))+'" y="'+(CT-10)+'" text-anchor="middle" class="nt-ax">'+sgn(v)+'</text>'); }
-  h.push('<path d="M'+f1(X(0))+','+(CT-4)+' V'+(CH-30)+'" stroke="'+INK+'" stroke-width="1.6"/>');
+    h.push('<path d="M'+f1(X(v))+','+(CT-4)+' V'+(CH-30)+'" class="nt-grid"/><text x="'+f1(X(v))+'" y="'+(CT-10)+'" text-anchor="middle" class="nt-ax">'+outFmt(v)+'</text>'); }
+  if(lo<0) h.push('<path d="M'+f1(X(0))+','+(CT-4)+' V'+(CH-30)+'" stroke="'+INK+'" stroke-width="1.6"/>');
   rows.forEach(function(r,i){
-    var y=CT+10+i*rh, bh=rh*0.3;
+    var y=CT+10+i*rh, bh=rh*0.3, x0=X(lo<0? 0 : lo);
     h.push('<text x="'+(bx-14)+'" y="'+f1(y+rh*0.38)+'" text-anchor="end" class="nt-tk'+(r.mine?' b':'')+'">'+esc(r.n)+'</text>');
     [[r.a, r.c, 0],[r.b, 'url(#'+UID+'hb)', 1]].forEach(function(b){
-      var x0=Math.min(X(0),X(b[0])), w=Math.abs(X(b[0])-X(0));
-      h.push('<rect x="'+f1(x0)+'" y="'+f1(y+b[2]*(bh+3))+'" width="'+f1(Math.max(1,w))+'" height="'+f1(bh)+'" fill="'+b[1]+'" stroke="'+(b[2]?r.c:INK)+'" stroke-width="'+(b[2]?2:.8)+'"/>');
-      h.push('<text x="'+f1(b[0]>=0? X(b[0])+6 : X(b[0])-6)+'" y="'+f1(y+b[2]*(bh+3)+bh*0.8)+'" '+(b[0]>=0?'':'text-anchor="end" ')+'class="nt-tk b">'+sgn(b[0])+'</text>');
+      var bx0=Math.min(x0,X(b[0])), w=Math.abs(X(b[0])-x0);
+      h.push('<rect x="'+f1(bx0)+'" y="'+f1(y+b[2]*(bh+3))+'" width="'+f1(Math.max(1,w))+'" height="'+f1(bh)+'" fill="'+b[1]+'" stroke="'+(b[2]?r.c:INK)+'" stroke-width="'+(b[2]?2:.8)+'"/>');
+      h.push('<text x="'+f1(X(b[0])+6)+'" y="'+f1(y+b[2]*(bh+3)+bh*0.8)+'" class="nt-tk b">'+outFmt(b[0])+'</text>');
     });
   });
   svg.innerHTML=h.join(''); svg.dataset.mode='chart';
@@ -2580,22 +2734,16 @@ function statRow(k, v, note){
 function bhead(n, t){ return '<div class="ev-bh">'+(n? '<span class="ev-bn">'+n+'</span>' : '')+t+'</div>'; }
 function blk(inner, cls){ return '<div class="ev-blk'+(cls?' '+cls:'')+'">'+inner+'</div>'; }
 
-/* ══ THE REVEAL — dealt one row at a time off the shared deadline ══ */
+/* ══ THE REVEAL ══ */
 var RV_LEAD=500, RV_ROW=1300, RV_SPIN=900, RV_TAIL=2600;
-function rvRows(kind){
-  if(kind==='replace'){
-    return [{lab:'Every nation', val:'Reaches replacement tonight', pool:['Reaches replacement tonight']},
-            {lab:'Children per woman', val:'2.1, from year 1', pool:['1.4','2.1, from year 1','3.0','5.2']},
-            {lab:'Everything else', val:'Unchanged', pool:['Unchanged']},
-            {lab:'The question', val:'Does growth stop?', pool:['Does growth stop?']}];
-  }
-  var sim=simulate('normal');
+function rvRows(){
+  var sim=simulate('first');
   if(!HOST && sim.nat[PK]){
     var pr=sim.nat[PK].pr;
     return [{lab:'Your starting point', val:pr.A.n, pool:START.map(function(a){ return a.n; })},
-            {lab:'Children per woman', val:pr.tfr.toFixed(1), pool:['1.5','2.4','3.8','5.1','6.2']},
+            {lab:'Total fertility rate', val:pr.tfr.toFixed(1), pool:['1.5','2.4','3.8','5.1','6.2']},
             {lab:'Life expectancy', val:Math.round(pr.e0)+' years', pool:['52 years','61 years','70 years','80 years']},
-            {lab:'Children who die before age 5', val:'1 in '+Math.round(1/pr.q5), pool:['1 in 8','1 in 20','1 in 45','1 in 160']},
+            {lab:'Child deaths before age 5', val:'1 in '+Math.round(1/pr.q5), pool:['1 in 8','1 in 20','1 in 45','1 in 160']},
             {lab:'Income per person', val:'$'+num(pr.inc*1000), pool:['$1,400','$4,800','$13,000','$41,000']}];
   }
   var W=sim.world[0], rows=[{lab:'Nations', val:String(sim.n), pool:['14','22','31','47']}];
@@ -2603,14 +2751,13 @@ function rvRows(kind){
   rows.push({lab:'Planet, year 0', val:W.earths.toFixed(2)+' Earths', pool:['0.84 Earths','1.21 Earths','1.57 Earths']});
   return rows;
 }
-function rvMs(kind){ return RV_LEAD + rvRows(kind).length*RV_ROW + RV_TAIL; }
+function rvMs(){ return RV_LEAD + rvRows().length*RV_ROW + RV_TAIL; }
 var rvRAF=null, rvSig='';
 function drawReveal(){
-  var box=q('[data-reveal]'), ph=phase();
-  if(ph!=='reveal' && ph!=='twistreveal'){ box.hidden=true; rvRAF=null; return; }
+  var box=q('[data-reveal]');
+  if(phase()!=='reveal'){ box.hidden=true; rvRAF=null; return; }
   box.hidden=false;
-  var kind=ph==='twistreveal'? 'replace' : 'normal', rows=rvRows(kind);
-  var t=rvMs(kind)-((state.deadline||0)-Date.now()), h='', done=true;
+  var rows=rvRows(), t=rvMs()-((state.deadline||0)-Date.now()), h='', done=true;
   rows.forEach(function(r,i){
     var el=t-(RV_LEAD+i*RV_ROW), cls, shown;
     if(el<0){ cls='wait'; shown='—'; done=false; }
@@ -2619,44 +2766,55 @@ function drawReveal(){
     h+='<div class="nt-rvrow '+cls+'"><span class="nt-rvnum">'+(i+1)+'</span><span class="nt-rvlab">'+r.lab+'</span><span class="nt-rvval">'+esc(shown)+'</span></div>';
   });
   if(h!==rvSig){ q('[data-rvrows]').innerHTML=h; rvSig=h; }
-  q('[data-rveyebrow]').textContent = kind==='replace'? 'The twist' : 'Randomized starting points';
-  q('[data-rvtitle]').textContent = kind==='replace'? 'Replacement fertility, overnight' : (HOST? 'Dealing the starting points' : 'Where your nation starts');
+  q('[data-rveyebrow]').textContent='Randomized starting points';
+  q('[data-rvtitle]').textContent = HOST? 'Dealing the starting points' : 'Where your nation starts';
+  var mineN=HOST? null : simulate('first').nat[PK];
   q('[data-rvfoot]').textContent = !done? 'Randomizing…'
-    : kind==='replace'? 'Same people, same ages, same policies. Only the number of children changes.'
-    : 'Sixty years, revealed five at a time.';
+    : mineN? mineN.pr.A.st+' · '+mineN.pr.A.desc
+    : 'Same size, different starting points.';
   rvRAF=requestAnimationFrame(drawReveal);
 }
 function startReveal(){ if(rvRAF===null){ rvSig=''; drawReveal(); } }
 
 /* ══ THE DESIGNER ══ */
+function revising(){ return phase()==='revise'; }
+function myBase(){ return revising()? (myDesign2()||myDesign()) : myDesign(); }
 function freshDesign(){
-  return {s:{health:0,edu:0,fp:0,jobs:0,care:0}, g:5, fc:CG.pick(PK+':fc',FLAGC.length), em:CG.pick(PK+':em',EMBLEMS.length),
+  var s={}; LKEYS.forEach(function(k){ s[k]=0; });
+  return {s:s, g:5, fc:CG.pick(PK+':fc',FLAGC.length), em:CG.pick(PK+':em',EMBLEMS.length),
           nm:nationName(PK+':'+gid()+':0'), nr:0};
 }
 var lastDrawn=null, designSig='';
 function renderDesign(force){
-  var box=q('[data-design]'), show=!HOST && joined() && phase()==='design';
+  var box=q('[data-design]'), ph=phase();
+  var show=!HOST && joined() && (ph==='design' || (ph==='revise' && myDesign()));
   box.hidden=!show;
   if(!show){ designSig=''; return; }
-  if(!myD){ var m=myDesign(); myD=m? JSON.parse(JSON.stringify(m)) : freshDesign(); if(myD.nr==null) myD.nr=0; }
-  var sig=JSON.stringify(myD)+'|'+JSON.stringify(myDesign());
+  if(!myD){ var m=myBase(); myD=m? JSON.parse(JSON.stringify(m)) : freshDesign(); if(myD.nr==null) myD.nr=0; }
+  var sig=JSON.stringify(myD)+'|'+JSON.stringify(myBase())+'|'+ph;
   if(!force && sig===designSig) return;
   designSig=sig;
-  var d=myD, left=PTS-spent(d), h='';
-  h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Your nation</span></div>'
-    +'<div class="nt-namerow"><b>'+esc(d.nm)+'</b><button type="button" class="nt-mini" data-rename>New name &#8635;</button></div>'
-    +'<div class="nt-flagrow"><span class="nt-flabel">Flag</span><span class="nt-swatches">';
-  FLAGC.forEach(function(c,i){ h+='<button type="button" class="nt-sw'+(i===d.fc?' on':'')+'" data-fc="'+i+'" style="background:'+c+'" aria-label="Flag color '+(i+1)+'"></button>'; });
-  h+='</span></div><div class="nt-flagrow"><span class="nt-flabel">Emblem</span><span class="nt-swatches">';
-  EMBLEMS.forEach(function(em,i){ h+='<button type="button" class="nt-emb'+(i===d.em?' on':'')+'" data-em="'+i+'" aria-label="'+em+'">'
-    +'<svg viewBox="-12 -12 24 24"><rect x="-12" y="-12" width="24" height="24" rx="3" fill="'+FLAGC[d.fc]+'"/>'+emblem(em,0,0,8)+'</svg></button>'; });
-  h+='</span></div></div>';
-  h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Policy budget</span><span class="nt-pts'+(left?'':' done')+'">'+(left? left+' of 12 left' : 'All 12 spent')+'</span></div>';
+  var d=myD, left=PTS-spent(d), rev=revising(), first=myDesign(), h='';
+  if(rev){
+    h+='<div class="nt-dsec rev"><div class="nt-dlbl"><span>Revision</span></div>'
+      +'<div class="nt-revnote">Same nation, same sixty years. Move your '+PTS+' points and we run it again.</div></div>';
+  } else {
+    h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Your nation</span></div>'
+      +'<div class="nt-namerow"><input class="nt-nameinput" data-nameinput maxlength="24" value="'+esc(d.nm)+'" aria-label="Name your nation" spellcheck="false">'
+      +'<button type="button" class="nt-mini" data-rename title="Suggest a name">&#8635;</button></div>'
+      +'<div class="nt-flagrow"><span class="nt-flabel">Flag</span><span class="nt-swatches">';
+    FLAGC.forEach(function(c,i){ h+='<button type="button" class="nt-sw'+(i===d.fc?' on':'')+'" data-fc="'+i+'" style="background:'+c+'" aria-label="Flag color '+(i+1)+'"></button>'; });
+    h+='</span></div><div class="nt-flagrow"><span class="nt-flabel">Emblem</span><span class="nt-swatches">';
+    EMBLEMS.forEach(function(em,i){ h+='<button type="button" class="nt-emb'+(i===d.em?' on':'')+'" data-em="'+i+'" aria-label="'+em+'">'
+      +'<svg viewBox="-12 -12 24 24"><rect x="-12" y="-12" width="24" height="24" rx="3" fill="'+FLAGC[d.fc]+'"/>'+emblem(em,0,0,8)+'</svg></button>'; });
+    h+='</span></div></div>';
+  }
+  h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Policy budget</span><span class="nt-pts'+(left?'':' done')+'">'+(left? left+' of '+PTS+' left' : 'All '+PTS+' spent')+'</span></div>';
   LEVERS.forEach(function(l){
-    var v=d.s[l.k], pips='';
+    var v=d.s[l.k], pips='', dif=(rev&&first)? v-first.s[l.k] : 0;
     for(var i=0;i<SMAX;i++) pips+='<i'+(i<v?' class="on" style="background:'+l.c+'"':'')+'></i>';
     h+='<div class="nt-srow"><span class="nt-lsw" style="background:'+l.c+'"></span>'
-      +'<span class="nt-sn"><b>'+l.n+'</b><em>'+l.note+'</em></span>'
+      +'<span class="nt-sn"><b>'+l.n+(dif? ' <span class="nt-dif '+(dif>0?'up':'dn')+'">'+(dif>0?'+':'−')+Math.abs(dif)+'</span>' : '')+'</b><em>'+l.note+'</em></span>'
       +'<button type="button" class="nt-tb" data-dec="'+l.k+'"'+(v?'':' disabled')+' aria-label="Less '+l.n+'">&minus;</button>'
       +'<span class="nt-pips">'+pips+'</span>'
       +'<button type="button" class="nt-tb" data-inc="'+l.k+'"'+(v<SMAX&&left?'':' disabled')+' aria-label="More '+l.n+'">+</button></div>';
@@ -2666,32 +2824,40 @@ function renderDesign(force){
     +'<input type="range" min="0" max="10" step="1" value="'+d.g+'" class="nt-range" data-g aria-label="Economy setting">'
     +'<div class="nt-ends"><span>Green and modest</span><span>Fast and resource-heavy</span></div></div>';
   h+='<div class="nt-dsec" data-est></div>';
-  var locked=myDesign(), same=locked && JSON.stringify(cleanOne(d))===JSON.stringify(locked);
+  var locked=myBase(), same=locked && JSON.stringify(cleanOne(d))===JSON.stringify(locked);
   h+='<button type="button" class="cg-btn go big" data-lock'+(left?' disabled':'')+'>'
-    +(same? 'Locked in &#10003;' : locked? 'Update my nation' : 'Lock in my nation')+'</button>'
-    +'<div class="ev-hint">'+(left? 'Spend all 12 points to lock in.' : same? 'You can still change it until time runs out.' : 'Nobody knows where their nation starts yet.')+'</div>';
+    +(rev? (same? 'Changes locked in &#10003;' : 'Lock in my changes')
+         : (same? 'Locked in &#10003;' : locked? 'Update my nation' : 'Lock in my nation'))+'</button>'
+    +'<div class="ev-hint">'+(left? 'Spend all '+PTS+' points to lock in.'
+      : rev? 'You can keep adjusting until time runs out.'
+      : same? 'You can still change it until time runs out.' : 'Nobody knows where their nation starts yet.')+'</div>';
   box.innerHTML=h;
   patchEstimate();
 }
 var estSig='', estVal=null;
 function patchEstimate(){
   var el=q('[data-est]'); if(!el||!myD) return;
-  var d=cleanOne(myD)||ZERO, sig=JSON.stringify(d);
-  if(sig!==estSig){ estSig=sig; estVal=estimate(d); }
-  var rows=estVal, max=POP0*1.2;
+  var d=cleanOne(myD); if(!d) return;
+  var rev=revising(), sig=(rev?'r|':'d|')+JSON.stringify(d);
+  if(sig!==estSig){ estSig=sig; estVal = rev? estimateMine(d) : estimate(d); }
+  el.innerHTML = rev? reviseEstHtml(estVal) : designEstHtml(estVal);
+}
+function designEstHtml(rows){
+  var max=POP0*1.2;
   rows.forEach(function(r){ max=Math.max(max, r.s1.N); });
-  var W=300, x0=54, x1=204, rh=30, H=rows.length*rh+22;
+  var W=300, x0=54, x1=176, rh=32, H=rows.length*rh+26;
   function X(v){ return x0+(x1-x0)*v/max; }
   var h='<div class="nt-dlbl"><span>This plan, in each possible start</span></div><svg viewBox="0 0 '+W+' '+H+'" class="nt-est">';
-  h+='<text x="'+x0+'" y="10" class="nt-etk dim">Population now → in 60 years</text><text x="'+W+'" y="10" text-anchor="end" class="nt-etk dim">children</text>';
+  h+='<text x="0" y="9" class="nt-etk dim">Start</text><text x="'+x0+'" y="9" class="nt-etk dim">People in year 60</text>'
+    +'<text x="'+W+'" y="9" text-anchor="end" class="nt-etk dim">TFR</text>';
   rows.forEach(function(r,i){
-    var y=22+i*rh+10, a=X(POP0), b=X(r.s1.N), grow=r.s1.N>=POP0;
+    var y=26+i*rh+10, a=X(POP0), b=X(r.s1.N), grow=r.s1.N>=POP0;
     h+='<text x="0" y="'+(y+4)+'" class="nt-etk">'+r.A.sh+'</text>';
     h+='<path d="M'+x0+','+y+' H'+x1+'" stroke="#e2d6bd" stroke-width="1"/>';
     h+='<path d="M'+f1(a)+','+y+' H'+f1(b)+'" stroke="'+r.A.c+'" stroke-width="5" stroke-linecap="round"/>';
     h+='<circle cx="'+f1(a)+'" cy="'+y+'" r="3.4" fill="#fbf6ea" stroke="'+INK+'" stroke-width="1.2"/>';
-    h+='<path d="M'+f1(b)+','+(y-6)+' l'+(grow?7:-7)+',6 l'+(grow?-7:7)+',6 Z" fill="'+r.A.c+'" stroke="'+INK+'" stroke-width=".8"/>';
-    h+='<text x="'+(x1+30)+'" y="'+(y+4)+'" class="nt-etk b">'+mil(r.s1.N)+'</text>';
+    h+='<path d="M'+f1(b)+','+(y-5.5)+' l'+(grow?6:-6)+',5.5 l'+(grow?-6:6)+',5.5 Z" fill="'+r.A.c+'" stroke="'+INK+'" stroke-width=".8"/>';
+    h+='<text x="'+(x1+50)+'" y="'+(y+4)+'" text-anchor="end" class="nt-etk b">'+mil(r.s1.N)+'</text>';
     h+='<text x="'+W+'" y="'+(y+4)+'" text-anchor="end" class="nt-etk">'+r.s0.tfr.toFixed(1)+'→'+r.s1.tfr.toFixed(1)+'</text>';
   });
   h+='</svg>';
@@ -2699,38 +2865,65 @@ function patchEstimate(){
   h+=statRow('Footprint per person', fpc.toFixed(1)+' gha', 'year 60, average start');
   h+=statRow('Aged 65 and over', pct(old), 'year 60, average start');
   h+='<div class="ev-hint">Which start you get is drawn after design.</div>';
-  el.innerHTML=h;
+  return h;
+}
+function reviseEstHtml(r){
+  var was=simulate('first').nat[PK];
+  if(!was) return '';
+  function cmp(now, before, fmt, d2){
+    var diff=now-before;
+    var t=diffTxt(d2==='pct'? sgn(now/before-1) : sgnN(diff, d2));
+    return fmt(now)+'<span class="nt-cmp '+(t==='no change'? '' : (diff>0?'up':'dn'))+'">'+t+'</span>';
+  }
+  return '<div class="nt-dlbl"><span>What the change would do</span></div>'
+    +statRow('TFR in year 60', cmp(r.s1.tfr, was.s1.tfr, function(v){ return v.toFixed(1); }, 1), 'was '+was.s1.tfr.toFixed(1))
+    +statRow('People in year 60', cmp(r.s1.N, was.s1.N, mil, 'pct'), 'was '+mil(was.s1.N))
+    +statRow('Life expectancy', cmp(r.s1.e, was.s1.e, function(v){ return Math.round(v); }, 0), 'was '+Math.round(was.s1.e))
+    +statRow('Footprint per person', cmp(r.s1.fpc, was.s1.fpc, function(v){ return v.toFixed(1); }, 1), 'was '+was.s1.fpc.toFixed(1))
+    +'<div class="ev-hint">Projected for your nation alone. The class’s footprint still feeds back when everyone runs together.</div>';
 }
 
-/* ══ LEFT PANEL after design: the student's own nation ══ */
-function kindNow(){ var ph=phase(); return (ph==='twist'||ph==='twistreveal')? 'replace' : 'normal'; }
-function tNow(){ var ph=phase(); return ph==='run'? step() : ph==='twist'? tstep() : (ph==='reveal'||ph==='twistreveal')? 0 : STEPS; }
+/* ══ LEFT PANEL after design ══ */
+function runKind(){ var ph=phase(); return (ph==='rerun' || (ph==='final' && revisedDone() && scen==='revised'))? 'revised' : 'first'; }
+function tNow(){
+  var ph=phase();
+  return ph==='run'? step() : ph==='rerun'? step2() : (ph==='reveal'||ph==='briefing')? 0 : STEPS;
+}
 function renderMine(){
   var box=q('[data-mine]'), ph=phase(), d=myDesign();
-  var show=!HOST && d && ['reveal','run','discuss','twistreveal','twist','final'].indexOf(ph)>-1;
+  var show=!HOST && d && ['reveal','briefing','run','discuss','revise','rerun','final'].indexOf(ph)>-1;
   box.hidden=!show; if(!show) return;
-  var sim=simulate(kindNow()), x=sim.nat[PK]; if(!x){ box.hidden=true; return; }
-  var t=tNow(), s=x.snap[t], s0=x.snap[0], revealed=(ph!=='reveal') || (rvMs('normal')-((state.deadline||0)-Date.now()))>RV_LEAD+RV_ROW+RV_SPIN;
-  var h='<div class="ev-mycard"><svg viewBox="-40 -72 80 76" class="ev-myart">'+miniFlag(d,0,0,1)+'</svg>'
-    +'<div class="ev-mymeta"><b>'+esc(d.nm)+'</b><em>'+(revealed? x.pr.A.n : 'Starting point being drawn…')+'</em></div></div>';
+  var kind=(ph==='rerun'||ph==='final')? runKind() : 'first';
+  var sim=simulate(kind), x=sim.nat[PK]; if(!x){ box.hidden=true; return; }
+  var t=tNow(), s=x.snap[t], s0=x.snap[0];
+  var revealed=(ph!=='reveal') || (rvMs()-((state.deadline||0)-Date.now()))>RV_LEAD+RV_ROW+RV_SPIN;
+  var h='<div class="ev-mycard"><svg viewBox="-40 -72 80 76" class="ev-myart">'+miniFlag(x.d,0,0,1)+'</svg>'
+    +'<div class="ev-mymeta"><b>'+esc(x.d.nm)+'</b><em>'+(revealed? esc(x.pr.A.n)+'<br><span class="nt-startdesc">'+esc(x.pr.A.st)+' · '+esc(x.pr.A.desc)+'</span>' : 'Starting point being drawn…')+'</em></div></div>';
   var bar='<div class="nt-planbar">';
-  LKEYS.forEach(function(k){ if(d.s[k]) bar+='<i style="flex:'+d.s[k]+';background:'+LBY[k].c+'" title="'+LBY[k].n+'"></i>'; });
-  bar+='</div><div class="nt-plankey">'+LKEYS.filter(function(k){ return d.s[k]; }).map(function(k){ return LBY[k].n.split(' ')[0]+' '+d.s[k]; }).join(' · ')+'</div>';
-  h+=blk(bhead('','Your policies')+bar);
-  if(revealed){
-    h+=blk(bhead('','Year '+(t*STEPY)+(kindNow()==='replace'?' · replacement':''))
+  LKEYS.forEach(function(k){ if(x.d.s[k]) bar+='<i style="flex:'+x.d.s[k]+';background:'+LBY[k].c+'" title="'+LBY[k].n+'"></i>'; });
+  bar+='</div><div class="nt-plankey">'+LKEYS.filter(function(k){ return x.d.s[k]; }).map(function(k){ return LBY[k].n.split(' ')[0]+' '+x.d.s[k]; }).join(' · ')+'</div>';
+  h+=blk(bhead('', ph==='revise'? 'Your first policies' : (kind==='revised'? 'Your revised policies' : 'Your policies'))+bar);
+  if(revealed && ph!=='revise'){
+    h+=blk(bhead('','Year '+(t*STEPY)+(kind==='revised'?' · revised':''))
       +statRow('People', mil(s.N), t? sgn(s.N/s0.N-1) : '')
-      +statRow('Children per woman', s.tfr.toFixed(1))
+      +statRow('Total fertility rate', s.tfr.toFixed(1))
       +statRow('Life expectancy', Math.round(s.e), 'years')
       +statRow('Median age', Math.round(s.med))
       +statRow('Stage', s.stage, 'of 5'));
+  }
+  if(ph==='revise'){
+    h+=blk(bhead('','How the first run ended')
+      +statRow('People', mil(x.s1.N), sgn(x.grow))
+      +statRow('Total fertility rate', x.s0.tfr.toFixed(1)+' → '+x.s1.tfr.toFixed(1))
+      +statRow('Life expectancy', Math.round(x.s0.e)+' → '+Math.round(x.s1.e))
+      +statRow('Stage', x.s0.stage+' → '+x.s1.stage));
   }
   box.innerHTML=h;
 }
 
 /* ══ RIGHT PANEL ══ */
 function classPlanHtml(){
-  var D=cleanDesigns(), ks=Object.keys(D), n=ks.length;
+  var D=revising()? cleanDesigns2() : cleanDesigns(), ks=Object.keys(D), n=ks.length;
   if(!n) return '';
   var tot={}, g=0; LKEYS.forEach(function(k){ tot[k]=0; });
   ks.forEach(function(k){ LKEYS.forEach(function(l){ tot[l]+=D[k].s[l]; }); g+=D[k].g; });
@@ -2743,20 +2936,19 @@ function classPlanHtml(){
     +blk(bhead('','Economy setting')+'<div class="nt-gauge"><i style="left:'+(ga*10).toFixed(1)+'%"></i></div>'
       +'<div class="nt-gkey"><span>Green</span><span>'+ga.toFixed(1)+' of 10</span><span>Heavy</span></div>');
 }
-var STC=['','#b5533c','#d69a2d','#c9b27e','#7fa3a8','#3f6b73'];
 function runHtml(sim, t){
-  var W=sim.world[t], W0=sim.world[0], agg=aggSnaps(sim,null)[t], n=sim.n, h='';
-  h+=blk(bhead('I','The world, year '+(t*STEPY))
+  var W=sim.world[t], W0=sim.world[0], agg=aggSnaps(sim,null)[t], h='';
+  h+=blk(bhead('I','The world, year '+(t*STEPY)+(sim.kind==='revised'?' · revised':''))
     +statRow('People', mil(W.N), t? sgn(W.N/W0.N-1) : '')
     +statRow('Births', Math.round(agg.cbr), 'per 1,000')
     +statRow('Deaths', Math.round(agg.cdr), 'per 1,000')
-    +statRow('Children per woman', agg.tfr.toFixed(1)));
+    +statRow('Total fertility rate', agg.tfr.toFixed(1)));
   var bars='<div class="nt-stagebar">';
   for(var s=1;s<=5;s++) if(W.stages[s]) bars+='<i style="flex:'+W.stages[s]+';background:'+STC[s]+'">'+W.stages[s]+'</i>';
   bars+='</div><div class="nt-gkey"><span>Stage 1</span><span>3</span><span>5</span></div>';
   h+=blk(bhead('II','Nations by stage')+bars);
   h+=blk(bhead('III','The planet')+'<div class="ev-big">'+W.earths.toFixed(2)+' <span class="ev-sub">Earths</span></div>'
-    +'<div class="nt-gauge e"><b style="left:'+(100/2).toFixed(0)+'%"></b><i class="bar'+(W.earths>1?' over':'')+'" style="width:'+Math.min(100,W.earths/2*100).toFixed(1)+'%"></i></div>'
+    +'<div class="nt-gauge e"><b style="left:50%"></b><i class="bar'+(W.earths>1?' over':'')+'" style="width:'+Math.min(100,W.earths/2*100).toFixed(1)+'%"></i></div>'
     +'<div class="nt-gkey"><span>0</span><span>one Earth</span><span>2</span></div>');
   var rows='';
   START.forEach(function(A){ if(!W0.nA[A.k]) return;
@@ -2765,7 +2957,6 @@ function runHtml(sim, t){
   return h;
 }
 function leverEffects(sim){
-  /* within each starting group, how much lower was fertility in year 60 per point on each lever? */
   var ks=sim.ks.filter(function(k){ var a=sim.nat[k].pr.k; return a==='young'||a==='early'; });
   if(ks.length<4) return null;
   var out={};
@@ -2778,131 +2969,155 @@ function leverEffects(sim){
   return out;
 }
 function finalHtml(){
-  var sN=simulate('normal'), sR=twistDone()? simulate('replace') : null, ks=sN.ks, n=ks.length, h=svSummaryHtml(), N=0;
+  var sA=simulate('first'), sB=revisedDone()? simulate('revised') : null, ks=sA.ks, n=ks.length, h=svSummaryHtml();
   if(!n) return h+blk(bhead('','Nothing to summarize'));
-  var me=(!HOST && sN.nat[PK])? PK : null, R=['I','II','III','IV','V'], ri=0;
+  var me=(!HOST && sA.nat[PK])? PK : null, R=['I','II','III','IV','V'], ri=0;
   if(me){
-    var x=sN.nat[me];
-    h+=blk(bhead(R[ri++],'Your nation')
-      +statRow('Started', x.pr.A.sh)
+    var x=sA.nat[me];
+    h+=blk(bhead(R[ri++],'Your nation, first run')
+      +'<div class="ev-hint">'+esc(x.pr.A.n)+' — '+esc(x.pr.A.desc)+'</div>'
+      +statRow('Started', x.pr.A.st)
       +statRow('People', mil(x.s0.N)+' → '+mil(x.s1.N), sgn(x.grow))
-      +statRow('Children per woman', x.s0.tfr.toFixed(1)+' → '+x.s1.tfr.toFixed(1))
+      +statRow('Total fertility rate', x.s0.tfr.toFixed(1)+' → '+x.s1.tfr.toFixed(1))
       +statRow('Life expectancy', Math.round(x.s0.e)+' → '+Math.round(x.s1.e))
       +statRow('Median age', Math.round(x.s0.med)+' → '+Math.round(x.s1.med))
       +statRow('Stage', x.s0.stage+' → '+x.s1.stage));
-    if(sR){ var xr=sR.nat[me];
-      h+=blk(bhead(R[ri++],'At replacement from day one')
-        +statRow('People', mil(xr.s1.N), sgn(xr.grow)));
+    if(sB){
+      var y=sB.nat[me], first=myDesign(), now=myDesign2(), chg=[];
+      LKEYS.forEach(function(k){ var d2=now.s[k]-first.s[k]; if(d2) chg.push(LBY[k].n+' '+(d2>0?'+':'−')+Math.abs(d2)); });
+      h+=blk(bhead(R[ri++],'After your changes')
+        +(chg.length? '<div class="ev-hint">'+esc(chg.join(' · '))+'</div>' : '<div class="ev-hint">You kept your first policies.</div>')
+        +statRow('People', mil(y.s1.N), diffTxt(sgnN((y.s1.N-x.s1.N)/1000,1))+(Math.abs(y.s1.N-x.s1.N)>=50?'M':''))
+        +statRow('Total fertility rate', y.s1.tfr.toFixed(1), diffTxt(sgnN(y.s1.tfr-x.s1.tfr,1)))
+        +statRow('Life expectancy', Math.round(y.s1.e), diffTxt(sgnN(y.s1.e-x.s1.e,0)))
+        +statRow('Footprint per person', y.s1.fpc.toFixed(1), diffTxt(sgnN(y.s1.fpc-x.s1.fpc,1))));
     }
   }
-  var W0=sN.world[0], W1=sN.world[STEPS], shrink=0, repl=0;
-  ks.forEach(function(k){ var x=sN.nat[k]; if(x.grow<0) shrink++; if(x.s1.tfr<=2.15) repl++; });
+  var W0=sA.world[0], W1=sA.world[STEPS], shrink=0, repl=0;
+  ks.forEach(function(k){ var x=sA.nat[k]; if(x.grow<0) shrink++; if(x.s1.tfr<=2.15) repl++; });
   h+=blk(bhead(R[ri++],'The class’s world, 60 years')
     +statRow('People', mil(W0.N)+' → '+mil(W1.N), sgn(W1.N/W0.N-1))
     +statRow('Planet', W0.earths.toFixed(2)+' → '+W1.earths.toFixed(2), 'Earths')
     +statRow('Nations shrinking', shrink+' <i>/</i> '+n)
-    +statRow('At or below replacement', repl+' <i>/</i> '+n, 'year 60'));
-  var eff=leverEffects(sN), hs='';
+    +statRow('TFR at or below 2.1', repl+' <i>/</i> '+n, 'year 60'));
+  if(sB){
+    var B1=sB.world[STEPS];
+    h+=blk(bhead(R[ri++],'After the class revised')
+      +statRow('Nations that changed', nRevised()+' <i>/</i> '+n)
+      +statRow('People', mil(B1.N), diffTxt(sgnN((B1.N-W1.N)/1000,1))+(Math.abs(B1.N-W1.N)>=50?'M':''))
+      +statRow('Planet', B1.earths.toFixed(2), diffTxt(sgnN(B1.earths-W1.earths,2))+(Math.abs(B1.earths-W1.earths)>=0.005?' Earths':'')));
+  }
+  var eff=leverEffects(sB||sA);
   if(eff){
     var best=LKEYS.slice().sort(function(a,b){ return eff[a]-eff[b]; });
-    hs+='<div class="ev-hint">Change in children per woman, year 60, per point spent</div>'
+    h+=blk(bhead(R[ri++],'What moved the TFR')
+      +'<div class="ev-hint">Change in TFR in year 60 per point spent, in young and early nations</div>'
       +statRow(LBY[best[0]].n, eff[best[0]].toFixed(2), 'strongest')
-      +statRow(LBY[best[1]].n, eff[best[1]].toFixed(2), 'next');
+      +statRow(LBY[best[1]].n, eff[best[1]].toFixed(2), 'next'));
   }
-  if(sR){
-    ['young','early'].forEach(function(a){
-      var g=ks.filter(function(k){ return sN.nat[k].pr.k===a; });
-      if(!g.length) return;
-      var s=0; g.forEach(function(k){ s+=sR.nat[k].grow; });
-      hs+=statRow(SBY[a].sh+' at replacement', sgn(s/g.length), 'still grew');
-    });
-  }
-  if(hs) h+=blk(bhead(R[ri++],'Young and early starts')+hs);
   return h;
 }
 function renderReadout(){
   var box=q('[data-readout]'), ph=phase(), h='';
   if(ph==='idle'||ph==='lobby'){
-    h=blk(bhead('','How it works')+statRow('1 · Found','a nation')+statRow('2 · Spend','12 points on policy')+statRow('3 · Find out','where it starts, and 60 years'))
+    h=blk(bhead('','How it works')+statRow('1 · Found','a nation')+statRow('2 · Spend',PTS+' points on policy')+statRow('3 · Find out','where it starts, and 60 years'))
       +(HOST? blk(statRow('Joined', Object.keys(players()).length)) : '');
   } else if(ph==='design'){
     h = HOST? blk(bhead('','Locked in')+'<div class="ev-big">'+nDesigns()+' <span class="ev-sub">of '+Object.keys(players()).length+'</span></div>')+classPlanHtml()
             : blk(bhead('','Not known yet')+'<div class="ev-hint">Whether your nation starts young and growing fast, or old and shrinking.</div>')+classPlanHtml();
-  } else if(ph==='reveal'||ph==='twistreveal'){
+  } else if(ph==='reveal'){
     h=HOST? classPlanHtml() : '';
-  } else if(ph==='run'||ph==='twist'){
-    h=runHtml(simulate(kindNow()), tNow());
+  } else if(ph==='briefing'){
+    h = HOST? blk(bhead('','Ready')+'<div class="ev-hint">The class is looking at where everyone starts. Press <b>Start the sixty years</b> when the room has read it.</div>')
+            : blk(bhead('','Your nation')+'<div class="ev-hint">This is your population before anything happens. Watch the shape change.</div>');
+  } else if(ph==='run'||ph==='rerun'){
+    h=runHtml(simulate(ph==='rerun'? 'revised' : 'first'), tNow());
+  } else if(ph==='revise'){
+    h = HOST? blk(bhead('','Revising')+'<div class="ev-big">'+nRevised()+' <span class="ev-sub">of '+nDesigns()+'</span></div>'
+        +'<div class="ev-hint">Nations that have changed at least one policy.</div>')+classPlanHtml()
+            : blk(bhead('','Change what you like')+'<div class="ev-hint">Your nation, your starting point and the sixty years are the same. Only your policies move.</div>');
   } else h=finalHtml();
   if(box.dataset.sig!==h){ box.innerHTML=h; box.dataset.sig=h; }
 }
 
 /* ══ STAGE: tabs and what the stage draws ══ */
-var tab='pyr', scope='mine', scen='normal', yrSel=STEPS, tabArmed='';
+var tab='pyr', scope='mine', scen='first', yrSel=STEPS, tabArmed='';
 function renderTabs(){
   var bar=q('[data-tabs]'), ph=phase(), on=(ph==='discuss'||ph==='final');
   bar.hidden=!on; if(!on){ tabArmed=''; return; }
   var mine=!HOST && !!myDesign();
-  var arm=ph+'|'+twistDone();
+  var arm=ph+'|'+revisedDone();
   if(tabArmed!==arm){
     tabArmed=arm;
-    if(ph==='discuss'){ tab='pyr'; scen='normal'; yrSel=STEPS; }
-    if(ph==='final' && twistDone()){ tab='momentum'; scen='normal'; }
+    if(ph==='discuss'){ tab='pyr'; scen='first'; yrSel=STEPS; }
+    if(ph==='final' && revisedDone()){ tab='compare'; scen='revised'; }
     scope=mine? 'mine' : 'class';
   }
   function mark(sel, attr, val){ Array.prototype.forEach.call(bar.querySelectorAll(sel),function(b){ b.classList.toggle('on', b.getAttribute(attr)===String(val)); }); }
-  bar.querySelector('[data-tab="momentum"]').hidden=!twistDone();
+  bar.querySelector('[data-tab="compare"]').hidden=!revisedDone();
+  bar.querySelector('[data-tab="delta"]').hidden=!revisedDone();
   mark('[data-tab]','data-tab',tab);
-  var show=function(sel, on2){ q(sel).hidden=!on2; };
-  show('[data-scopewrap]', mine && (tab==='pyr'||tab==='rates'));
-  show('[data-scenwrap]', twistDone() && (tab==='pyr'||tab==='rates'||tab==='planet'));
+  function show(sel, on2){ q(sel).hidden=!on2; }
+  show('[data-scopewrap]', mine && (tab==='pyr'||tab==='rates'||tab==='delta'));
+  show('[data-scenwrap]', revisedDone() && tab!=='compare' && tab!=='growth' && tab!=='delta');
+  bar.querySelector('[data-scen="diff"]').hidden = tab!=='pyr';
+  if(scen==='diff' && tab!=='pyr') scen='revised';
   show('[data-yrwrap]', tab==='pyr');
   show('[data-lvwrap]', tab==='levers');
-  show('[data-outwrap]', tab==='levers');
+  show('[data-outwrap]', tab==='levers'||tab==='compare');
   mark('[data-scope]','data-scope',scope); mark('[data-scen]','data-scen',scen);
   mark('[data-yr]','data-yr',yrSel); mark('[data-lv]','data-lv',xLever); mark('[data-out]','data-out',yOut);
 }
 var stageSig='';
 function drawStage(force){
   var svg=q('[data-scene]'), ph=phase();
-  var sig=[ph,tab,scope,scen,yrSel,xLever,yOut,step(),tstep(),twistDone(),cleanSig,HOST?'h':JSON.stringify(myD),Object.keys(players()).length].join('|');
+  var sig=[ph,tab,scope,scen,yrSel,xLever,yOut,step(),step2(),revisedDone(),cleanSig,cleanSig2,HOST?'h':JSON.stringify(myD),Object.keys(players()).length].join('|');
   if(!force && sig===stageSig) return;
   stageSig=sig;
-  if(ph==='design' && !HOST && myD){ drawNation(svg, myD, lastDrawn); lastDrawn=JSON.parse(JSON.stringify(myD)); return; }
+  if((ph==='design'||ph==='revise') && !HOST && myD){ drawNation(svg, myD, lastDrawn); lastDrawn=JSON.parse(JSON.stringify(myD)); return; }
   if(ph==='design' || ((ph==='lobby'||ph==='idle') && HOST)){ drawBoard(svg); return; }
   if(ph==='idle'||ph==='lobby'){ drawNation(svg, freshDesign(), null); return; }
   if(!nDesigns()){ svg.innerHTML='<rect x="-700" y="-700" width="2400" height="1960" fill="#f4ecda"/><text x="500" y="290" text-anchor="middle" class="nt-empty">No nations were founded</text>'; svg.dataset.mode=''; return; }
-  var mineOK=!HOST && simulate('normal').nat[PK];
-  if(ph==='reveal'||ph==='run'||ph==='twistreveal'||ph==='twist'){
-    var sim=simulate(kindNow()), t=tNow();
-    if(mineOK) drawMineRun(svg, sim, t, kindNow()==='replace'? 'Replacement fertility from day one' : null);
+  var simFirst=simulate('first'), mineOK=!HOST && simFirst.nat[PK];
+  if(ph==='briefing'){
+    if(mineOK) drawMineRun(svg, simFirst, 0, null); else drawBriefing(svg, simFirst);
+    return;
+  }
+  if(ph==='reveal'||ph==='run'||ph==='rerun'||ph==='revise'){
+    var sim=simulate(ph==='rerun'? 'revised' : 'first'), t=tNow();
+    if(ph==='revise'){ drawBriefing(svg, simFirst); return; }
+    if(mineOK) drawMineRun(svg, sim, t, sim.kind==='revised'? 'With the revised policies' : null);
     else drawClassRun(svg, sim, t);
     return;
   }
-  var simN=simulate('normal'), simR=twistDone()? simulate('replace') : null;
-  var simS=(scen==='replace' && simR)? simR : simN, who=mineOK? PK : null;
+  var simB=revisedDone()? simulate('revised') : null;
+  var simS=(scen==='revised' && simB)? simB : simFirst, who=mineOK? PK : null;
   if(tab==='pyr'){
-    if(who && scope==='mine') drawMineRun(svg, simS, yrSel, simS===simR? 'Replacement fertility from day one' : null);
+    if(scen==='diff' && simB) drawDiffPyr(svg, simFirst, simB, (who && scope==='mine')? who : null, yrSel);
+    else if(who && scope==='mine') drawMineRun(svg, simS, yrSel, simS.kind==='revised'? 'With the revised policies' : null);
     else drawClassRun(svg, simS, yrSel);
   }
-  else if(tab==='rates') chartRates(svg, simS, (who && scope==='mine')? who : null, simS.kind);
-  else if(tab==='growth') chartGrowth(svg, simN, simR, who);
-  else if(tab==='levers') chartLevers(svg, simN, who);
+  else if(tab==='rates') chartRates(svg, simS, (who && scope==='mine')? who : null);
+  else if(tab==='growth') chartGrowth(svg, simFirst, simB, who);
+  else if(tab==='levers') chartLevers(svg, simS, who);
   else if(tab==='planet') chartPlanet(svg, simS);
-  else if(tab==='momentum' && simR) chartMomentum(svg, simN, simR, who);
-  else chartGrowth(svg, simN, simR, who);
+  else if(tab==='compare' && simB) chartCompare(svg, simFirst, simB, who);
+  else if(tab==='delta' && simB) drawDeltaPanels(svg, simFirst, simB, (who && scope==='mine')? who : null);
+  else chartGrowth(svg, simFirst, simB, who);
 }
 
 /* ══ phase clock ══ */
-var STEPSEC=3.4, TWSEC=2.4;
+var STEPSEC=4.6, RERUNSEC=3.4;
 var clockWrap=q('[data-clockwrap]'), clockEl=q('[data-clock]'), autoLocked='';
 function tick(){
-  var dl=state.deadline, left=dl? dl-Date.now() : null, ph=phase();
-  clockWrap.hidden=!(ph==='design' && dl);
-  if(ph==='design' && dl){ clockEl.textContent=CG.clock(left); clockEl.classList.toggle('low', left<30000); }
+  var dl=state.deadline, left=dl? dl-Date.now() : null, ph=phase(), timed=(ph==='design'||ph==='revise');
+  clockWrap.hidden=!(timed && dl);
+  if(timed && dl){ clockEl.textContent=CG.clock(left); clockEl.classList.toggle('low', left<30000);
+                   q('[data-phasename]').textContent = ph==='revise'? 'Revision' : 'Design'; }
   if(HOST && dl && left<=0) advance();
-  if(!HOST && ph==='design' && dl && left<1800 && myD && spent(myD)===PTS){
+  if(!HOST && timed && dl && left<1800 && myD && spent(myD)===PTS){
     var s=JSON.stringify(cleanOne(myD));
-    if(s!==JSON.stringify(myDesign()) && autoLocked!==s){ autoLocked=s; lockIn(); }
+    if(s!==JSON.stringify(myBase()) && autoLocked!==s){ autoLocked=s; lockIn(); }
   }
   if(!HOST && ph==='reveal') renderMine();
   renderAgain();
@@ -2916,11 +3131,12 @@ function setPhase(p,secs,extra){
 }
 function advance(){
   var ph=phase();
-  if(ph==='design') setPhase('reveal', rvMs('normal')/1000);
-  else if(ph==='reveal') setPhase('run', STEPSEC, {st:1});
+  if(ph==='design') setPhase('reveal', rvMs()/1000);
+  else if(ph==='reveal') setPhase('briefing', null);
+  else if(ph==='briefing') setPhase('run', STEPSEC, {st:1});
   else if(ph==='run'){ if(step()<STEPS) setPhase('run', STEPSEC, {st:step()+1}); else setPhase('discuss', null); }
-  else if(ph==='twistreveal') setPhase('twist', TWSEC, {tst:1});
-  else if(ph==='twist'){ if(tstep()<STEPS) setPhase('twist', TWSEC, {tst:tstep()+1}); else setPhase('final', null, {twistDone:1}); }
+  else if(ph==='revise') setPhase('rerun', RERUNSEC, {st2:1});
+  else if(ph==='rerun'){ if(step2()<STEPS) setPhase('rerun', RERUNSEC, {st2:step2()+1}); else setPhase('final', null, {revised:1}); }
   else if(ph==='discuss') setPhase('final', null);
 }
 
@@ -2928,32 +3144,35 @@ function advance(){
 function render(){
   var ph=phase();
   q('[data-joinbox]').hidden = HOST || joined() || !(ph==='lobby'||ph==='design');
-  root.classList.toggle('designing', ph==='design' && !HOST);
+  root.classList.toggle('designing', (ph==='design'||ph==='revise') && !HOST);
   renderDesign(); renderMine(); renderReadout(); renderTabs(); renderSurvey();
-  if(ph==='reveal'||ph==='twistreveal') startReveal(); else q('[data-reveal]').hidden=true;
+  if(ph==='reveal') startReveal(); else q('[data-reveal]').hidden=true;
   drawStage();
-  var gb=q('[data-genbadge]'), running=(ph==='run'||ph==='twist');
+  var gb=q('[data-genbadge]'), running=(ph==='run'||ph==='rerun');
   gb.hidden=!running;
   if(running){
-    q('[data-genlbl]').textContent = ph==='twist'? 'Replacement · year' : 'Year';
+    q('[data-genlbl]').textContent = ph==='rerun'? 'Revised · year' : 'Year';
     q('[data-gennum]').textContent = tNow()*STEPY;
   }
   var cap=q('[data-caption]'), txt='';
   if(running){
-    var sim=simulate(kindNow()), t=tNow(), grow=0;
+    var sim=simulate(ph==='rerun'? 'revised' : 'first'), t=tNow(), grow=0;
     sim.ks.forEach(function(k){ var s=sim.nat[k].snap; if(t && s[t].N>s[t-1].N) grow++; });
-    txt=(ph==='twist'? 'Every nation at 2.1 children per woman · ' : '')+mil(sim.world[t].N)+' people in the class’s world · '+grow+' of '+sim.n+' nations still growing';
-  } else if(ph==='discuss') txt='Sixty years are done. Pick a view above.';
-  else if(ph==='final') txt=twistDone()? 'Policies and momentum, side by side.' : 'Sixty years are done.';
+    txt=(ph==='rerun'? 'Revised policies · ' : '')+mil(sim.world[t].N)+' people in the class’s world · '+grow+' of '+sim.n+' nations still growing';
+  } else if(ph==='briefing') txt='Where the class is starting.';
+  else if(ph==='discuss') txt='Sixty years are done. Pick a view above.';
+  else if(ph==='revise') txt='Change your policies. The same sixty years run again.';
+  else if(ph==='final') txt=revisedDone()? 'The first run and the revised run, side by side.' : 'Sixty years are done.';
   cap.textContent=txt;
 
   var st=q('[data-status]');
   if(HOST){
     var hs=q('[data-hoststatus]');
     q('[data-start]').hidden = ph!=='lobby';
-    q('[data-step]').hidden = !(ph==='run'||ph==='twist');
-    q('[data-skip]').hidden = !(ph==='design'||ph==='run'||ph==='twist'||ph==='discuss');
-    q('[data-twist]').hidden = ph!=='discuss';
+    q('[data-begin]').hidden = ph!=='briefing';
+    q('[data-step]').hidden = !(ph==='run'||ph==='rerun');
+    q('[data-skip]').hidden = !(ph==='design'||ph==='run'||ph==='rerun'||ph==='discuss'||ph==='revise');
+    q('[data-revise]').hidden = ph!=='discuss';
     q('[data-again]').hidden = ph!=='final' || againOpen();
     q('[data-survey]').hidden = ph!=='final' || svOpen();
     q('[data-surveyclose]').hidden = !svOpen();
@@ -2962,10 +3181,11 @@ function render(){
       : ph==='lobby'? Object.keys(players()).length+' joined. Start when ready.'
       : ph==='design'? nDesigns()+' of '+Object.keys(players()).length+' nations locked in.'
       : ph==='reveal'? 'Dealing the starting points.'
+      : ph==='briefing'? 'Where the class is starting. Start the sixty years when ready.'
       : ph==='run'? 'Year '+(step()*STEPY)+' of 60.'
-      : ph==='discuss'? 'Paused. Run the twist when ready.'
-      : ph==='twistreveal'? 'Dealing the twist.'
-      : ph==='twist'? 'Replacement fertility, year '+(tstep()*STEPY)+' of 60.'
+      : ph==='discuss'? 'Paused. Open the revision when ready.'
+      : ph==='revise'? (nRevised()+' of '+nDesigns()+' have changed a policy.')
+      : ph==='rerun'? 'Revised run, year '+(step2()*STEPY)+' of 60.'
       : 'Done.';
     if(svOpen()) hs.textContent='Survey is open on every student screen — '+svSummary().n+' answered. Nothing from it is shown here.';
   } else {
@@ -2974,10 +3194,11 @@ function render(){
       : ph==='lobby'? (joined()? 'You are in. Design opens shortly.' : 'Tap to join.')
       : ph==='design'? (myDesign()? 'Locked in. You can still change it until time runs out.' : 'Found your nation. Nobody knows where theirs starts yet.')
       : ph==='reveal'? 'Your starting point is being drawn.'
+      : ph==='briefing'? 'This is your nation at year 0.'
       : ph==='run'? 'Sixty years are running. Policies are fixed now.'
       : ph==='discuss'? 'Sixty years are done. Look at how your pyramid changed.'
-      : ph==='twistreveal'? 'Something changes. Watch the screen.'
-      : ph==='twist'? 'The same nations, at replacement fertility.'
+      : ph==='revise'? (myDesign()? 'Change your policies, then lock them in.' : 'You did not found a nation this round.')
+      : ph==='rerun'? 'The same sixty years, with the revised policies.'
       : 'Done.';
   }
 }
@@ -2985,7 +3206,10 @@ function render(){
 /* ══ events ══ */
 function lockIn(){
   if(!backend||!myD||spent(myD)!==PTS) return;
-  var o={designs:{}}; o.designs[PK]=cleanOne(myD);
+  var c=cleanOne(myD); if(!c) return;
+  var o={};
+  if(revising()){ o.designs2={}; o.designs2[PK]=c; }
+  else { o.designs={}; o.designs[PK]=c; }
   backend.mergeDocShard('polls',GID,o);
 }
 q('[data-join]').addEventListener('click',function(){
@@ -3006,12 +3230,21 @@ q('[data-design]').addEventListener('click',function(ev){
   renderDesign(true); drawStage(true);
 });
 q('[data-design]').addEventListener('input',function(ev){
-  if(!ev.target.hasAttribute('data-g')||!myD) return;
-  myD.g=parseInt(ev.target.value,10)||0;
-  patchEstimate(); drawStage(true);
+  if(!myD) return;
+  if(ev.target.hasAttribute('data-nameinput')){
+    /* the field the student is typing in must survive, so only the map redraws */
+    myD.nm=safeName(ev.target.value)||myD.nm;
+    designSig=JSON.stringify(myD)+'|'+JSON.stringify(myBase())+'|'+phase();
+    drawStage(true);
+    return;
+  }
+  if(ev.target.hasAttribute('data-g')){
+    myD.g=parseInt(ev.target.value,10)||0;
+    patchEstimate(); drawStage(true);
+  }
 });
 q('[data-design]').addEventListener('change',function(ev){
-  if(ev.target.hasAttribute('data-g')) renderDesign(true);
+  if(ev.target.hasAttribute('data-g')||ev.target.hasAttribute('data-nameinput')) renderDesign(true);
 });
 q('[data-tabs]').addEventListener('click',function(ev){
   var b=ev.target.closest('button'); if(!b) return;
@@ -3031,7 +3264,7 @@ q('[data-againyes]').addEventListener('click',function(){ againVote(true); });
 q('[data-againno]').addEventListener('click',function(){ againVote(false); });
 q('[data-surveyform]').addEventListener('submit', svSubmit);
 
-/* ══ PLAY AGAIN — the room votes; a majority yes resets to design ══ */
+/* ══ PLAY AGAIN ══ */
 function againUntil(){ return state.againUntil||0; }
 function againOpen(){ return againUntil()>Date.now(); }
 function againVotes(){ return state.again||{}; }
@@ -3053,7 +3286,7 @@ function againVote(yes){
 function againClose(){
   var t=againTally();
   if(t.yes>t.no){
-    backend.setDoc('polls',GID,{phase:'design', st:0, tst:0, twistDone:0, players:state.players||{}, designs:{},
+    backend.setDoc('polls',GID,{phase:'design', st:0, st2:0, revised:0, players:state.players||{}, designs:{}, designs2:{},
       gameId:Date.now()%100000, deadline:Date.now()+mins()*60*1000, againUntil:0, again:{}});
   } else backend.mergeDoc('polls',GID,{againUntil:0, again:{}});
 }
@@ -3128,20 +3361,21 @@ function svMail(){
 function wireHost(){
   var bar=q('[data-hostbar]'); bar.hidden=false; root.classList.add('cg-host');
   bar.querySelector('[data-open]').addEventListener('click',function(){
-    backend.setDoc('polls',GID,{phase:'lobby', st:0, tst:0, twistDone:0, players:{}, designs:{}, gameId:Date.now()%100000});
+    backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:Date.now()%100000});
   });
   bar.querySelector('[data-start]').addEventListener('click',function(){
     if(!Object.keys(players()).length && !confirm('Nobody has joined yet. Start anyway?')) return;
     setPhase('design', mins()*60);
   });
+  bar.querySelector('[data-begin]').addEventListener('click',advance);
   bar.querySelector('[data-step]').addEventListener('click',advance);
   bar.querySelector('[data-skip]').addEventListener('click',function(){
     var ph=phase();
     if(ph==='run') setPhase('discuss', null, {st:STEPS});
-    else if(ph==='twist') setPhase('final', null, {tst:STEPS, twistDone:1});
+    else if(ph==='rerun') setPhase('final', null, {st2:STEPS, revised:1});
     else advance();
   });
-  bar.querySelector('[data-twist]').addEventListener('click',function(){ setPhase('twistreveal', rvMs('replace')/1000, {tst:0}); });
+  bar.querySelector('[data-revise]').addEventListener('click',function(){ setPhase('revise', Math.max(2,mins()-2)*60, {st2:0}); });
   bar.querySelector('[data-survey]').addEventListener('click',function(){ svMsg=''; backend.mergeDoc('polls',GID,{surveyOpen:1, survey:{}}); });
   bar.querySelector('[data-surveyclose]').addEventListener('click',function(){ backend.mergeDoc('polls',GID,{surveyOpen:0}); });
   bar.querySelector('[data-again]').addEventListener('click',function(){
@@ -3152,36 +3386,49 @@ function wireHost(){
   });
 }
 
-/* ══ DEMO MODE — ?demo plays a hypothetical class; ?demo&host shows the projector;
-   ?freeze=N jumps straight to beat N; ?seed=N pins the draw ══ */
+/* ══ DEMO MODE ══ */
 var DEMOQ=new URLSearchParams(location.search), DEMO=DEMOQ.has('demo');
 var FREEZE=DEMOQ.has('freeze')? parseInt(DEMOQ.get('freeze'),10) : -1;
 var DSEED=DEMOQ.has('seed')? parseInt(DEMOQ.get('seed'),10) : 0;
 function demoRun(){
-  var N=28, step0=0;
-  var PLANS=[{health:5,edu:1,fp:1,jobs:4,care:1},{health:2,edu:4,fp:4,jobs:1,care:1},{health:3,edu:3,fp:2,jobs:2,care:2},
-             {health:1,edu:2,fp:5,jobs:2,care:2},{health:4,edu:0,fp:0,jobs:5,care:3},{health:2,edu:5,fp:3,jobs:2,care:0},
-             {health:1,edu:1,fp:1,jobs:4,care:5},{health:3,edu:2,fp:4,jobs:3,care:0}];
-  function mk(i){ var p=PLANS[(i*5)%PLANS.length];
-    return {s:{health:p.health,edu:p.edu,fp:p.fp,jobs:p.jobs,care:p.care}, g:(i*7)%11, fc:i%FLAGC.length, em:(i*3)%EMBLEMS.length, nm:nationName('demo'+i)}; }
+  var N=28, beat=0;
+  var PLANS=[{health:4,edu:3,fp:2,jobs:2,care:1,clean:1,land:1},{health:1,edu:5,fp:3,jobs:2,care:0,clean:2,land:1},
+             {health:3,edu:3,fp:2,jobs:2,care:1,clean:2,land:1},{health:3,edu:2,fp:1,jobs:4,care:1,clean:2,land:1},
+             {health:1,edu:2,fp:5,jobs:1,care:1,clean:3,land:1},{health:2,edu:3,fp:1,jobs:3,care:2,clean:1,land:2},
+             {health:5,edu:1,fp:0,jobs:2,care:2,clean:3,land:1},{health:2,edu:4,fp:3,jobs:1,care:1,clean:3,land:0}];
+  function mk(i){
+    var p=PLANS[(i*5)%PLANS.length], s={};
+    LKEYS.forEach(function(k){ s[k]=p[k]||0; });
+    return {s:s, g:(i*7)%11, fc:i%FLAGC.length, em:(i*3)%EMBLEMS.length, nm:nationName('demo'+i)};
+  }
+  /* the revision: everyone moves two points toward schooling and family planning */
+  function mk2(i){
+    var d=mk(i), moved=0;
+    ['jobs','care','health'].forEach(function(k){ while(d.s[k]>0 && moved<2){ d.s[k]--; moved++; } });
+    var into=['edu','fp'];
+    for(var j=0;j<moved;j++){ var k2=into[j%2]; if(d.s[k2]<SMAX) d.s[k2]++; else d.s.clean++; }
+    return d;
+  }
   var bar=document.createElement('div');
   bar.className='ev-demobar';
   bar.innerHTML='<span class="ev-demotag">Demo</span><span class="ev-demotxt"></span><button class="ev-demobtn" type="button" hidden>Replay</button>';
   wrap.appendChild(bar);
   var txt=bar.querySelector('.ev-demotxt'), rep=bar.querySelector('.ev-demobtn');
-  rep.addEventListener('click',function(){ rep.hidden=true; step0=0; lastCap=''; play(); });
+  rep.addEventListener('click',function(){ rep.hidden=true; beat=0; lastCap=''; play(); });
   function doc(o){ backend.mergeDoc('polls',GID,o); }
-  var BUILD=[['fc',1],['em',0],['health'],['health'],['edu'],['edu'],['edu'],['fp'],['fp'],['fp'],['jobs'],['jobs'],['care'],['care'],['g',2],['g',7]];
+  var BUILD=[['nm','Verdania'],['fc',3],['em',2],['health'],['health'],['edu'],['edu'],['edu'],['fp'],['fp'],
+             ['clean'],['clean'],['clean'],['land'],['land'],['jobs'],['care'],['g',3]];
   function buildStep(k){
-    return [700, function(){
+    return [720, function(){
       if(!myD) return;
       var b=BUILD[k];
-      if(b[0]==='fc') myD.fc=b[1]; else if(b[0]==='em') myD.em=b[1]; else if(b[0]==='g') myD.g=b[1]; else myD.s[b[0]]++;
+      if(b[0]==='nm') myD.nm=b[1]; else if(b[0]==='fc') myD.fc=b[1]; else if(b[0]==='em') myD.em=b[1];
+      else if(b[0]==='g') myD.g=b[1]; else myD.s[b[0]]++;
       renderDesign(true); drawStage(true);
-    }, 'Every point shows up on the map: clinics, schools, family-planning posts, a growing city, elder care. The economy setting trades forest for industry.'];
+    }, 'Students name their own country, then every point shows up on the map: clinics, schools, family-planning posts, solar arrays, protected groves.'];
   }
   var S=[
-    [300, function(){ backend.setDoc('polls',GID,{phase:'lobby', st:0, tst:0, twistDone:0, players:{}, designs:{}, gameId:(DSEED||Date.now()%100000)}); },
+    [300, function(){ backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:(DSEED||Date.now()%100000)}); },
       'Build a Nation — one hypothetical class, played out. A real one varies.'],
     [2200, function(){ var pl={}; for(var i=0;i<N;i++) pl['d'+i]={t:i}; pl[PK]={t:0}; doc({players:pl}); },
       N+' students join on their own devices. You are one of them.'],
@@ -3193,30 +3440,36 @@ function demoRun(){
       'On the left, the same plan is projected from each possible start: young, early, late, or aging.']);
   S.push([2600, function(){ var d={}; for(var i=14;i<N;i++) d['d'+i]=mk(i); d[PK]=cleanOne(myD); doc({designs:d}); },
       'Nations lock in. The class shares one planet, so every economy setting adds up.']);
-  S.push([2600, function(){ doc({phase:'reveal', deadline:Date.now()+rvMs('normal')}); },
+  S.push([2600, function(){ doc({phase:'reveal', deadline:Date.now()+rvMs()}); },
       'Each nation’s starting point is drawn at random.']);
-  S.push([rvMs('normal')+500, function(){ doc({phase:'run', st:1, deadline:null}); },
-      'Year 5. The pyramid reshapes as each cohort ages; the dashed outline is year 0.']);
+  S.push([rvMs()+500, function(){ doc({phase:'briefing', deadline:null}); },
+      'The projector shows where the whole class is starting, by stage of the transition.']);
+  S.push([6000, function(){ doc({phase:'run', st:1}); },
+      'The instructor starts the clock. Year 5: the pyramid reshapes as each cohort ages.']);
   for(var y=2;y<=STEPS;y++) (function(yy){
-    S.push([3000, function(){ doc({st:yy}); }, 'Year '+(yy*STEPY)+' of 60. Each bar is one five-year age group; the marker shows the stage of the transition.']);
+    S.push([3600, function(){ doc({st:yy}); }, 'Year '+(yy*STEPY)+' of 60. Each bar is one five-year age group; the marker shows the stage of the transition.']);
   })(y);
   S.push([1400, function(){ doc({phase:'discuss'}); }, 'After 60 years: the pyramid, year by year.']);
   S.push([5200, function(){ tab='rates'; renderTabs(); drawStage(true); }, 'Birth and death rates, and the stage each five years fell in.']);
-  S.push([5200, function(){ tab='levers'; xLever='fp'; renderTabs(); drawStage(true); }, 'What worked: children per woman in year 60, by points on each policy.']);
-  S.push([5600, function(){ doc({phase:'twistreveal', tst:0, deadline:Date.now()+rvMs('replace')}); },
-      'Then the twist: every nation reaches replacement fertility overnight.']);
-  S.push([rvMs('replace')+400, function(){ doc({phase:'twist', tst:1, deadline:null}); }, 'Replacement fertility, year 5.']);
+  S.push([5200, function(){ tab='levers'; xLever='fp'; renderTabs(); drawStage(true); }, 'What made an impact: the TFR in year 60, by points spent on each policy.']);
+  S.push([5600, function(){ doc({phase:'revise', deadline:Date.now()+45000}); },
+      'Now students revise. Same nation, same starting point, same sixty years — only the policies move.']);
+  S.push([1800, function(){ if(myD){ myD.s.jobs=Math.max(0,myD.s.jobs-1); myD.s.care=Math.max(0,myD.s.care-1); myD.s.edu=Math.min(SMAX,myD.s.edu+1); myD.s.fp=Math.min(SMAX,myD.s.fp+1); renderDesign(true); } },
+      'The panel projects the change against the first run before anything is locked in.']);
+  S.push([2600, function(){ var d={}; for(var i=0;i<N;i++) d['d'+i]=mk2(i); if(myD) d[PK]=cleanOne(myD); doc({designs2:d}); },
+      'The class moves points toward schooling and family planning.']);
+  S.push([2400, function(){ doc({phase:'rerun', st2:1}); }, 'The same sixty years run again with the revised policies.']);
   for(var m=2;m<=STEPS;m++) (function(mm){
-    S.push([1600, function(){ doc({tst:mm}); }, 'Replacement fertility, year '+(mm*STEPY)+' of 60.']);
+    S.push([2600, function(){ doc({st2:mm}); }, 'Revised run, year '+(mm*STEPY)+' of 60.']);
   })(m);
-  S.push([1200, function(){ doc({phase:'final', twistDone:1}); }, 'Young nations kept growing for decades anyway. That is demographic momentum.']);
-  S.push([6500, function(){ rep.hidden=false; }, 'Policies against momentum, nation by nation. Results vary with every draw.']);
+  S.push([1200, function(){ doc({phase:'final', revised:1}); }, 'Both runs, side by side, for every nation.']);
+  S.push([6500, function(){ rep.hidden=false; }, 'Solid is what they chose first; hatched is what they changed to. Results vary with every draw.']);
   var WPM=190, lastCap='';
   function readMs(t){ return Math.round(750 + String(t).trim().split(/\s+/).length*(60000/WPM)); }
   function sameIdea(a,b){ return String(a).replace(/\d+/g,'#')===String(b).replace(/\d+/g,'#'); }
   function play(){
-    if(step0>=S.length) return;
-    var s=S[step0++], floor=(lastCap && !sameIdea(lastCap,s[2]))? readMs(lastCap) : 0;
+    if(beat>=S.length) return;
+    var s=S[beat++], floor=(lastCap && !sameIdea(lastCap,s[2]))? readMs(lastCap) : 0;
     setTimeout(function(){ txt.textContent=s[2]; lastCap=s[2]; try{ s[1](); }catch(e){ console.error(e); } play(); }, Math.max(s[0], floor));
   }
   if(FREEZE>=0){
@@ -3232,9 +3485,12 @@ window.__deckLiveReady.then(function(live){
   if(HOST) wireHost();
   if(DEMO) backend.setDoc('polls',GID,{phase:'idle'});
   backend.subscribeDoc('polls',GID,function(d){
-    var was=gid(); state=d||{};
+    var was=gid(), wasPh=phase();
+    state=d||{};
     if(gid()!==was){ myD=null; lastDrawn=null; boardSeen={}; simCache={}; profCache={}; estSig=''; }
-    if(phase()!=='design' && !DEMO) myD=null;
+    /* a new editing phase starts from whatever is locked in, not from the last edit */
+    if(phase()!==wasPh && (phase()==='design'||phase()==='revise') && !DEMO) myD=null;
+    if(phase()!=='design' && phase()!=='revise' && !DEMO) myD=null;
     render();
   });
   render();
@@ -3258,6 +3514,19 @@ window.__deckLiveReady.then(function(live){
     <div class="stack-media contain"><img loading="lazy" decoding="async" data-src="media/image18.jpg" alt=""></div>
   </div>
   <div class="footer">© 2023 W. W. Norton &amp; Company, Inc.</div>
+</section>
+<section class="slide embed ac-tool" data-type="embed" style="--accent:#52796F">
+  <div class="embed-head">
+    <div class="embed-head-text">
+      <div class="eyebrow">6.7 · Population &amp; Consumption</div>
+      <h2 class="embed-title">Ecological Footprint Calculator</h2>
+      <div class="embed-sub">Estimate three household streams from published EPA, EIA and peer-reviewed factors</div>
+    </div>
+    
+  </div>
+  <div class="embed-wrap">
+    <iframe class="embed-frame" data-src="../Ecological Footprint Calculator/index.html?embed=1&amp;focus=calc" title="Ecological Footprint Calculator" loading="lazy"></iframe>
+  </div>
 </section>
 <section class="slide" data-type="content" style="--accent:#52796F">
   <div class="bleed-grid">
@@ -3461,7 +3730,7 @@ window.__deckLiveReady.then(function(live){
 
 <div class="hud">
   <button onclick="prev()" title="Previous (left arrow)">&#8249;</button>
-  <span class="counter" id="counter">1 / 25</span>
+  <span class="counter" id="counter">1 / 27</span>
   <button onclick="next()" title="Next (right arrow)">&#8250;</button>
   <button onclick="toggleMenu()" title="Slide menu (O)">&#9776;</button>
   <button onclick="toggleFs()" title="Fullscreen (F)">&#9974;</button>
@@ -3470,7 +3739,7 @@ window.__deckLiveReady.then(function(live){
 <div class="menu" id="menu">
   <button class="menu-close" onclick="toggleMenu(false)" aria-label="Close menu">&times;</button>
   <h3>Chapter 6 &mdash; Jump to a slide</h3>
-  <div class="menu-grid"><button class="menu-item" data-go="0"><span class="menu-num">1</span>Title</button><button class="menu-item" data-go="1"><span class="menu-num">2</span>Outline</button><button class="menu-item" data-go="2"><span class="menu-num">3</span>Announcements</button><button class="menu-item" data-go="3"><span class="menu-num">4</span>Introduction</button><button class="menu-item" data-go="4"><span class="menu-num">5</span>6.1 ▶ World Population</button><button class="menu-item" data-go="5"><span class="menu-num">6</span>6.1 Population Predictions</button><button class="menu-item" data-go="6"><span class="menu-num">7</span>6.1 Population Crashes</button><button class="menu-item" data-go="7"><span class="menu-num">8</span>6.2 TFR &amp; Carrying Capacity</button><button class="menu-item" data-go="8"><span class="menu-num">9</span>6.2 Carrying Capacity Costs</button><button class="menu-item" data-go="9"><span class="menu-num">10</span>6.4 Demographic Transition</button><button class="menu-item" data-go="10"><span class="menu-num">11</span>6.4 Three Phases</button><button class="menu-item" data-go="11"><span class="menu-num">12</span>6.4 DTM Model</button><button class="menu-item" data-go="12"><span class="menu-num">13</span>6.4 Five Countries</button><button class="menu-item" data-go="13"><span class="menu-num">14</span>6.4 ▶ Transition Chart</button><button class="menu-item" data-go="14"><span class="menu-num">15</span>6.4 ▶ DTM Explorer</button><button class="menu-item" data-go="15"><span class="menu-num">16</span>6.5 The Baby Boom</button><button class="menu-item" data-go="16"><span class="menu-num">17</span>6.5 Urbanization, Health, Education</button><button class="menu-item" data-go="17"><span class="menu-num">18</span>6.6 Empowering Women</button><button class="menu-item" data-go="18"><span class="menu-num">19</span>6.6 ▶ Game: Build a Nation</button><button class="menu-item" data-go="19"><span class="menu-num">20</span>6.7 Ecological Footprint</button><button class="menu-item" data-go="20"><span class="menu-num">21</span>6.7 I = PAT</button><button class="menu-item" data-go="21"><span class="menu-num">22</span>6.7 Overpopulation vs Consumption</button><button class="menu-item" data-go="22"><span class="menu-num">23</span>6.7 ▶ IPAT Simulator</button><button class="menu-item" data-go="23"><span class="menu-num">24</span>6.8 What Can I Do?</button><button class="menu-item" data-go="24"><span class="menu-num">25</span>Key Concepts</button></div>
+  <div class="menu-grid"><button class="menu-item" data-go="0"><span class="menu-num">1</span>Title</button><button class="menu-item" data-go="1"><span class="menu-num">2</span>Outline</button><button class="menu-item" data-go="2"><span class="menu-num">3</span>Announcements</button><button class="menu-item" data-go="3"><span class="menu-num">4</span>Introduction</button><button class="menu-item" data-go="4"><span class="menu-num">5</span>Disclaimer</button><button class="menu-item" data-go="5"><span class="menu-num">6</span>6.1 ▶ World Population</button><button class="menu-item" data-go="6"><span class="menu-num">7</span>6.1 Population Predictions</button><button class="menu-item" data-go="7"><span class="menu-num">8</span>6.1 Population Crashes</button><button class="menu-item" data-go="8"><span class="menu-num">9</span>6.2 TFR &amp; Carrying Capacity</button><button class="menu-item" data-go="9"><span class="menu-num">10</span>6.2 Carrying Capacity Costs</button><button class="menu-item" data-go="10"><span class="menu-num">11</span>6.4 Demographic Transition</button><button class="menu-item" data-go="11"><span class="menu-num">12</span>6.4 Three Phases</button><button class="menu-item" data-go="12"><span class="menu-num">13</span>6.4 DTM Model</button><button class="menu-item" data-go="13"><span class="menu-num">14</span>6.4 Five Countries</button><button class="menu-item" data-go="14"><span class="menu-num">15</span>6.4 ▶ Transition Chart</button><button class="menu-item" data-go="15"><span class="menu-num">16</span>6.4 ▶ DTM Explorer</button><button class="menu-item" data-go="16"><span class="menu-num">17</span>6.5 The Baby Boom</button><button class="menu-item" data-go="17"><span class="menu-num">18</span>6.5 Urbanization, Health, Education</button><button class="menu-item" data-go="18"><span class="menu-num">19</span>6.6 Empowering Women</button><button class="menu-item" data-go="19"><span class="menu-num">20</span>6.6 ▶ Game: Build a Nation</button><button class="menu-item" data-go="20"><span class="menu-num">21</span>6.7 Ecological Footprint</button><button class="menu-item" data-go="21"><span class="menu-num">22</span>6.7 ▶ Footprint Calculator</button><button class="menu-item" data-go="22"><span class="menu-num">23</span>6.7 I = PAT</button><button class="menu-item" data-go="23"><span class="menu-num">24</span>6.7 Overpopulation vs Consumption</button><button class="menu-item" data-go="24"><span class="menu-num">25</span>6.7 ▶ IPAT Simulator</button><button class="menu-item" data-go="25"><span class="menu-num">26</span>6.8 What Can I Do?</button><button class="menu-item" data-go="26"><span class="menu-num">27</span>Key Concepts</button></div>
 </div>
 
 <script>
