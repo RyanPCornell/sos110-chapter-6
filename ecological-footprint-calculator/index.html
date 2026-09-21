@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecological Footprint Calculator · SOS 110</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root{
+  --ink:#3b3222; --ink-2:#5e5340; --ink-3:#7a7260; --faint:#9a917c;
+  --bronze:#8a6a2f; --rule:rgba(120,100,60,.32); --rule-2:rgba(120,100,60,.18);
+  --paper:#fffdf6; --paper-2:#fdfbf5; --parch:#f1ebdd;
+  --drive:#9a6a12; --home:#2f6690; --food:#2D6A4F; --warn:#A4373A;
+}
+body{
+  font-family:'Inter',-apple-system,system-ui,sans-serif; color:var(--ink);
+  background:linear-gradient(158deg,#faf7f0,#f1ebdd); line-height:1.5; min-height:100vh;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:1.1rem 1.3rem 2.6rem;}
+
+/* ── header ── */
+header{text-align:center; padding:2.2rem 1rem 1.4rem; border-bottom:1px solid var(--rule); margin-bottom:1.3rem;}
+.overline{font-size:.68rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--bronze);}
+header h1{font-family:'Merriweather',Georgia,serif; font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; margin:.35rem 0 .3rem;}
+header p{font-size:.9rem; color:var(--ink-2); max-width:640px; margin:0 auto;}
+
+/* ── plate / cards ── */
+.plate{background:var(--paper); border:1px solid var(--rule); border-radius:12px; padding:.85rem 1.05rem .95rem;}
+.tag{font-size:.64rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:var(--bronze); margin-bottom:.5rem;}
+.rule{border:0; border-top:1px solid var(--rule); margin:.5rem 0;}
+
+.grid{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:1rem; align-items:start;}
+@media (max-width:860px){ .grid{grid-template-columns:1fr;} }
+
+/* ── inputs ── */
+.inrow{padding:.5rem 0; border-bottom:1px solid var(--rule-2);}
+.inrow:last-child{border-bottom:0;}
+.inhead{display:flex; align-items:baseline; justify-content:space-between; gap:.6rem; margin-bottom:.22rem;}
+.inname{font-size:.82rem; font-weight:700;}
+.inval{font-family:'Merriweather',Georgia,serif; font-weight:900; font-size:.95rem;}
+.v-drive{color:var(--drive);} .v-home{color:var(--home);} .v-food{color:var(--food);}
+input[type=range]{width:100%; cursor:pointer; accent-color:var(--bronze);}
+.inhint{font-size:.66rem; color:var(--faint); margin-top:.15rem;}
+.inhint b{color:var(--ink-3); font-weight:700;}
+
+/* ── results ── */
+.hero{text-align:center; padding:.35rem 0 .2rem;}
+.hero-lbl{font-size:.62rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--bronze);}
+.hero-num{font-family:'Merriweather',Georgia,serif; font-weight:900; font-size:clamp(2rem,5.2vw,3.1rem); line-height:1.05;}
+.hero-unit{font-size:.8rem; color:var(--ink-3); margin-top:.1rem;}
+.secondary{display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:.5rem;}
+.sec-box{border:1px solid var(--rule); border-radius:9px; padding:.35rem .7rem; text-align:center; background:var(--paper-2);}
+.sec-n{font-family:'Merriweather',Georgia,serif; font-weight:900; font-size:1.02rem;}
+.sec-l{font-size:.6rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--faint);}
+.approx{font-size:.62rem; font-style:italic; color:var(--faint); text-align:center; margin-top:.3rem;}
+
+.bars{margin-top:.55rem;}
+.bar{display:flex; align-items:center; gap:.5rem; margin-bottom:.32rem;}
+.bar-l{font-size:.72rem; width:5.6rem; flex:none; color:var(--ink-2);}
+.bar-t{flex:1; height:12px; background:var(--parch); border-radius:6px; overflow:hidden;}
+.bar-f{display:block; height:100%; border-radius:6px; transition:width .3s ease;}
+.bar-v{font-family:'Merriweather',Georgia,serif; font-size:.74rem; width:4.6rem; text-align:right; flex:none;}
+
+.marks{margin-top:.6rem; padding-top:.5rem; border-top:1px solid var(--rule-2);}
+.mark{display:flex; align-items:baseline; gap:.5rem; font-size:.72rem; color:var(--ink-2); padding:.13rem 0;}
+.mark b{font-family:'Merriweather',Georgia,serif; color:var(--ink); min-width:3.6rem;}
+.mark.you b{color:var(--bronze);}
+
+.chips{display:flex; gap:.3rem; flex-wrap:wrap; margin-bottom:.55rem;}
+.chip{font-family:inherit; font-size:.63rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+  cursor:pointer; padding:.26rem .5rem; border-radius:6px; border:1px solid var(--rule);
+  background:var(--paper-2); color:var(--ink-3); transition:all .15s;}
+.chip:hover{border-color:var(--bronze); color:var(--ink);}
+.chip.on{background:var(--bronze); border-color:var(--bronze); color:#fff;}
+.chips.sub{margin:.12rem 0 .1rem;}
+.chips.sub .chip{font-size:.6rem; padding:.2rem .45rem;}
+/* the presets load a whole profile, so they are set as italic text links in the
+   header rather than pills, which read as per-row choices like the chips below */
+.phead{display:flex; align-items:baseline; justify-content:space-between; gap:.6rem;
+  flex-wrap:wrap; border-bottom:1px solid var(--rule); padding-bottom:.3rem; margin-bottom:.35rem;}
+.phead .tag{margin-bottom:0;}
+.presets{display:flex; align-items:baseline; gap:.3rem; flex-wrap:wrap;}
+.pre-lbl{font-size:.66rem; font-style:italic; color:var(--faint);}
+.pre-sep{color:var(--rule); font-size:.66rem;}
+.pbtn{font-family:'Merriweather',Georgia,serif; font-size:.68rem; font-style:italic; cursor:pointer;
+  background:none; border:0; padding:0 .05rem; color:var(--ink-3);
+  text-decoration:underline; text-decoration-color:var(--rule); text-underline-offset:3px;}
+.pbtn:hover{color:var(--ink); text-decoration-color:var(--bronze);}
+.pbtn.on{color:var(--bronze); font-weight:700; text-decoration-color:var(--bronze);}
+
+/* ── disclaimer ── */
+.disclaimer{background:rgba(184,160,100,.14); border:1px solid var(--rule); border-left:3px solid var(--bronze);
+  border-radius:0 9px 9px 0; padding:.6rem .85rem; font-size:.76rem; line-height:1.6; color:var(--ink-2); margin-top:1rem;}
+.disclaimer strong{color:var(--ink);}
+
+/* ── collapsible panels ── */
+.panel{margin-top:.8rem; border:1px solid var(--rule); border-radius:12px; background:var(--paper); overflow:hidden;}
+.ph{display:flex; align-items:center; gap:.5rem; padding:.6rem .9rem; cursor:pointer; user-select:none;}
+.ph-title{font-family:'Merriweather',Georgia,serif; font-weight:700; font-size:.88rem; flex:1;}
+.ph-chev{color:var(--bronze); font-size:.8rem; transition:transform .2s;}
+.panel.open .ph-chev{transform:rotate(180deg);}
+.pb{display:none; padding:0 .9rem .85rem; font-size:.78rem; line-height:1.65; color:var(--ink-2);}
+.panel.open .pb{display:block;}
+.pb h4{font-family:'Merriweather',Georgia,serif; font-size:.8rem; color:var(--ink); margin:.6rem 0 .25rem;}
+.pb p{margin-bottom:.5rem;}
+.src{display:flex; gap:.5rem; padding:.28rem 0; border-bottom:1px solid var(--rule-2); font-size:.73rem; line-height:1.5;}
+.src:last-child{border-bottom:0;}
+.src-n{font-family:'Merriweather',Georgia,serif; font-weight:900; color:var(--bronze); flex:none; min-width:1.6rem;}
+.src a{color:var(--bronze); text-decoration:none;}
+.src a:hover{text-decoration:underline;}
+.ftab{width:100%; border-collapse:collapse; font-size:.72rem; margin:.3rem 0 .5rem;}
+.ftab th{text-align:left; font-size:.64rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--bronze); border-bottom:1.5px solid var(--ink); padding:.24rem .5rem;}
+.ftab td{padding:.24rem .5rem; border-bottom:1px solid var(--rule-2); vertical-align:top;}
+.ftab td:first-child{font-weight:700; color:var(--ink);}
+
+/* ── embed + focus (slide decks) ── */
+body.embed header{display:none !important;}
+body.embed .wrap{padding-top:.9rem;}
+html:has(body.focus-mode), body.focus-mode{height:100%; overflow:hidden;}
+body.focus-mode .wrap{max-width:none; height:100%; padding:.7rem 1rem .75rem; display:flex; flex-direction:column;}
+body.focus-mode .grid{flex:1 1 auto; min-height:0;}
+body.focus-mode .plate{height:100%; overflow:auto;}
+body.focus-mode .disclaimer{margin-top:.55rem; font-size:.7rem; padding:.45rem .7rem; flex:none;}
+body.focus-mode .panel{display:none !important;}
+.ef-info{font-family:inherit; font-size:.64rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+  cursor:pointer; padding:.22rem .5rem; border-radius:6px; border:1px solid var(--rule);
+  background:var(--paper-2); color:var(--ink-3); float:right; margin-top:-.2rem;}
+.ef-info:hover{border-color:var(--bronze); color:var(--ink);}
+.ef-ov{position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+  background:rgba(40,32,18,.45); padding:2vh 3vw;}
+.ef-ov[hidden]{display:none !important;}
+.ef-pan{background:linear-gradient(158deg,#faf7f0,#f1ebdd); border:1px solid var(--rule); border-radius:14px;
+  box-shadow:0 18px 50px rgba(40,32,18,.35); width:min(1080px,94vw); max-height:94vh; overflow:auto;
+  padding:.7rem 1rem .9rem;}
+.ef-mh{display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+  border-bottom:1px solid var(--rule); padding-bottom:.35rem; margin-bottom:.5rem;}
+.ef-mt{font-family:'Merriweather',Georgia,serif; font-weight:700; font-size:1.02rem;}
+.ef-x{background:none; border:0; font-size:1.5rem; line-height:1; color:var(--ink-3); cursor:pointer;}
+.ef-x:hover{color:var(--ink);}
+/* these must out-specify body.focus-mode .panel{display:none}, which also uses !important */
+body.focus-mode .ef-ov .panel{display:block !important; margin:0 0 .6rem; border:0; background:transparent;}
+body.focus-mode .ef-ov .ph{display:none !important;}
+body.focus-mode .ef-ov .pb{display:block !important; padding:0;}
+@media (max-height:760px){
+  body.focus-mode .inrow{padding:.34rem 0;}
+  body.focus-mode .inhint{display:none;}
+  body.focus-mode .hero-num{font-size:clamp(1.7rem,4.4vw,2.5rem);}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="overline">SOS 110 &middot; Chapter 6 &middot; Ryan Cornell</div>
+  <h1>Ecological Footprint Calculator</h1>
+  <p>Three of the largest household demands on the biosphere, estimated from published
+     government and peer-reviewed factors. Move a slider to see your yearly total change.</p>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- ── inputs ── -->
+    <div class="plate">
+      <div class="phead">
+        <span class="tag">Your habits</span>
+        <span class="presets" id="chips"><span class="pre-lbl">Start from an example:</span>
+          <button class="pbtn on" type="button" data-p="us">US average</button><span class="pre-sep">/</span>
+          <button class="pbtn" type="button" data-p="low">Lower impact</button><span class="pre-sep">/</span>
+          <button class="pbtn" type="button" data-p="high">Higher impact</button>
+        </span>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">What you drive</span>
+          <span class="inval v-drive" id="v-car">404 g CO<sub>2</sub>/mile</span></div>
+        <div class="chips sub" id="cars">
+          <button class="chip on" type="button" data-c="gas">Gasoline</button>
+          <button class="chip" type="button" data-c="hyb">Hybrid</button>
+          <button class="chip" type="button" data-c="ev">Electric</button>
+        </div>
+        <div class="inhint" id="h-car">Average gasoline car, 22.2 mpg (EPA) <sup>[1]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Your electricity grid</span>
+          <span class="inval v-home" id="v-grid">0.373 kg CO<sub>2</sub>/kWh</span></div>
+        <div class="chips sub" id="grids">
+          <button class="chip on" type="button" data-g="avg">US average</button>
+          <button class="chip" type="button" data-g="coal">Coal heavy</button>
+          <button class="chip" type="button" data-g="clean">Low carbon</button>
+        </div>
+        <div class="inhint" id="h-grid">US annual average, 823.1 lb CO<sub>2</sub>/MWh (EPA eGRID) <sup>[2]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Driving</span>
+          <span class="inval v-drive" id="v-miles">221 miles/week</span></div>
+        <input type="range" id="s-miles" min="0" max="600" step="5" value="221">
+        <div class="inhint">US average is about <b>11,500 miles a year</b>, roughly 221 a week (EPA) <sup>[1]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Home electricity</span>
+          <span class="inval v-home" id="v-kwh">875 kWh/month</span></div>
+        <input type="range" id="s-kwh" min="0" max="2500" step="25" value="875">
+        <div class="inhint">US average household uses about <b>10,500 kWh a year</b> (EIA) <sup>[3]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Beef and lamb meals</span>
+          <span class="inval v-beef" id="v-beef">3 per week</span></div>
+        <input type="range" id="s-beef" min="0" max="14" step="1" value="3">
+        <div class="inhint">Counted per serving of about <b>100 g of protein</b> <sup>[4]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Pork, poultry and dairy meals</span>
+          <span class="inval v-white" id="v-white">7 per week</span></div>
+        <input type="range" id="s-white" min="0" max="21" step="1" value="7">
+        <div class="inhint">Chicken, pork, eggs and cheese, same serving size <sup>[4]</sup></div>
+      </div>
+
+      <div class="inrow">
+        <div class="inhead"><span class="inname">Plant-protein meals</span>
+          <span class="inval v-plant" id="v-plant">4 per week</span></div>
+        <input type="range" id="s-plant" min="0" max="21" step="1" value="4">
+        <div class="inhint">Beans, lentils, tofu and nuts, same serving size <sup>[4]</sup></div>
+      </div>
+    </div>
+
+    <!-- ── results ── -->
+    <div class="plate">
+      <div class="tag">Your yearly footprint</div>
+      <div class="hero">
+        <div class="hero-lbl">Carbon footprint of these three streams</div>
+        <div class="hero-num" id="tot">0.0</div>
+        <div class="hero-unit">tonnes of CO<sub>2</sub>e per year</div>
+      </div>
+
+      <div class="secondary">
+        <div class="sec-box"><div class="sec-n" id="gha">0.0</div><div class="sec-l">global hectares</div></div>
+        <div class="sec-box"><div class="sec-n" id="earths">0.0</div><div class="sec-l">Earths if all lived so</div></div>
+      </div>
+      <div class="approx">The two figures above are rough translations, not measured area. See Methodology.</div>
+
+      <hr class="rule">
+      <div class="bars" id="bars"></div>
+
+      <div class="marks" id="marks"></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>This tool is for teaching, not measurement.</strong> It estimates only three household
+    streams (driving, home electricity, and food protein) using published average factors, so it is
+    not a complete Ecological Footprint and not a measurement of any individual's actual impact.
+    Real footprints also include flights, heating fuel, goods, services, housing, water, and public
+    infrastructure. Averages hide wide variation: the same food can differ fiftyfold between
+    producers. Treat the total as an order of magnitude for comparing choices, not a precise number.
+  </div>
+
+  <!-- ── sources ── -->
+  <div class="panel" id="p-src">
+    <div class="ph"><span class="ph-title">Sources</span><span class="ph-chev">&#9662;</span></div>
+    <div class="pb">
+      <div class="src"><div class="src-n">[1]</div><div>U.S. Environmental Protection Agency. <em>Greenhouse Gas Emissions from a Typical Passenger Vehicle.</em>
+        The average passenger vehicle emits about <strong>404 grams of CO<sub>2</sub> per mile</strong>, and about
+        4.6 metric tons a year, assuming 22.2 miles per gallon and 11,500 miles driven.
+        <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle" target="_blank" rel="noopener">epa.gov</a></div></div>
+      <div class="src"><div class="src-n">[2]</div><div>U.S. Environmental Protection Agency. <em>Power Profiler: terms, calculations and data sources</em> (eGRID).
+        National annual average electricity emission rate: <strong>823.1 lb CO<sub>2</sub> per MWh</strong>, which is
+        0.373 kg per kWh, used here for grid electricity.
+        <a href="https://www.epa.gov/egrid/frequent-questions-about-egrid" target="_blank" rel="noopener">epa.gov/egrid</a></div></div>
+      <div class="src"><div class="src-n">[3]</div><div>U.S. Energy Information Administration. <em>How much electricity does an American home use?</em>
+        The average U.S. household uses about <strong>10,500 kWh a year</strong>, roughly 875 a month, used as the slider default.
+        <a href="https://www.eia.gov/tools/faqs/faq.php?id=97&amp;t=3" target="_blank" rel="noopener">eia.gov</a></div></div>
+      <div class="src"><div class="src-n">[4]</div><div>Poore, J., &amp; Nemecek, T. (2018). Reducing food's environmental impacts through producers and consumers.
+        <em>Science, 360</em>(6392), 987&ndash;992. Meta-analysis of 38,700 farms in 119 countries. Emissions per 100 g of
+        protein: <strong>beef 25 kg</strong>, lamb about 20 kg, cheese 8.4 kg, pork 6.5 kg, poultry 4.3 kg, eggs 3.8 kg,
+        tofu 1.6 kg, peas 0.4 kg CO<sub>2</sub>e. Figures as charted by Our World in Data.
+        <a href="https://ourworldindata.org/environmental-impacts-of-food" target="_blank" rel="noopener">ourworldindata.org</a></div></div>
+      <div class="src"><div class="src-n">[6]</div><div>U.S. Environmental Protection Agency. <em>eGRID2023 summary tables.</em>
+        Subregion annual CO<sub>2</sub> output rates used for the grid buttons: <strong>MROE (MRO East) 1,402 lb/MWh</strong>,
+        a coal-heavy mix, and <strong>NYUP (Upstate New York) 274.6 lb/MWh</strong>, largely hydro and nuclear, against the
+        823.1 lb/MWh national average [2].
+        <a href="https://www.epa.gov/egrid" target="_blank" rel="noopener">epa.gov/egrid</a></div></div>
+      <div class="src"><div class="src-n">[7]</div><div>U.S. EPA and U.S. Department of Transportation. Joint rulemaking conversion factor:
+        burning one gallon of gasoline releases <strong>8,887 grams of CO<sub>2</sub></strong>. Used with an assumed 50 mpg to
+        price the hybrid option.
+        <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references" target="_blank" rel="noopener">epa.gov</a></div></div>
+      <div class="src"><div class="src-n">[8]</div><div>U.S. Department of Energy, Alternative Fuels Data Center. <em>Electric vehicle benefits and considerations.</em>
+        Light-duty all-electric vehicles travel 100 miles on about <strong>25 to 40 kWh</strong>; this tool uses 30 kWh per
+        100 miles, near the middle of that range.
+        <a href="https://afdc.energy.gov/fuels/electricity-benefits" target="_blank" rel="noopener">afdc.energy.gov</a></div></div>
+      <div class="src"><div class="src-n">[5]</div><div>Global Footprint Network. <em>What the Ecological Footprint measures</em> and <em>Glossary.</em>
+        The Footprint counts cropland, grazing land, forest, fishing grounds, built-up land, and carbon, in
+        global hectares. Humanity's 2025 demand is given as <strong>21.7 billion global hectares</strong> against
+        <strong>12.2 billion</strong> of biocapacity, an overshoot of about 1.8 times.
+        <a href="https://footprintnetwork.org/what-ecological-footprints-measure/" target="_blank" rel="noopener">footprintnetwork.org</a></div></div>
+    </div>
+  </div>
+
+  <!-- ── methodology ── -->
+  <div class="panel" id="p-meth">
+    <div class="ph"><span class="ph-title">Methodology, and what it leaves out</span><span class="ph-chev">&#9662;</span></div>
+    <div class="pb">
+      <h4>The arithmetic</h4>
+      <p>Each slider is multiplied by a published factor and summed. Nothing else is modelled.</p>
+      <table class="ftab">
+        <thead><tr><th>Stream</th><th>Factor used</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Driving, gasoline</td><td>0.404 kg CO<sub>2</sub> per mile, an average car at 22.2 mpg</td><td>EPA [1]</td></tr>
+          <tr><td>Driving, hybrid</td><td>0.178 kg per mile, from 8,887 g per gallon at an assumed 50 mpg</td><td>EPA and DOT [7]</td></tr>
+          <tr><td>Driving, electric</td><td>0.30 kWh per mile, then charged at whichever grid is selected, so an EV is 0.112 kg per mile on the US average grid, 0.191 on the coal-heavy grid and 0.037 on the low-carbon grid</td><td>DOE AFDC [8] with [2] and [6]</td></tr>
+          <tr><td>Electricity grid</td><td>0.373 kg per kWh US average, 0.636 coal heavy (MROE), 0.125 low carbon (NYUP)</td><td>EPA eGRID [2][6]</td></tr>
+          <tr><td>Beef and lamb</td><td>25 kg CO<sub>2</sub>e per 100 g protein</td><td>Poore &amp; Nemecek [4]</td></tr>
+          <tr><td>Pork, poultry, dairy</td><td>5.5 kg CO<sub>2</sub>e per 100 g protein, the midpoint of pork 6.5, poultry 4.3, eggs 3.8 and cheese 8.4</td><td>Poore &amp; Nemecek [4]</td></tr>
+          <tr><td>Plant protein</td><td>1.0 kg CO<sub>2</sub>e per 100 g protein, between peas 0.4 and tofu 1.6</td><td>Poore &amp; Nemecek [4]</td></tr>
+        </tbody>
+      </table>
+
+      <h4>The global-hectare figure is an approximation</h4>
+      <p>The Ecological Footprint is measured in global hectares, and its carbon component is the forest
+         area needed to absorb CO<sub>2</sub>. Global Footprint Network does not publish a single public
+         conversion rate, and the values in circulation disagree, so the gha and Earths figures here use a
+         sequestration rate of about <strong>1.8 tonnes of CO<sub>2</sub> per global hectare per year</strong> and a
+         per-person biocapacity of <strong>1.5 global hectares</strong>. Both are shown as secondary, rounded
+         numbers for a sense of scale. Anyone needing a defensible Footprint should use Global Footprint
+         Network's own accounts [5], not this tool.</p>
+
+      <h4>What is deliberately excluded</h4>
+      <p>Flights, natural gas and heating oil, water, goods, clothing, electronics, construction, public
+         services, and the food beyond the protein servings above. Each is real and several are large. A
+         calculator that asked for everything would need assumptions this class has no way to check, so the
+         scope is kept to streams with strong public factors.</p>
+
+      <h4>Averages, not your grid or your farm</h4>
+      <p>The electricity factor is a national average: a kWh in a coal-heavy region carries far more carbon
+         than one in a hydro-heavy region. The driving factor assumes an average gasoline car, so an
+         electric vehicle or a motorcycle is misrepresented. Food figures are global production averages and
+         exclude cooking and household waste.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── factors, each traceable to a source in the panel above ───────────────── */
+var LB = 0.45359237 / 1000;          // lb per MWh -> kg per kWh
+var GRIDS = {                         // EPA eGRID annual CO2 output rates [2][6]
+  avg:   { lb: 823.1,  name: 'US average',  note: 'US annual average, 823.1 lb CO<sub>2</sub>/MWh (EPA eGRID) <sup>[2]</sup>' },
+  coal:  { lb: 1402.0, name: 'Coal heavy',  note: 'MRO East, a coal-heavy mix, 1,402 lb CO<sub>2</sub>/MWh <sup>[6]</sup>' },
+  clean: { lb: 274.6,  name: 'Low carbon',  note: 'Upstate New York, mostly hydro and nuclear, 274.6 lb CO<sub>2</sub>/MWh <sup>[6]</sup>' }
+};
+var EV_KWH = 0.30;                    // kWh per mile, 30 per 100 miles, DOE AFDC [8]
+var GAL_CO2 = 8.887;                  // kg CO2 per gallon of gasoline, EPA and DOT [7]
+var HYB_MPG = 50;                     // assumed hybrid fuel economy
+var CARS = {
+  gas: { name: 'Gasoline', note: 'Average gasoline car, 22.2 mpg (EPA) <sup>[1]</sup>' },
+  hyb: { name: 'Hybrid',   note: 'A 50 mpg hybrid, using 8,887 g CO<sub>2</sub> per gallon <sup>[7]</sup>' },
+  ev:  { name: 'Electric', note: '30 kWh per 100 miles <sup>[8]</sup>, charged on the grid selected above' }
+};
+
+var F = {
+  mile:  0.404,   // kg CO2 per mile, EPA [1]
+  kwh:   0.373,   // kg CO2 per kWh, 823.1 lb/MWh, EPA eGRID [2]
+  beef:  25.0,    // kg CO2e per 100 g protein, Poore & Nemecek [4]
+  white:  5.5,    // midpoint of pork 6.5, poultry 4.3, eggs 3.8, cheese 8.4 [4]
+  plant:  1.0     // between peas 0.4 and tofu 1.6 [4]
+};
+var SEQ = 1.8;    // tonnes CO2 absorbed per global hectare per year (approximate) [5]
+var BIO = 1.5;    // global hectares of biocapacity per person (approximate) [5]
+
+var PRESETS = {
+  us:   { miles:221, kwh:875,  beef:3, white:7,  plant:4 },
+  low:  { miles:60,  kwh:450,  beef:0, white:3,  plant:12 },
+  high: { miles:420, kwh:1600, beef:8, white:12, plant:1 }
+};
+
+var S = Object.assign({}, PRESETS.us);
+var grid = 'avg', car = 'gas';
+function gridKg() { return GRIDS[grid].lb * LB; }                 // kg CO2 per kWh
+function carKg() {                                                // kg CO2 per mile
+  if (car === 'ev')  return EV_KWH * gridKg();                    // the EV rides on the grid
+  if (car === 'hyb') return GAL_CO2 / HYB_MPG;
+  return F.mile;
+}
+var el = function (id) { return document.getElementById(id); };
+
+function compute() {
+  var drive = S.miles * 52 * carKg() / 1000;                      // tonnes/yr
+  var home  = S.kwh * 12 * gridKg() / 1000;
+  var food  = (S.beef * F.beef + S.white * F.white + S.plant * F.plant) * 52 / 1000;
+  return { drive: drive, home: home, food: food, total: drive + home + food };
+}
+
+function fmt(n, d) { return n.toFixed(d === undefined ? 1 : d); }
+
+function render() {
+  el('v-car').innerHTML  = (carKg() * 1000).toFixed(0) + ' g CO<sub>2</sub>/mile';
+  el('h-car').innerHTML  = CARS[car].note;
+  el('v-grid').innerHTML = gridKg().toFixed(3) + ' kg CO<sub>2</sub>/kWh';
+  el('h-grid').innerHTML = GRIDS[grid].note;
+  el('v-miles').textContent = S.miles + ' miles/week';
+  el('v-kwh').textContent   = S.kwh + ' kWh/month';
+  el('v-beef').textContent  = S.beef + ' per week';
+  el('v-white').textContent = S.white + ' per week';
+  el('v-plant').textContent = S.plant + ' per week';
+
+  var r = compute();
+  el('tot').textContent = fmt(r.total);
+  el('gha').textContent = fmt(r.total / SEQ);
+  el('earths').textContent = fmt(r.total / SEQ / BIO);
+
+  var rows = [
+    ['Driving',     r.drive, 'var(--drive)'],
+    ['Electricity', r.home,  'var(--home)'],
+    ['Food',        r.food,  'var(--food)']
+  ];
+  var peak = Math.max(r.total, 0.1);
+  el('bars').innerHTML = rows.map(function (x) {
+    return '<div class="bar"><span class="bar-l">' + x[0] + '</span>'
+         + '<span class="bar-t"><span class="bar-f" style="width:' + (x[1] / peak * 100) + '%;background:' + x[2] + '"></span></span>'
+         + '<span class="bar-v">' + fmt(x[1]) + ' t</span></div>';
+  }).join('');
+
+  // Benchmarks are fixed references, so they must NOT follow the car and grid
+  // buttons: both are computed for a gasoline car on the US average grid.
+  function fixed(preset) {
+    var kS = S, kc = car, kg = grid;
+    S = preset; car = 'gas'; grid = 'avg';
+    var v = compute().total;
+    S = kS; car = kc; grid = kg;
+    return v;
+  }
+  var usT = fixed(PRESETS.us), lowT = fixed(PRESETS.low);
+  el('marks').innerHTML =
+      '<div class="mark you"><b>' + fmt(r.total) + ' t</b><span>your profile</span></div>'
+    + '<div class="mark"><b>' + fmt(usT) + ' t</b><span>US average profile, gasoline car on the average grid</span></div>'
+    + '<div class="mark"><b>' + fmt(lowT) + ' t</b><span>the lower-impact preset, same car and grid</span></div>';
+}
+
+[['s-miles','miles'],['s-kwh','kwh'],['s-beef','beef'],['s-white','white'],['s-plant','plant']]
+  .forEach(function (p) {
+    el(p[0]).addEventListener('input', function (e) {
+      S[p[1]] = +e.target.value;
+      document.querySelectorAll('#chips .pbtn').forEach(function (c) { c.classList.remove('on'); });
+      render();
+    });
+  });
+
+document.querySelectorAll('#chips .pbtn').forEach(function (c) {
+  c.addEventListener('click', function () {
+    document.querySelectorAll('#chips .pbtn').forEach(function (o) { o.classList.remove('on'); });
+    c.classList.add('on');
+    S = Object.assign({}, PRESETS[c.dataset.p]);
+    el('s-miles').value = S.miles; el('s-kwh').value = S.kwh;
+    el('s-beef').value = S.beef; el('s-white').value = S.white; el('s-plant').value = S.plant;
+    render();
+  });
+});
+
+[['#cars .chip', 'c', function (v) { car = v; }],
+ ['#grids .chip', 'g', function (v) { grid = v; }]].forEach(function (spec) {
+  document.querySelectorAll(spec[0]).forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll(spec[0]).forEach(function (o) { o.classList.remove('on'); });
+      b.classList.add('on');
+      spec[2](b.dataset[spec[1]]);
+      render();
+    });
+  });
+});
+
+document.querySelectorAll('.panel .ph').forEach(function (h) {
+  h.addEventListener('click', function () { h.parentElement.classList.toggle('open'); });
+});
+
+/* embed mode hides this page's own header; focus mode sizes it to a slide */
+(function () {
+  var q = new URLSearchParams(location.search);
+  if (q.has('embed')) document.body.classList.add('embed');
+  if (q.get('focus') !== 'calc') return;
+  document.body.classList.add('focus-mode', 'focus-calc');
+
+  // The slide has no room for the reference panels, so they open over it instead.
+  var ov = document.createElement('div');
+  ov.className = 'ef-ov';
+  ov.hidden = true;
+  ov.innerHTML = '<div class="ef-pan" role="dialog" aria-modal="true" aria-label="Sources and methodology">'
+               + '<div class="ef-mh"><span class="ef-mt">Sources and methodology</span>'
+               + '<button class="ef-x" type="button" aria-label="Close">\u00d7</button></div></div>';
+  var pan = ov.querySelector('.ef-pan');
+  pan.appendChild(document.getElementById('p-src'));
+  pan.appendChild(document.getElementById('p-meth'));
+  document.body.appendChild(ov);
+
+  var btn = document.createElement('button');
+  btn.className = 'ef-info';
+  btn.type = 'button';
+  btn.textContent = '\u24d8 Sources and method';
+  document.querySelector('.grid .plate:last-child .tag').appendChild(btn);
+
+  var close = function () { ov.hidden = true; };
+  btn.addEventListener('click', function () { ov.hidden = false; });
+  ov.querySelector('.ef-x').addEventListener('click', close);
+  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+
+render();
+</script>
+</body>
+</html>
