@@ -2517,9 +2517,9 @@ function drawNation(svg, d, prev){
     +'<text y="-30" text-anchor="middle" class="nt-cap sm">N</text></g>');
   var rows=[], KN={health:'Clinics',edu:'Schools',fp:'Family planning',jobs:'Cities and jobs',care:'Elder care',clean:'Solar and clean air',land:'Protected land'};
   LKEYS.forEach(function(k){ if(s[k]) rows.push([LBY[k].c, KN[k]+' · '+s[k]]); });
-  rows.push(['#8fa874', g<=3? 'Economy · green and modest' : g>=7? 'Economy · fast and heavy' : 'Economy · mixed']);
+  rows.push(['#8fa874', g<=3? 'Green economy' : g>=7? 'Fast, heavy economy' : 'Mixed economy']);
   var ky=548-rows.length*19-24;
-  h.push('<g transform="translate(14,'+ky+')"><rect width="168" height="'+(rows.length*19+26)+'" rx="6" fill="#fbf6ea" stroke="#bda77c" opacity=".95"/>'
+  h.push('<g data-key transform="translate(14,'+ky+')"><rect data-keybox width="168" height="'+(rows.length*19+26)+'" rx="6" fill="#fbf6ea" stroke="#bda77c" opacity=".95"/>'
     +'<text x="12" y="17" class="nt-sc">Key</text>');
   rows.forEach(function(r,i2){ h.push('<rect x="12" y="'+(25+i2*19)+'" width="9" height="9" fill="'+r[0]+'" stroke="'+INK+'" stroke-width=".8"/>'
     +'<text x="28" y="'+(33+i2*19)+'" class="nt-cap sm">'+esc(r[1])+'</text>'); });
@@ -2532,6 +2532,12 @@ function drawNation(svg, d, prev){
   h.push('<text x="'+(PTS*13+6)+'" y="10" class="nt-sub">'+(left? left+' of '+PTS+' points left' : 'all '+PTS+' points spent')+'</text></g>');
   svg.innerHTML=h.join('');
   svg.dataset.mode='nation';
+  /* the key's box grows to its longest line, however the labels are worded */
+  try{
+    var kb=svg.querySelector('[data-keybox]'), wmax=0;
+    Array.prototype.forEach.call(svg.querySelectorAll('[data-key] text'),function(t){ var b=t.getBBox(); wmax=Math.max(wmax, b.x+b.width); });
+    if(kb && wmax) kb.setAttribute('width', Math.max(120, Math.ceil(wmax+12)));
+  }catch(e){}
 }
 /* ── EVENT CARDS: a hand-drawn card per event, in the map's ink and wash ── */
 function evStar(x,y,r,col){
@@ -2785,7 +2791,7 @@ function drawMineRun(svg, sim, t, label){
   var p={key:'me', x:40, y:120, w:540, h:390, labels:true, cur:s, ghost:t? s0 : null, max:max,
          title:d.nm+' · year '+(t*STEPY), sub:(label||x.pr.A.n)};
   drawPyramids(svg, 'me', [p], function(){
-    return miniFlag(d, 905, 110, 1.15)
+    return miniFlag(d, 928, 300, 0.72)
       +'<text x="640" y="150" class="nt-big" data-mv="pop"></text><text x="640" y="170" class="nt-cap sm">people</text>'
       +'<text x="640" y="208" class="nt-stat" data-mv="tfr"></text><text x="640" y="232" class="nt-stat" data-mv="e"></text>'
       +'<text x="640" y="256" class="nt-stat" data-mv="med"></text><text x="640" y="280" class="nt-stat" data-mv="rates"></text>'
