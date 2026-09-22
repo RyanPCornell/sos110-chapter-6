@@ -1159,6 +1159,23 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-rvrow.land .nt-rvval{color:#8a6a2f; transform:scale(1.08); transform-origin:right center; display:inline-block;}
 .nt-rvfoot{font-size:clamp(.62rem,.98vw,.74rem); color:#8a8069; text-align:center; margin-top:.55rem; font-style:italic;}
 
+/* the sample student screen */
+.nt-sample{position:absolute; inset:0; z-index:14; display:flex; align-items:center; justify-content:center;
+  background:rgba(59,50,34,.35); backdrop-filter:blur(2px);}
+.nt-scard{width:min(78rem,96%); max-height:96%; display:flex; flex-direction:column; gap:.45rem; background:#fffdf6;
+  border:1px solid rgba(120,100,60,.4); border-radius:16px; padding:.75rem .9rem .8rem; box-shadow:0 18px 50px rgba(40,30,10,.32);}
+.nt-shead{display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;}
+.nt-sey{font-size:.62rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; color:#8a6a2f;}
+.nt-stitle{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; color:#3b3222; font-size:clamp(1rem,1.8vw,1.35rem);}
+.nt-ssteps{display:flex; flex-wrap:wrap; gap:.3rem;}
+.nt-sframe{position:relative; height:min(62vh, 40rem); width:auto; max-width:100%; aspect-ratio:16/9; align-self:center;
+  overflow:hidden; border:1px solid rgba(120,100,60,.3); border-radius:10px; background:#f4ecda; flex:0 0 auto;}
+.nt-sframe iframe{position:absolute; left:0; top:0; width:1440px; height:810px; border:0; transform-origin:0 0; pointer-events:none;}
+.nt-sfoot{display:flex; align-items:center; gap:1rem;}
+.nt-scap{flex:1 1 auto; margin:0; font-family:'Merriweather',Georgia,serif; font-size:clamp(.74rem,1.15vw,.92rem); color:#3b3222; line-height:1.45;}
+.nt-snav{flex:0 0 auto; display:flex; align-items:center; gap:.5rem;}
+.nt-snum{font-size:.72rem; font-weight:700; color:#8a8069; min-width:4.2em; text-align:center;}
+
 /* event cards */
 .nt-goal{display:flex; flex-direction:column; gap:.1rem; background:#f3ead8; border:1px solid rgba(138,106,47,.35);
   border-left:4px solid #8a6a2f; border-radius:10px; padding:.4rem .6rem;}
@@ -1702,6 +1719,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       <button class="cg-btn go" type="button" data-again hidden>Play again?</button>
       <button class="cg-btn" type="button" data-survey hidden>Survey</button>
       <button class="cg-btn ghost" type="button" data-surveyclose hidden>Close survey</button>
+      <button class="cg-btn" type="button" data-samplebtn hidden>Sample student screen</button>
       <button class="cg-btn ghost" type="button" data-renamebtn hidden>Rename a nation…</button>
       <button class="cg-btn ghost" type="button" data-reset>Reset</button>
       <span class="cg-hoststatus" data-hoststatus></span>
@@ -1754,6 +1772,23 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     </div>
 
     <div class="nt-ev" data-evbox hidden><div data-evcard></div></div>
+
+    <div class="nt-sample" data-sample hidden role="dialog" aria-label="Sample student screen">
+      <div class="nt-scard">
+        <div class="nt-shead">
+          <div><div class="nt-sey">Sample student screen</div><div class="nt-stitle">What students will see</div></div>
+          <button class="cg-btn ghost" type="button" data-sclose>Close &times;</button>
+        </div>
+        <div class="nt-ssteps" data-ssteps></div>
+        <div class="nt-sframe" data-sframe></div>
+        <div class="nt-sfoot">
+          <p class="nt-scap" data-scap></p>
+          <div class="nt-snav"><button class="cg-btn ghost" type="button" data-sprev>&#9664; Back</button>
+            <span class="nt-snum" data-snum></span>
+            <button class="cg-btn go" type="button" data-snext>Next &#9654;</button></div>
+        </div>
+      </div>
+    </div>
 
     <div class="nt-reveal" data-reveal hidden>
       <div class="nt-rvcard">
@@ -1882,7 +1917,7 @@ var INK='#3b3222';
 var PTS=14, SMAX=5, STEPS=12, STEPY=5, YEARS=60, NA=17;
 var LEVERS=[
  {k:'health', n:'Child health',        c:'#b5533c', note:'Vaccines, clean water, clinics.'},
- {k:'edu',    n:'Girls’ education', c:'#3f6b73', note:'Slow: today’s schoolgirls are tomorrow’s mothers.'},
+ {k:'edu',    n:'Girls’ education', c:'#3f6b73', note:'Improving girls’ access to education.'},
  {k:'fp',     n:'Family planning',     c:'#6d597a', note:'Access to contraception.'},
  {k:'jobs',   n:'Jobs and cities',     c:'#8a6a2f', note:'Higher incomes, urban work.'},
  {k:'care',   n:'Elder care',          c:'#5f8a6a', note:'Pensions and health care for older people.'},
@@ -2027,7 +2062,11 @@ function nationName(seed){
 function safeName(s){ return String(s==null?'':s).replace(/[<>&"]/g,'').replace(/\s+/g,' ').trim().slice(0,24); }
 
 /* ══ shared state ══ */
-var backend=null, HOST=false, state={}, PK=CG.pid(GID), myD=null;
+/* the sample-screen tour opens the demo with ?sample: the viewing student is then the
+   same on every device, and can be pinned to a starting point, so the tour always
+   shows the same instructive nation */
+var SAMPLEQ=new URLSearchParams(location.search), SAMPLE=SAMPLEQ.has('demo') && SAMPLEQ.has('sample');
+var backend=null, HOST=false, state={}, PK=SAMPLE? 'sample-viewer' : CG.pid(GID), myD=null;
 function phase(){ return state.phase||'idle'; }
 function players(){ return state.players||{}; }
 function gid(){ return String(state.gameId||0); }
@@ -2109,6 +2148,7 @@ function profileOf(k, forceA){
   var key=gid()+':p:'+k+(forceA||'');
   if(profCache[key]) return profCache[key];
   var A=forceA? SBY[forceA] : null;
+  if(!A && SAMPLE && k===PK && SBY[SAMPLEQ.get('start')]) A=SBY[SAMPLEQ.get('start')];
   if(!A){
     var r=CG.rnd(key+':a'), acc=0; A=START[START.length-1];
     for(var i=0;i<START.length;i++){ acc+=START[i].p; if(r<acc){ A=START[i]; break; } }
@@ -3804,6 +3844,7 @@ function renderTabs(){
     tabArmed=arm;
     if(ph==='discuss'){ tab='pyr'; scen='first'; yrSel=STEPS; }
     if(ph==='final' && revisedDone()){ tab='compare'; scen='revised'; }
+    if(DEMO && DEMOQ.get('tab')) tab=DEMOQ.get('tab');
     scope=mine? 'mine' : 'class';
   }
   function mark(sel, attr, val){ Array.prototype.forEach.call(bar.querySelectorAll(sel),function(b){ b.classList.toggle('on', b.getAttribute(attr)===String(val)); }); }
@@ -3979,8 +4020,62 @@ function renderEvent(){
   q('[data-evcard]').innerHTML=h;
 }
 
+/* ══ SAMPLE STUDENT SCREEN — for the instructor to walk the room through what
+   they will see, before anyone plays. Each step is a real frame of the
+   self-running demo (a student's view), frozen at the right moment. ══ */
+var SAMPLE_STEPS=[
+ {t:'Design', b:20, cap:'Name your nation, choose a flag, and spend 14 points across seven policies. The map fills in as you spend. The panel on the left shows how this plan would play out from each possible starting point.'},
+ {t:'Your start', b:24, cap:'Your starting point is drawn at random. The pyramid shows your population by age at year 0: each bar is a five-year age group, men on the left, women on the right. The card on the left says what kind of country you started as.'},
+ {t:'The sixty years', b:29, cap:'Each step is five years. The dashed outline is your year 0 shape, so you can see the pyramid change. On the right: your population, total fertility rate (TFR) against replacement, and a marker showing your stage of the demographic transition.'},
+ {t:'Event cards', b:28, cap:'If event cards are on, every nation draws a card at years 20 and 40. The bar shows the card at full force, and how much of it your policies absorbed.'},
+ {t:'Revision', b:40, cap:'After the first sixty years you can move your points. The panel projects what the change would do, then the same sixty years run again with your new plan.'},
+ {t:'Results', b:37, cap:'After the run, the tabs above the chart let you explore: your pyramid at any year, birth and death rates, population, footprint, and more.'},
+ {t:'What had the most impact', b:55, tab:'levers', cap:'Each policy, ranked by what one more point would have done in your nation. Teal bars lower the measure; red bars raise it.'}
+];
+function sampleBase(){
+  /* the deck on this machine uses the local copy of the demo site; the published
+     deck uses the published one */
+  return /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+    ? '/game-demos-web/nation/' : 'https://ryanpcornell.github.io/sos110-game-demos/nation/';
+}
+var sampleAt=0;
+function sampleScale(){
+  var box=q('[data-sframe]'), fr=box && box.querySelector('iframe');
+  if(fr) fr.style.transform='scale('+(box.clientWidth/1440).toFixed(4)+')';
+}
+function sampleShow(i){
+  sampleAt=(i+SAMPLE_STEPS.length)%SAMPLE_STEPS.length;
+  var st=SAMPLE_STEPS[sampleAt], box=q('[data-sframe]');
+  box.innerHTML='<iframe title="A sample student screen" loading="eager" src="'+sampleBase()+'?demo=1&freeze='+st.b+'&seed=137&start=young'
+    +(st.tab? '&tab='+st.tab : '')+'&sample='+sampleAt+'"></iframe>';
+  sampleScale();
+  q('[data-scap]').textContent=st.cap;
+  q('[data-snum]').textContent=(sampleAt+1)+' of '+SAMPLE_STEPS.length;
+  Array.prototype.forEach.call(q('[data-ssteps]').children,function(b,j){ b.classList.toggle('on', j===sampleAt); });
+}
+function sampleOpen(){
+  var box=q('[data-sample]');
+  q('[data-ssteps]').innerHTML=SAMPLE_STEPS.map(function(st,j){ return '<button type="button" class="ev-bandbtn" data-sgo="'+j+'">'+(j+1)+' · '+esc(st.t)+'</button>'; }).join('');
+  box.hidden=false; sampleShow(0);
+}
+function sampleClose(){ var box=q('[data-sample]'); box.hidden=true; q('[data-sframe]').innerHTML=''; }
+q('[data-sample]').addEventListener('click',function(ev){
+  var b=ev.target.closest('button'); if(!b) { if(ev.target===this) sampleClose(); return; }
+  if(b.hasAttribute('data-sclose')) sampleClose();
+  else if(b.hasAttribute('data-snext')) sampleShow(sampleAt+1);
+  else if(b.hasAttribute('data-sprev')) sampleShow(sampleAt-1);
+  else if(b.dataset.sgo!==undefined) sampleShow(parseInt(b.dataset.sgo,10));
+});
+wrap.addEventListener('keydown',function(ev){
+  if(q('[data-sample]').hidden) return;
+  if(ev.key==='Escape') sampleClose();
+  else if(ev.key==='ArrowRight'){ ev.preventDefault(); sampleShow(sampleAt+1); }
+  else if(ev.key==='ArrowLeft'){ ev.preventDefault(); sampleShow(sampleAt-1); }
+});
+window.addEventListener('resize', sampleScale);
+
 /* ══ phase clock ══ */
-var STEPSEC=4.6, RERUNSEC=3.4, EVPAUSE=8, EVPAUSE2=6;
+var STEPSEC=6.5, RERUNSEC=4.8, EVPAUSE=8, EVPAUSE2=6;
 function runSecs(next, rerun){
   var base=rerun? RERUNSEC : STEPSEC;
   return base + ((evOn() && EVSTEPS.indexOf(next)>-1)? (rerun? EVPAUSE2 : EVPAUSE) : 0);
@@ -4058,6 +4153,7 @@ function render(){
     var evcb=q('[data-events]'), gsel=q('[data-goal]'), locked=['run','discuss','revise','rerun','final'].indexOf(ph)>-1;
     evcb.checked=evOn(); evcb.disabled=locked;
     q('[data-renamebtn]').hidden = !nDesigns();
+    q('[data-samplebtn]').hidden = !(ph==='idle'||ph==='lobby'||ph==='design');
     if(gsel.value!==goalKey()) gsel.value=goalKey(); gsel.disabled=locked;
     q('[data-again]').hidden = ph!=='final' || againOpen();
     q('[data-survey]').hidden = ph!=='final' || svOpen();
@@ -4269,6 +4365,7 @@ function wireHost(){
     var o={nameOverride:{}}; o.nameOverride[k]=safeRawName(gid()+':host:'+k+':'+Date.now()%1000);
     backend.mergeDoc('polls',GID,o);
   }
+  bar.querySelector('[data-samplebtn]').addEventListener('click', sampleOpen);
   bar.querySelector('[data-renamebtn]').addEventListener('click',function(){
     var want=(prompt('Type the nation name to replace:')||'').trim().toLowerCase();
     if(!want) return;
@@ -4375,7 +4472,7 @@ function demoRun(){
   S.push([6000, function(){ doc({phase:'run', st:1}); },
       'The instructor starts the clock. Year 5: the pyramid reshapes as each cohort ages.']);
   for(var y=2;y<=STEPS;y++) (function(yy){
-    S.push([EVSTEPS.indexOf(yy)>-1? 10500 : 3600, function(){ doc({st:yy}); },
+    S.push([EVSTEPS.indexOf(yy)>-1? 12000 : 5200, function(){ doc({st:yy}); },
       EVSTEPS.indexOf(yy)>-1? 'Year '+(yy*STEPY)+': event cards. Each nation draws one, and the bar shows how much its policies absorbed.'
         : 'Year '+(yy*STEPY)+' of 60. Each bar is one five-year age group; the marker shows the stage of the transition.']);
   })(y);
@@ -4390,7 +4487,7 @@ function demoRun(){
       'Every student revises differently: some move points into schooling, some into clean energy, some leave their plan alone.']);
   S.push([2400, function(){ doc({phase:'rerun', st2:1}); }, 'The same sixty years run again with the revised policies.']);
   for(var m=2;m<=STEPS;m++) (function(mm){
-    S.push([EVSTEPS.indexOf(mm)>-1? 8000 : 2600, function(){ doc({st2:mm}); }, 'Revised run, year '+(mm*STEPY)+' of 60.']);
+    S.push([EVSTEPS.indexOf(mm)>-1? 9500 : 3800, function(){ doc({st2:mm}); }, 'Revised run, year '+(mm*STEPY)+' of 60.']);
   })(m);
   S.push([1200, function(){ doc({phase:'final', revised:1}); }, 'Both runs, side by side, for every nation.']);
   S.push([6500, function(){ rep.hidden=false; }, 'Solid is what they chose first; hatched is what they changed to. Results vary with every draw.']);
