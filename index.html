@@ -1778,7 +1778,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       <div class="nt-stage">
         <div class="nt-tabs" data-tabs hidden>
           <span class="ev-bandlbl">Show</span>
-          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What mattered most</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="compare">Compare runs</button><button class="ev-bandbtn" type="button" data-tab="delta">What changed</button>
+          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What had the most impact</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="compare">Compare runs</button><button class="ev-bandbtn" type="button" data-tab="delta">What changed</button>
           <span class="nt-tgroup" data-scopewrap hidden><span class="ev-bandlbl">Of</span><button class="ev-bandbtn" type="button" data-scope="mine">My nation</button><button class="ev-bandbtn" type="button" data-scope="class">Whole class</button></span>
           <span class="nt-tgroup" data-scenwrap hidden><span class="ev-bandlbl">Run</span><button class="ev-bandbtn" type="button" data-scen="first">First</button><button class="ev-bandbtn" type="button" data-scen="revised">After changes</button><button class="ev-bandbtn" type="button" data-scen="diff">Difference</button></span>
           <span class="nt-tgroup" data-yrwrap hidden><span class="ev-bandlbl">Year</span><button class="ev-bandbtn" type="button" data-yr="0">0</button><button class="ev-bandbtn" type="button" data-yr="4">20</button><button class="ev-bandbtn" type="button" data-yr="8">40</button><button class="ev-bandbtn" type="button" data-yr="12">60</button></span>
@@ -3027,7 +3027,7 @@ function drawMattered(svg, sim, who){
   }
   var id=UID+'m', name=who? sim.nat[who].d.nm : '';
   var h=[ntDefs(id), '<rect x="-700" y="-700" width="2400" height="1960" fill="#fbf6ea"/>'];
-  h.push('<text x="60" y="40" class="nt-ctitle">'+(who? 'What mattered most in '+esc(name) : 'What mattered most across the class')+'</text>');
+  h.push('<text x="60" y="40" class="nt-ctitle">'+(who? 'What had the most impact in '+esc(name) : 'What had the most impact across the class')+'</text>');
   h.push('<text x="60" y="62" class="nt-csub">What one more point on each policy would have done to '+PLAIN[metric]+' by year 60'
     +(who? '' : ', on average')+(sim.kind==='revised'? ', in the revised run' : '')+'. Biggest first.</text>');
   var y0=84, x0=590, bw=270, room=(who && revisedDone())? 406 : 448, rh=Math.min(64, room/rows.length);
@@ -3811,7 +3811,7 @@ function renderTabs(){
   if(scen==='diff' && tab!=='pyr') scen='revised';
   show('[data-yrwrap]', tab==='pyr');
   var simple=(tab==='levers' && !(HOST && detail));
-  bar.querySelector('[data-tab="levers"]').textContent='What mattered most';
+  bar.querySelector('[data-tab="levers"]').textContent='What had the most impact';
   show('[data-detailwrap]', HOST && tab==='levers');
   var db=bar.querySelector('[data-detail]'); db.classList.toggle('on', detail); db.textContent=detail? 'Detail views: on' : 'Detail views';
   show('[data-lvwrap]', tab==='levers' && !simple && lMode!=='point');
