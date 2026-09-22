@@ -1089,6 +1089,8 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   font-size:clamp(.88rem,1.4vw,1.06rem); color:#3b3222; background:#fffdf6; border:1px solid rgba(120,100,60,.3);
   border-radius:8px; padding:.22rem .45rem;}
 .nt-nameinput:focus{outline:none; border-color:#8a6a2f; box-shadow:0 0 0 2px rgba(138,106,47,.18);}
+.nt-nameinput.bad{border-color:#A4373A; box-shadow:0 0 0 2px rgba(164,55,58,.18);}
+.nt-namewarn{font-size:clamp(.56rem,.88vw,.66rem); color:#A4373A; margin:-.15rem 0 .3rem; font-weight:700;}
 .nt-mini{flex:none; font:inherit; font-size:.85rem; font-weight:700; cursor:pointer; color:#8a6a2f; line-height:1;
   background:transparent; border:1px solid rgba(120,100,60,.35); border-radius:999px; padding:.3rem .5rem;}
 .nt-flagrow{display:flex; align-items:center; gap:.45rem; margin-top:.22rem;}
@@ -1157,6 +1159,53 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-rvrow.land .nt-rvval{color:#8a6a2f; transform:scale(1.08); transform-origin:right center; display:inline-block;}
 .nt-rvfoot{font-size:clamp(.62rem,.98vw,.74rem); color:#8a8069; text-align:center; margin-top:.55rem; font-style:italic;}
 
+/* event cards */
+.nt-goal{display:flex; flex-direction:column; gap:.1rem; background:#f3ead8; border:1px solid rgba(138,106,47,.35);
+  border-left:4px solid #8a6a2f; border-radius:10px; padding:.4rem .6rem;}
+.nt-goal span{font-size:.58rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#8a6a2f;}
+.nt-goal b{font-family:'Merriweather',Georgia,serif; font-style:italic; color:#3b3222; font-size:clamp(.78rem,1.2vw,.92rem);}
+.nt-goal em{font-style:normal; font-size:clamp(.56rem,.88vw,.66rem); color:#7a7260; line-height:1.3;}
+.nt-free{color:#8a8069; font-weight:700; letter-spacing:.02em; text-transform:none;}
+.nt-tradeoff{font-size:clamp(.54rem,.85vw,.64rem); color:#8a6a2f; margin-top:.2rem; font-style:italic;}
+.nt-small{font-size:clamp(.52rem,.8vw,.6rem);}
+.nt-how{background:#fffdf8; border:1px solid rgba(120,100,60,.24); border-radius:10px; padding:.35rem .55rem;}
+.nt-how summary{cursor:pointer; font-size:clamp(.6rem,.95vw,.7rem); font-weight:800; color:#8a6a2f; letter-spacing:.03em;}
+.nt-how ul{margin:.35rem 0 .2rem; padding-left:1rem; display:flex; flex-direction:column; gap:.2rem;}
+.nt-how li{font-size:clamp(.56rem,.88vw,.66rem); color:#4a4436; line-height:1.35;}
+.nt-how p{font-size:clamp(.52rem,.82vw,.6rem); color:#8a8069; font-style:italic; margin:.2rem 0 0;}
+.nt-evtoggle input{accent-color:#8a6a2f; width:.95rem; height:.95rem; margin-right:.2rem; vertical-align:-2px;}
+.nt-evtoggle:has(input:disabled){opacity:.55;}
+.nt-ev{position:absolute; inset:0; z-index:12; display:flex; align-items:center; justify-content:center;
+  background:rgba(59,50,34,.3); backdrop-filter:blur(1.5px);}
+.nt-evwrap{display:flex; gap:1.3rem; align-items:center; background:#fffdf6; border:1px solid rgba(120,100,60,.4);
+  border-radius:18px; padding:1.1rem 1.3rem; box-shadow:0 18px 50px rgba(40,30,10,.32); max-width:min(54rem,94%);}
+.nt-evwrap.host{flex-direction:column; gap:.55rem; text-align:center;}
+.nt-evcardbox{flex:0 0 auto; width:min(15rem,30vw); perspective:900px;}
+.nt-evsvg{width:100%; height:auto; display:block; animation:nt-flip .9s cubic-bezier(.3,1.25,.45,1) both; transform-origin:50% 50%;}
+@keyframes nt-flip{0%{transform:rotateY(92deg) scale(.88); opacity:.15} 100%{transform:rotateY(0) scale(1); opacity:1}}
+.nt-evmini .nt-evsvg{animation-delay:calc(var(--i) * .14s);}
+.nt-evside{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:.45rem;}
+.nt-evey{font-size:.62rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; color:#8a6a2f;}
+.nt-evhead{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; color:#3b3222; font-size:clamp(1.15rem,2.1vw,1.6rem); line-height:1.15;}
+.nt-evtxt{font-size:clamp(.74rem,1.15vw,.88rem); color:#4a4436; line-height:1.4;}
+.nt-evbar{width:100%; height:auto; display:block; margin-top:.2rem;}
+.nt-evlab{font-family:'Inter',sans-serif; font-size:12.5px; fill:#5e5340;}
+.nt-evlab.b{font-weight:800; fill:#3b3222;}
+.nt-evcap{font-family:'Merriweather',Georgia,serif; font-style:italic; font-size:clamp(.78rem,1.2vw,.95rem); color:#3b3222; line-height:1.4;}
+.nt-evgood{font-size:clamp(.78rem,1.2vw,.92rem); color:#2D6A4F; background:#e8f1ea; border:1px solid #c5dccb; border-radius:10px; padding:.55rem .7rem; line-height:1.4;}
+.nt-evside .cg-btn{align-self:flex-start; margin-top:.2rem;}
+.nt-evwrap.host .cg-btn{align-self:center;}
+.nt-evrow{display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap;}
+.nt-evmini{width:clamp(5.6rem,8.6vw,7.6rem);}
+.nt-evwrap.host{max-width:min(60rem,96%);}
+.nt-evwrap.host .nt-evrow{flex-wrap:nowrap;}
+.nt-evcap.late{animation:nt-late .6s ease 2.3s both;}
+@keyframes nt-late{from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none}}
+.nt-evcount{font-family:'Merriweather',serif; font-weight:900; color:#3b3222; font-size:clamp(1.1rem,2vw,1.5rem); line-height:1; margin-top:.3rem;}
+.nt-evcl{font-size:.62rem; color:#8a8069; text-transform:uppercase; letter-spacing:.1em;}
+.nt-evtitle{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; font-size:25px; fill:#3b3222;}
+@media(prefers-reduced-motion:reduce){ .nt-evsvg{animation:none;} }
+
 /* SVG type — the Biomimicry deck's register */
 .nt-name{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; font-size:34px; fill:#3b3222;}
 .nt-sub{font-family:'Merriweather',Georgia,serif; font-style:italic; font-size:14px; fill:#7a7260;}
@@ -1181,6 +1230,10 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .nt-tk{font-family:'Inter',sans-serif; font-size:13px; fill:#5e5340;}
 .nt-tk.b{font-weight:700; fill:#3b3222;}
 .nt-ax{font-family:'Inter',sans-serif; font-size:12px; fill:#9a917c;}
+.nt-ax.b{font-weight:700; fill:#5e5340;}
+.nt-rank{font-family:'Merriweather',Georgia,serif; font-style:italic; font-weight:900; font-size:26px; fill:#8a6a2f;}
+.nt-rowname{font-family:'Merriweather',Georgia,serif; font-weight:700; font-size:16px;}
+.nt-slide .ev-bandbtn.nt-detail{border-style:dashed;}
 .nt-axl{font-family:'Inter',sans-serif; font-size:13px; font-weight:600; fill:#7a7260;}
 .nt-grid{stroke:rgba(120,100,60,.18); stroke-width:1; fill:none;}
 .nt-mine{font-family:'Merriweather',serif; font-style:italic; font-weight:900; font-size:15px; fill:#8a6a2f;
@@ -1634,6 +1687,13 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
           <option value="5" selected>5 min</option>
           <option value="7">7 min</option>
         </select></label>
+      <label class="cg-set nt-evtoggle" title="Two surprise event cards at years 20 and 40"><input type="checkbox" data-events> Event cards</label>
+      <label class="cg-set">Class goal
+        <select data-goal>
+          <option value="">None</option>
+          <option value="lives">Longest lives within one Earth</option>
+          <option value="steady">Steadiest population</option>
+        </select></label>
       <button class="cg-btn" type="button" data-start hidden>Start designing &#9654;</button>
       <button class="cg-btn go" type="button" data-begin hidden>Start the sixty years &#9654;</button>
       <button class="cg-btn" type="button" data-step hidden>Next 5 years &#9654;</button>
@@ -1642,6 +1702,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       <button class="cg-btn go" type="button" data-again hidden>Play again?</button>
       <button class="cg-btn" type="button" data-survey hidden>Survey</button>
       <button class="cg-btn ghost" type="button" data-surveyclose hidden>Close survey</button>
+      <button class="cg-btn ghost" type="button" data-renamebtn hidden>Rename a nation…</button>
       <button class="cg-btn ghost" type="button" data-reset>Reset</button>
       <span class="cg-hoststatus" data-hoststatus></span>
     </div>
@@ -1672,7 +1733,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
           <button class="cg-btn go big" type="submit">Send my answers</button>
         </form>
         <div class="ev-sv-done" data-surveydone hidden>
-          <div class="ev-sv-thanks">Thank you &mdash; your answers are in.</div>
+          <div class="ev-sv-thanks">Thank you. Your answers are in.</div>
           <div class="ev-again-tally" data-surveycount></div>
         </div>
       </div>
@@ -1691,6 +1752,8 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
         <div class="ev-again-tally" data-againtally></div>
       </div>
     </div>
+
+    <div class="nt-ev" data-evbox hidden><div data-evcard></div></div>
 
     <div class="nt-reveal" data-reveal hidden>
       <div class="nt-rvcard">
@@ -1715,11 +1778,13 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       <div class="nt-stage">
         <div class="nt-tabs" data-tabs hidden>
           <span class="ev-bandlbl">Show</span>
-          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What made an impact</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="compare">Compare runs</button><button class="ev-bandbtn" type="button" data-tab="delta">What changed</button>
+          <button class="ev-bandbtn" type="button" data-tab="pyr">Pyramids</button><button class="ev-bandbtn" type="button" data-tab="rates">Birth &amp; death rates</button><button class="ev-bandbtn" type="button" data-tab="growth">Population</button><button class="ev-bandbtn" type="button" data-tab="levers">What mattered most</button><button class="ev-bandbtn" type="button" data-tab="planet">Planet</button><button class="ev-bandbtn" type="button" data-tab="compare">Compare runs</button><button class="ev-bandbtn" type="button" data-tab="delta">What changed</button>
           <span class="nt-tgroup" data-scopewrap hidden><span class="ev-bandlbl">Of</span><button class="ev-bandbtn" type="button" data-scope="mine">My nation</button><button class="ev-bandbtn" type="button" data-scope="class">Whole class</button></span>
           <span class="nt-tgroup" data-scenwrap hidden><span class="ev-bandlbl">Run</span><button class="ev-bandbtn" type="button" data-scen="first">First</button><button class="ev-bandbtn" type="button" data-scen="revised">After changes</button><button class="ev-bandbtn" type="button" data-scen="diff">Difference</button></span>
           <span class="nt-tgroup" data-yrwrap hidden><span class="ev-bandlbl">Year</span><button class="ev-bandbtn" type="button" data-yr="0">0</button><button class="ev-bandbtn" type="button" data-yr="4">20</button><button class="ev-bandbtn" type="button" data-yr="8">40</button><button class="ev-bandbtn" type="button" data-yr="12">60</button></span>
           <span class="nt-tgroup" data-lvwrap hidden><span class="ev-bandlbl">By</span><button class="ev-bandbtn" type="button" data-lv="health">Health</button><button class="ev-bandbtn" type="button" data-lv="edu">Education</button><button class="ev-bandbtn" type="button" data-lv="fp">Family planning</button><button class="ev-bandbtn" type="button" data-lv="jobs">Jobs</button><button class="ev-bandbtn" type="button" data-lv="care">Elder care</button><button class="ev-bandbtn" type="button" data-lv="clean">Clean energy</button><button class="ev-bandbtn" type="button" data-lv="land">Land</button></span>
+          <span class="nt-tgroup" data-detailwrap hidden><button class="ev-bandbtn nt-detail" type="button" data-detail>Detail views</button></span>
+          <span class="nt-tgroup" data-lmodewrap hidden><span class="ev-bandlbl">View</span><button class="ev-bandbtn" type="button" data-lmode="point">One extra point</button><button class="ev-bandbtn" type="button" data-lmode="level">Class pattern</button><button class="ev-bandbtn" type="button" data-lmode="effect">Revisions</button></span>
           <span class="nt-tgroup" data-outwrap hidden><span class="ev-bandlbl">Outcome</span><button class="ev-bandbtn" type="button" data-out="tfr">TFR</button><button class="ev-bandbtn" type="button" data-out="grow">Growth</button><button class="ev-bandbtn" type="button" data-out="old">Aged 65+</button><button class="ev-bandbtn" type="button" data-out="foot">Footprint</button></span>
         </div>
         <div class="ev-scenewrap nt-scenewrap">
@@ -1739,15 +1804,17 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       </div>
     </div>
 
-    <p class="nt-disc"><b>About the model:</b> a teaching simulation, not a forecast. Each nation is projected the way
-      statistics offices do it, by five-year age groups and sex: births come from women aged 15&ndash;49, everyone moves up
-      one group every five years, and deaths follow child and adult mortality. The <b>total fertility rate (TFR)</b> is the
-      average number of births a woman would have over a lifetime at current rates. Policies change those rates, some
-      quickly (family planning, child health) and some with a delay (education acts as schoolgirls reach adulthood).
-      Clean energy cuts the footprint each person carries, and protected land raises what the nation renews.
-      Every nation starts with 30 million people; its starting fertility, life expectancy and income are drawn at random.
-      When the class&#8217;s combined footprint exceeds what its share of the planet renews, income growth slows and death
-      rates rise slightly for everyone.
+    <p class="nt-disc"><b>About the model:</b> a teaching simulation, not a forecast. It uses a simplified version of
+      the cohort-component method that statistics offices use: five-year age groups by sex, births to women aged
+      15&ndash;49, and deaths from child and adult mortality. It leaves out migration and uncertainty, uses one fixed
+      age pattern of childbearing, and a stylized mortality curve. The <b>total fertility rate (TFR)</b> is the average
+      number of births a woman would have over a lifetime at current rates; <b>replacement</b> is the TFR at which each
+      generation just replaces itself, about 2.1 where few children die and higher where more do. Policy effects are
+      simplified mechanisms chosen to teach, not measured effect sizes. Stages come from birth and death rates per 1,000:
+      births of 30 or more with deaths of 22 or more is Stage 1; births of 30 or more is Stage 2; births of 17 or more is
+      Stage 3; lower births is Stage 4; deaths above births is Stage 5. Footprint and Earths are the game&#8217;s own
+      relative units, not calibrated global hectares: Earths compares the class&#8217;s footprint with what its land renews,
+      and going over slows income growth and raises death rates slightly for everyone.
       <span class="ev-refs">Bongaarts, J. (2009). Human population growth and the demographic transition. <em>Philosophical Transactions of the Royal Society B, 364</em>(1532), 2985&ndash;2990. &nbsp;&middot;&nbsp;
       Keyfitz, N. (1971). On the momentum of population growth. <em>Demography, 8</em>(1), 71&ndash;80. &nbsp;&middot;&nbsp;
       United Nations, Population Division. (2024). <em>World population prospects 2024.</em> &nbsp;&middot;&nbsp;
@@ -1841,9 +1908,122 @@ var AGEL=['0–4','5–9','10–14','15–19','20–24','25–29','30–34','35�
 var STAGEN=['','Stage 1 · high births, high deaths','Stage 2 · deaths falling','Stage 3 · births falling','Stage 4 · low births, low deaths','Stage 5 · deaths exceed births'];
 var STC=['','#b5533c','#d69a2d','#c9b27e','#7fa3a8','#3f6b73'];
 
-var NM_A=['Aster','Corva','Delm','Ember','Fenn','Galda','Halver','Isar','Juno','Kestr','Lumen','Marro','Norra','Orel','Pella','Quillon','Rosk','Selva','Tamar','Ulen','Varra','Wendel','Yarrow','Zefir'];
-var NM_B=['ia','ova','ara','enne','oria','and','avia','ella','ethe','un','ica','os'];
-function nationName(seed){ return NM_A[CG.pick(seed+':a',NM_A.length)]+NM_B[CG.pick(seed+':b',NM_B.length)]; }
+/* ══ EVENT CARDS — an optional shock at years 20 and 40. Each nation draws its
+   own card from a seeded deck, so every screen agrees and the revised run meets
+   exactly the same cards as the first one. ══ */
+var EVSTEPS=[4,8];
+var EVENTS=[
+ {k:'plague',  n:'Pandemic',             w:0.24, good:false, c:'#b5533c',
+  txt:'A new disease spreads. Deaths rise for five years, most of all among older people.'},
+ {k:'boom',    n:'Baby boom',            w:0.24, good:false, c:'#c98a5e',
+  txt:'Births surge for ten years, then fall back. Watch the bulge climb the pyramid.'},
+ {k:'famine',  n:'Famine',               w:0.20, good:false, c:'#a8744a',
+  txt:'Harvests fail. Child deaths rise and births fall for five years.'},
+ {k:'harvest', n:'Bumper harvest',       w:0.16, good:true,  c:'#c9a24a',
+  txt:'A green-revolution harvest. Child deaths fall for good, and incomes rise.'},
+ {k:'vaccine', n:'Vaccine breakthrough', w:0.16, good:true,  c:'#3f6b73',
+  txt:'A new vaccine. Child deaths fall for good, and lives get longer.'}
+];
+var EVBY={}; EVENTS.forEach(function(e){ EVBY[e.k]=e; });
+function evOn(){ return !!state.events; }
+
+/* ══ AN OPTIONAL CLASS GOAL. Without one the game is open exploration; with one,
+   every trade-off has something to be measured against. ══ */
+var GOALS={
+ lives:{n:'Longest lives within one Earth', why:'Highest life expectancy in year 60, while your own footprint stays within what your land renews.'},
+ steady:{n:'Steadiest population by year 60', why:'The smallest change in population over the last ten years: neither booming nor shrinking.'}
+};
+function goalKey(){ return GOALS[state.goal]? state.goal : ''; }
+function goalOf(x){
+  var s1=x.s1, g=goalKey();
+  if(g==='lives'){
+    var earths=s1.foot/(capacityOf(x.d)/1000), ok=earths<=1;
+    return {score:(ok? s1.e : s1.e-1000), val:Math.round(s1.e)+' years', note:(ok? 'within one Earth' : 'over one Earth ('+earths.toFixed(2)+')'), ok:ok};
+  }
+  var ch=s1.N/x.snap[STEPS-2].N-1;
+  return {score:-Math.abs(ch), val:sgn(ch), note:'last ten years', ok:Math.abs(ch)<0.02};
+}
+function cardFor(k, m){
+  var r=CG.rnd(gid()+':ev:'+k+':'+m), acc=0;
+  for(var i=0;i<EVENTS.length;i++){ acc+=EVENTS[i].w; if(r<acc) return EVENTS[i].k; }
+  return EVENTS[EVENTS.length-1].k;
+}
+/* the card acting on the five years that END at step t, if any */
+function evAt(k, t){
+  if(!evOn()) return null;
+  for(var m=0;m<EVSTEPS.length;m++){
+    var c=cardFor(k,m);
+    if(t===EVSTEPS[m]) return {k:c, first:true, m:m};
+    if(c==='boom' && t===EVSTEPS[m]+1) return {k:c, first:false, m:m};
+  }
+  return null;
+}
+/* how much of a bad card this nation's policies took off */
+function softened(kind, d){
+  var LV=levers(d);
+  return kind==='plague'? 0.5*LV.health+0.3*LV.care : kind==='famine'? 0.7*LV.land : kind==='boom'? 0.35*LV.fp : 0;
+}
+
+var NM_A=['Aster','Corva','Delm','Ember','Fenn','Galda','Halver','Isar','Juno','Kestr','Lumen','Marro','Norra','Orel','Pella','Quillon','Rosk','Selva','Tamar','Ulen','Varra','Wendel','Yarrow','Zefir',
+  'Alder','Bryn','Calla','Dorn','Elsin','Fable','Gryn','Hollin','Ilva','Lark','Mirra','Orwen'];
+var NM_B=['ia','ova','ara','enne','oria','and','avia','ella','ethe','un','ica','os',
+  'ene','ira','ovia','era','ium','ane','ette','orra','ivia','esse','ondia','ari'];
+/* combinations that pass the word filter but still carry something: a car brand, and
+   a near-match for an old slur */
+var NAME_SKIP=['corvette','marrane'];
+/* A syllable ending in a vowel meets an ending that starts with one: drop the extra
+   vowel, so "Corva"+"ia" is Corvia rather than Corvaia. */
+function joinName(a,b){ return (/[aeiou]$/i.test(a) && /^[aeiou]/i.test(b))? a.slice(0,-1)+b : a+b; }
+function rawName(seed){ return joinName(NM_A[CG.pick(seed+':a',NM_A.length)], NM_B[CG.pick(seed+':b',NM_B.length)]); }
+
+/* ── THE NAME FILTER. Names reach the projector, so both the generated ones and the
+   ones students type are checked. Words in SUB are caught anywhere in a name; words
+   in WHOLE only on their own, because as fragments they sit inside ordinary words
+   (Massa, Essex, Grape, Raccoon, Montenegro). Generated names are single invented
+   words, so for them the WHOLE list is checked as fragments too. No filter catches
+   everything; the instructor can also rename any nation. ── */
+var NAME_SUB=['fuck','fuk','fck','shit','cunt','bitch','whore','slut','nigg','faggot','kike','chink','nazi','hitler',
+  'kkk','jihad','porn','penis','vagin','dick','pussy','dildo','boob','twat','piss','retard','rapist','jizz','wetback'];
+var NAME_WHOLE=['ass','arse','anus','anal','sex','cum','tit','tits','titty','fag','spic','coon','cock','rape','isis','heil',
+  'klan','wank','negro','dyke','semen','hoe','hoes','hell','damn','crap','turd','poo','poop','pee','fart','butt','bum',
+  'die','dead','kill','war','meth','weed','coke','crack','drug','drugs','nig','slave','gay','homo','lesbo','tranny','incel'];
+function normName(s){
+  return String(s||'').toLowerCase().replace(/[0]/g,'o').replace(/[@4]/g,'a').replace(/[1!|]/g,'i')
+    .replace(/3/g,'e').replace(/[5$]/g,'s').replace(/7/g,'t').replace(/8/g,'b');
+}
+function collapse(t){ return t.replace(/(.)\1+/g,'$1'); }
+function nameBlocked(s){
+  var n=normName(s), j=n.replace(/[^a-z]/g,''), jc=collapse(j), toks=n.split(/[^a-z]+/).filter(Boolean);
+  var jv=jc.replace(/v/g,'u');   /* "fvck": v standing in for u */
+  if(NAME_SUB.some(function(w){ return j.indexOf(w)>-1 || jc.indexOf(w)>-1 || jv.indexOf(w)>-1; })) return true;
+  return toks.concat([j, jc]).some(function(t){ return NAME_WHOLE.indexOf(t)>-1 || NAME_WHOLE.indexOf(collapse(t))>-1; });
+}
+function genBlocked(nm){
+  var j=nm.toLowerCase();
+  return NAME_SKIP.indexOf(j)>-1 || nameBlocked(nm) || NAME_WHOLE.some(function(w){ return w.length>=3 && j.indexOf(w)>-1; });
+}
+/* a clean invented name from a seed, ignoring who else has it */
+function safeRawName(seed){
+  for(var i=0;i<60;i++){ var c=rawName(seed+(i? ':v'+i : '')); if(!genBlocked(c)) return c; }
+  return 'Nation '+(CG.pick(seed,900)+100);
+}
+/* names already taken by other nations this game, read straight from the doc */
+function takenNames(){
+  var t={}, D=state.designs||{}, D2=state.designs2||{};
+  Object.keys(D).forEach(function(k){ if(k!==PK && D[k] && D[k].nm) t[String(D[k].nm).trim().toLowerCase()]=1; });
+  Object.keys(D2).forEach(function(k){ if(k!==PK && D2[k] && D2[k].nm) t[String(D2[k].nm).trim().toLowerCase()]=1; });
+  var ov=state.nameOverride||{}; Object.keys(ov).forEach(function(k){ if(k!==PK) t[String(ov[k]).toLowerCase()]=1; });
+  return t;
+}
+/* the suggested name: clean, and not one a classmate already has */
+function nationName(seed){
+  var taken=takenNames(), c='';
+  for(var i=0;i<80;i++){
+    c=rawName(seed+(i? ':v'+i : ''));
+    if(!genBlocked(c) && !taken[c.toLowerCase()]) return c;
+  }
+  return safeRawName(seed);
+}
 function safeName(s){ return String(s==null?'':s).replace(/[<>&"]/g,'').replace(/\s+/g,' ').trim().slice(0,24); }
 
 /* ══ shared state ══ */
@@ -1870,17 +2050,25 @@ function cleanOne(d){
 /* designs arrive from a shard anybody can write, so they are checked, not trusted */
 var cleanSig='', cleanVal={}, cleanSig2='', cleanVal2={};
 function cleanDesigns(){
-  var raw=state.designs||{}, sig=gid()+'|'+JSON.stringify(raw);
+  var raw=state.designs||{}, sig=gid()+'|'+JSON.stringify(raw)+'|'+JSON.stringify(state.nameOverride||{});
   if(sig===cleanSig) return cleanVal;
-  var o={}; Object.keys(raw).forEach(function(k){ var c=cleanOne(raw[k]); if(c) o[k]=c; });
+  var o={}; Object.keys(raw).forEach(function(k){ var c=cleanOne(raw[k]); if(c) o[k]=nameGuard(k,c); });
   cleanSig=sig; cleanVal=o; return o;
+}
+/* the filter again on every screen, in case a name was written around the form,
+   and the instructor's rename, which always wins */
+function nameGuard(k, c){
+  var ov=(state.nameOverride||{})[k];
+  if(ov) c.nm=safeName(ov);
+  else if(nameBlocked(c.nm)) c.nm=safeRawName(gid()+':guard:'+k);
+  return c;
 }
 /* the revised policies: whoever did not revise keeps their first plan */
 function cleanDesigns2(){
   var raw=state.designs2||{}, base=cleanDesigns(), sig=gid()+'|'+cleanSig+'|'+JSON.stringify(raw);
   if(sig===cleanSig2) return cleanVal2;
   var o={}; Object.keys(base).forEach(function(k){ o[k]=base[k]; });
-  Object.keys(raw).forEach(function(k){ if(base[k]){ var c=cleanOne(raw[k]); if(c) o[k]=c; } });
+  Object.keys(raw).forEach(function(k){ if(base[k]){ var c=cleanOne(raw[k]); if(c){ c.nm=base[k].nm; o[k]=c; } } });
   cleanSig2=sig; cleanVal2=o; return o;
 }
 function designsFor(kind){ return kind==='revised'? cleanDesigns2() : cleanDesigns(); }
@@ -1952,15 +2140,22 @@ function levers(d){ var o={}; LKEYS.forEach(function(k){ o[k]=d.s[k]/SMAX; }); r
 function capacityOf(d){ return BIO*(1+0.35*(d.s.land/SMAX)); }
 
 /* one five-year step: births, aging, deaths — then the policies move the rates */
-function advanceN(c, d, drag){
+function advanceN(c, d, drag, ev){
   var LV=levers(d), gE=d.g/10, om=1+0.06*Math.max(0,drag), i;
-  var tfr=c.W+c.U;
+  var qm=1, tm=1, tadd=0;
+  if(ev){
+    var soft=ev.full? 0 : softened(ev.k, d);
+    if(ev.k==='plague'){ om*=1+1.6*(1-soft); qm=1+0.4*(1-soft); }
+    else if(ev.k==='famine'){ qm=1+2*(1-soft); om*=1+0.5*(1-soft); tm=1-0.15*(1-soft); }
+    else if(ev.k==='boom'){ tadd=1.3*(1-soft); }
+  }
+  var tfr=(c.W+c.U)*tm+tadd, q5=Math.min(0.5, c.q5*qm);
   var N1=sum(c.F)+sum(c.M), births=0;
   for(i=0;i<7;i++) births+=c.F[3+i]*tfr*ASFR[i];
   var F2=[], M2=[];
-  F2[0]=births*0.488*(1-0.85*c.q5); M2[0]=births*0.512*(1-0.87*c.q5);
+  F2[0]=births*0.488*(1-0.85*q5); M2[0]=births*0.512*(1-0.87*q5);
   for(i=1;i<NA-1;i++){
-    if(i===1){ F2[1]=c.F[0]*(1-0.15*c.q5); M2[1]=c.M[0]*(1-0.17*c.q5); continue; }
+    if(i===1){ F2[1]=c.F[0]*(1-0.15*q5); M2[1]=c.M[0]*(1-0.17*q5); continue; }
     var mu=hazard(c.cA,5*i)*om;
     F2[i]=c.F[i-1]*Math.exp(-5*mu*0.82); M2[i]=c.M[i-1]*Math.exp(-5*mu*1.22);
   }
@@ -1969,7 +2164,12 @@ function advanceN(c, d, drag){
   M2[NA-1]=c.M[NA-2]*Math.exp(-5*m80*1.22)+c.M[NA-1]*Math.exp(-5*m87*1.22);
   var N2=sum(F2)+sum(M2), deaths=N1+births-N2, avg=(N1+N2)/2;
   c.F=F2; c.M=M2;
-  var rates={tfr:tfr, cbr:births/STEPY/avg*1000, cdr:deaths/STEPY/avg*1000};
+  var rates={tfr:tfr, cbr:births/STEPY/avg*1000, cdr:deaths/STEPY/avg*1000, births:births, deaths:deaths};
+  /* the good cards leave a permanent mark */
+  if(ev && ev.first){
+    if(ev.k==='harvest'){ c.q5*=0.75; c.inc*=1.08; }
+    else if(ev.k==='vaccine'){ c.q5*=0.65; c.cA*=0.9; }
+  }
   /* the policies act on the rates of the NEXT five years */
   var work=0; for(i=3;i<13;i++) work+=F2[i]+M2[i];
   var ws=work/N2, incL=clamp(Math.log(c.inc/1.5)/Math.log(40),0,1);
@@ -1993,18 +2193,19 @@ function snapOf(c, rates, d){
   var half=tot/2, cum=0, med=85;
   for(i=0;i<NA;i++){ if(cum+N[i]>=half){ med=5*i+5*(half-cum)/N[i]; break; } cum+=N[i]; }
   var young=N[0]+N[1]+N[2], old=N[13]+N[14]+N[15]+N[16], work=tot-young-old;
+  var lf=1-c.q5; for(i=1;i<=5;i++) lf*=Math.exp(-5*hazard(c.cA,5*i+2.5)*0.82);
   var gE=d? d.g/10 : 0.5, cl=d? d.s.clean/SMAX : 0;
   var fpc=(0.8+0.75*Math.log(1+c.inc/4))*(0.75+0.5*gE)*(1-0.42*cl);
   return {F:c.F.map(Math.round), M:c.M.map(Math.round), N:tot, tfr:rates.tfr, cbr:rates.cbr, cdr:rates.cdr,
           stage:stageOf(rates.cbr,rates.cdr), e:lifeExp(c.cA,c.q5), q5:c.q5, inc:c.inc, med:med,
-          dep:(young+old)/work, old:old/tot, kids:young/tot, fpc:fpc, foot:tot*fpc/1000};
+          dep:(young+old)/work, old:old/tot, kids:young/tot, fpc:fpc, foot:tot*fpc/1000, rep:1/(0.488*lf)};
 }
 
 var simCache={};
 function simulate(kind){
-  var D=designsFor(kind), sig=kind+'|'+(kind==='revised'? cleanSig2 : cleanSig);
+  var D=designsFor(kind), sig=kind+'|'+(kind==='revised'? cleanSig2 : cleanSig)+'|ev'+(evOn()?1:0);
   if(simCache[kind] && simCache[kind].sig===sig) return simCache[kind];
-  var ks=Object.keys(D).sort(), n=ks.length, nat={}, world=[], drag=0, cap=0, t;
+  var ks=Object.keys(D).sort(), n=ks.length, nat={}, world=[], drag=0, cap=0, drags=[0], t;
   ks.forEach(function(k){ var pr=profileOf(k); nat[k]={k:k, d:D[k], pr:pr, c:initNation(pr), snap:[]}; cap+=capacityOf(D[k]); });
   for(t=0;t<=STEPS;t++){
     var W={N:0, foot:0, byA:{}, footA:{}, nA:{}, stages:[0,0,0,0,0,0]};
@@ -2012,7 +2213,20 @@ function simulate(kind){
     ks.forEach(function(k){
       var x=nat[k], rates;
       if(t===0) rates=advanceN(cloneN(x.c), x.d, 0);
-      else rates=advanceN(x.c, x.d, drag);
+      else {
+        drags[t]=drag;
+        var ev=evAt(k,t);
+        if(ev){
+          var base=advanceN(cloneN(x.c), x.d, drag, null);
+          var full=advanceN(cloneN(x.c), x.d, drag, {k:ev.k, first:ev.first, m:ev.m, full:true});
+          rates=advanceN(x.c, x.d, drag, ev);
+          var fld=ev.k==='boom'? 'births' : 'deaths';
+          x.evFx=x.evFx||[];
+          var fx=x.evFx[ev.m]||(x.evFx[ev.m]={k:ev.k, full:0, act:0, soft:softened(ev.k,x.d)});
+          fx.full+=full[fld]-base[fld]; fx.act+=rates[fld]-base[fld];
+          if(ev.k==='harvest'||ev.k==='vaccine'){ fx.full=0; fx.act=0; }
+        } else rates=advanceN(x.c, x.d, drag, null);
+      }
       var s=snapOf(x.c, rates, x.d);
       x.snap.push(s);
       W.N+=s.N; W.foot+=s.foot; W.byA[x.pr.k]+=s.N; W.footA[x.pr.k]+=s.foot; W.nA[x.pr.k]++; W.stages[s.stage]++;
@@ -2026,14 +2240,54 @@ function simulate(kind){
     x.snap.forEach(function(s,i){ if(s.N>peak){ peak=s.N; py=i*STEPY; } });
     x.grow=s1.N/s0.N-1; x.peak=peak; x.peakYear=py; x.s0=s0; x.s1=s1;
   });
-  var out={sig:sig, kind:kind, ks:ks, n:n, nat:nat, world:world, cap:cap};
+  var out={sig:sig, kind:kind, ks:ks, n:n, nat:nat, world:world, cap:cap, drag:drags};
   simCache[kind]=out; return out;
 }
+/* ══ CONTROLLED RERUNS. The model is deterministic, so instead of reading effects
+   off a scatter of nations that chose differently, a nation can be run again with ONE
+   thing changed and everything else, the planet's feedback included, held fixed. ══ */
+function runWith(k, d, drags){
+  var c=initNation(profileOf(k)), snaps=[];
+  for(var t=0;t<=STEPS;t++){
+    var r = t===0? advanceN(cloneN(c), d, 0, null) : advanceN(c, d, drags[t]||0, evAt(k,t));
+    snaps.push(snapOf(c, r, d));
+  }
+  return snaps;
+}
+function outOfSnaps(sn){ var s1=sn[STEPS]; return {tfr:s1.tfr, grow:s1.N/sn[0].N-1, old:s1.old, foot:s1.fpc, e:s1.e, N:s1.N}; }
+/* what ONE more point on each policy would have done to each nation */
+var mfxCache={};
+function marginal(sim){
+  if(mfxCache[sim.sig]) return mfxCache[sim.sig];
+  var out={};
+  sim.ks.forEach(function(k){
+    var x=sim.nat[k], base=outOfSnaps(x.snap), o={};
+    LKEYS.forEach(function(l){
+      var d2=JSON.parse(JSON.stringify(x.d)), dir=d2.s[l]<SMAX? 1 : -1;
+      d2.s[l]+=dir;
+      var v=outOfSnaps(runWith(k, d2, sim.drag)), e={};
+      ['tfr','grow','old','foot','e'].forEach(function(f){ e[f]=(v[f]-base[f])*dir; });
+      o[l]=e;
+    });
+    out[k]=o;
+  });
+  mfxCache[sim.sig]=out; return out;
+}
+/* each nation's revision, run against the FIRST run's planet, so its classmates'
+   changes are held out */
+var ctlCache={};
+function controlledRevision(simA){
+  var key=simA.sig+'|'+cleanSig2;
+  if(ctlCache[key]) return ctlCache[key];
+  var D2=cleanDesigns2(), out={};
+  simA.ks.forEach(function(k){ out[k]=runWith(k, D2[k]||simA.nat[k].d, simA.drag); });
+  ctlCache[key]=out; return out;
+}
 /* one nation, run on its own (no class feedback) — used by both projections */
-function runOne(pr, d){
+function runOne(pr, d, k){
   var c=initNation(pr), s0=null, s=null;
   for(var t=0;t<=STEPS;t++){
-    var r=advanceN(t===0? cloneN(c) : c, d, 0);
+    var r=advanceN(t===0? cloneN(c) : c, d, 0, (k && t)? evAt(k,t) : null);
     s=snapOf(c, r, d); if(t===0) s0=s;
   }
   return {s0:s0, s1:s};
@@ -2046,7 +2300,10 @@ function estimate(d){
   });
 }
 /* the revision projection: this plan in the nation the student actually drew */
-function estimateMine(d){ return runOne(profileOf(PK), d); }
+function estimateMine(d){
+  var sn=runWith(PK, d, simulate('first').drag);
+  return {s0:sn[0], s1:sn[STEPS]};
+}
 
 function f1(v){ return (+v).toFixed(1); }
 function ntDefs(id){
@@ -2276,6 +2533,100 @@ function drawNation(svg, d, prev){
   svg.innerHTML=h.join('');
   svg.dataset.mode='nation';
 }
+/* ── EVENT CARDS: a hand-drawn card per event, in the map's ink and wash ── */
+function evStar(x,y,r,col){
+  return '<path d="M'+f1(x)+','+f1(y-r)+' Q'+f1(x+r*.18)+','+f1(y-r*.18)+' '+f1(x+r)+','+f1(y)+' Q'+f1(x+r*.18)+','+f1(y+r*.18)+' '+f1(x)+','+f1(y+r)
+    +' Q'+f1(x-r*.18)+','+f1(y+r*.18)+' '+f1(x-r)+','+f1(y)+' Q'+f1(x-r*.18)+','+f1(y-r*.18)+' '+f1(x)+','+f1(y-r)+' Z" fill="'+col+'" stroke="'+INK+'" stroke-width="1.1"/>';
+}
+function evHeart(x,y,r,col){
+  return '<path d="M'+f1(x)+','+f1(y+r*.9)+' C'+f1(x-r*1.6)+','+f1(y-r*.1)+' '+f1(x-r*.7)+','+f1(y-r*1.3)+' '+f1(x)+','+f1(y-r*.35)
+    +' C'+f1(x+r*.7)+','+f1(y-r*1.3)+' '+f1(x+r*1.6)+','+f1(y-r*.1)+' '+f1(x)+','+f1(y+r*.9)+' Z" fill="'+col+'" stroke="'+INK+'" stroke-width="1.2"/>';
+}
+function germ(cx,cy,r,col,spk){
+  var h='<circle cx="'+f1(cx)+'" cy="'+f1(cy)+'" r="'+f1(r)+'" fill="'+col+'" fill-opacity=".55" stroke="'+INK+'" stroke-width="'+f1(Math.max(1.2,r/22))+'"/>';
+  for(var i=0;i<spk;i++){
+    var a=i*Math.PI*2/spk+0.2, x1=cx+Math.cos(a)*r, y1=cy+Math.sin(a)*r, x2=cx+Math.cos(a)*r*1.34, y2=cy+Math.sin(a)*r*1.34;
+    h+='<path d="M'+f1(x1)+','+f1(y1)+' L'+f1(x2)+','+f1(y2)+'" stroke="'+INK+'" stroke-width="'+f1(Math.max(1.2,r/20))+'" stroke-linecap="round"/>'
+      +'<circle cx="'+f1(cx+Math.cos(a)*r*1.44)+'" cy="'+f1(cy+Math.sin(a)*r*1.44)+'" r="'+f1(r*.1)+'" fill="#b5533c" stroke="'+INK+'" stroke-width="1"/>';
+  }
+  return h;
+}
+function evArt(k, id){
+  var W='filter="url(#'+id+'-w)"', h='';
+  if(k==='plague'){
+    h+='<circle cx="150" cy="180" r="74" fill="#e7cfae" opacity=".7" '+W+'/>';
+    h+='<g filter="url(#'+id+'-r)">'+germ(150,180,50,'#c98a5e',12)+germ(74,110,13,'#c98a5e',7)+germ(232,250,10,'#c98a5e',6)+germ(236,112,7,'#c98a5e',5);
+    [[134,166,9],[166,172,7],[146,198,8],[170,200,5],[128,190,4]].forEach(function(b){
+      h+='<circle cx="'+b[0]+'" cy="'+b[1]+'" r="'+b[2]+'" fill="#b5533c" fill-opacity=".45" stroke="'+INK+'" stroke-width="1"/>'; });
+    h+='</g>';
+  } else if(k==='boom'){
+    h+='<ellipse cx="150" cy="206" rx="96" ry="70" fill="#e9dcc0" opacity=".75" '+W+'/>';
+    h+='<g filter="url(#'+id+'-r)">'
+      +'<path d="M66,256 Q150,296 234,256" fill="none" stroke="'+INK+'" stroke-width="4" stroke-linecap="round"/>'
+      +'<path d="M96,238 l-8,20 M204,238 l8,20" stroke="'+INK+'" stroke-width="3"/>'
+      +'<path d="M76,194 C80,250 220,250 224,194 Z" fill="#e8d2ae" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'
+      +'<path d="M90,208 C120,226 180,226 212,208 M96,222 C124,238 176,238 206,222" stroke="#a8744a" stroke-width="1.4" fill="none"/>'
+      +'<path d="M76,194 C74,140 136,124 168,146 L150,194 Z" fill="#c98a5e" fill-opacity=".85" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'
+      +'<path d="M150,194 C170,178 200,176 224,194 Z" fill="#7d9bb0" stroke="'+INK+'" stroke-width="2"/>'
+      +'<circle cx="190" cy="184" r="15" fill="#f1d9bc" stroke="'+INK+'" stroke-width="1.8"/>'
+      +'<path d="M186,170 q4,-8 8,-2" fill="none" stroke="'+INK+'" stroke-width="1.6"/>'
+      +'<circle cx="185" cy="184" r="1.4" fill="'+INK+'"/><circle cx="195" cy="184" r="1.4" fill="'+INK+'"/>'
+      +evHeart(116,100,11,'#c98a5e')+evHeart(160,78,8,'#b5533c')+evHeart(214,108,9,'#c98a5e')
+      +evStar(96,138,7,'#fbf3dc')+evStar(236,152,6,'#fbf3dc')+'</g>';
+  } else if(k==='famine'){
+    h+='<circle cx="212" cy="104" r="40" fill="#f0c27a" opacity=".7" '+W+'/>';
+    h+='<rect x="46" y="244" width="208" height="46" fill="#c9a77a" opacity=".85" '+W+'/>';
+    var rays=''; for(var i=0;i<10;i++){ var a=i*Math.PI/5; rays+='M'+f1(212+Math.cos(a)*32)+','+f1(104+Math.sin(a)*32)+' L'+f1(212+Math.cos(a)*44)+','+f1(104+Math.sin(a)*44)+' '; }
+    h+='<g filter="url(#'+id+'-r)">'
+      +'<circle cx="212" cy="104" r="24" fill="#e0a95a" stroke="'+INK+'" stroke-width="2"/><path d="'+rays+'" stroke="#c98a3a" stroke-width="3" stroke-linecap="round"/>'
+      +'<path d="M46,246 H254" stroke="'+INK+'" stroke-width="2.4"/>'
+      +'<path d="M70,250 l14,12 l-6,10 l12,14 M128,248 l-8,16 l10,8 l-4,16 M186,250 l10,10 l-10,12 l8,14 M230,248 l-10,14 l6,10" fill="none" stroke="'+INK+'" stroke-width="1.6"/>'
+      +'<path d="M128,246 C130,200 136,170 162,164 C178,162 182,184 174,196" fill="none" stroke="#8a7a4a" stroke-width="3.4" stroke-linecap="round"/>'
+      +'<path d="M174,196 q-4,10 -10,14 M170,190 q-8,4 -12,12" stroke="#a89660" stroke-width="3" fill="none" stroke-linecap="round"/>'
+      +'<path d="M130,214 C112,214 100,224 96,236 M132,194 C150,196 158,206 160,218" fill="none" stroke="#8a7a4a" stroke-width="2.4" stroke-linecap="round"/>'
+      +'<path d="M88,246 C88,226 92,214 100,208 C106,204 110,212 106,218" fill="none" stroke="#8a7a4a" stroke-width="2.4" stroke-linecap="round"/></g>';
+  } else if(k==='harvest'){
+    h+='<circle cx="150" cy="168" r="80" fill="#f2d58a" opacity=".55" '+W+'/>';
+    h+='<g filter="url(#'+id+'-r)">';
+    for(var j=-4;j<=4;j++){
+      var a2=-Math.PI/2+j*0.12, x2=150+Math.cos(a2)*150, y2=276+Math.sin(a2)*150;
+      h+='<path d="M150,276 L'+f1(x2)+','+f1(y2)+'" stroke="#a88a3a" stroke-width="2.2"/>';
+      for(var g=0;g<5;g++){
+        var tx=150+Math.cos(a2)*(150-g*9), ty=276+Math.sin(a2)*(150-g*9), deg=a2*180/Math.PI+90;
+        h+='<ellipse cx="'+f1(tx-4)+'" cy="'+f1(ty)+'" rx="3.4" ry="7" transform="rotate('+f1(deg-30)+' '+f1(tx-4)+' '+f1(ty)+')" fill="#d9b25a" stroke="'+INK+'" stroke-width=".9"/>'
+          +'<ellipse cx="'+f1(tx+4)+'" cy="'+f1(ty)+'" rx="3.4" ry="7" transform="rotate('+f1(deg+30)+' '+f1(tx+4)+' '+f1(ty)+')" fill="#d9b25a" stroke="'+INK+'" stroke-width=".9"/>';
+      }
+    }
+    h+='<path d="M128,232 C140,240 160,240 172,232 L170,248 C158,254 142,254 130,248 Z" fill="#8a6a2f" stroke="'+INK+'" stroke-width="1.8"/>'
+      +'<path d="M136,262 l-14,20 M164,262 l14,20 M150,262 v22" stroke="#a88a3a" stroke-width="2.2"/></g>';
+  } else {
+    h+='<path d="M150,86 C186,100 214,100 232,96 C232,176 206,236 150,268 C94,236 68,176 68,96 C86,100 114,100 150,86 Z" fill="#8fb39a" opacity=".6" '+W+'/>';
+    h+='<g filter="url(#'+id+'-r)">'
+      +'<path d="M150,86 C186,100 214,100 232,96 C232,176 206,236 150,268 C94,236 68,176 68,96 C86,100 114,100 150,86 Z" fill="none" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'
+      +'<rect x="128" y="112" width="44" height="116" rx="9" fill="#fbf6ea" stroke="'+INK+'" stroke-width="2.2"/>'
+      +'<rect x="132" y="150" width="36" height="74" rx="6" fill="#5f9fae" fill-opacity=".8"/>'
+      +'<rect x="122" y="98" width="56" height="18" rx="4" fill="#3f6b73" stroke="'+INK+'" stroke-width="2"/>'
+      +'<path d="M132,130 h10 M132,146 h14 M132,162 h10 M132,178 h14 M132,194 h10" stroke="'+INK+'" stroke-width="1.2"/>'
+      +'<path d="M146,160 q8,10 0,20" stroke="#eaf4f6" stroke-width="2" fill="none" opacity=".9"/>'
+      +evStar(94,120,10,'#f3e3a8')+evStar(210,138,8,'#f3e3a8')+evStar(204,236,7,'#f3e3a8')+evStar(96,214,6,'#f3e3a8')+'</g>';
+  }
+  return h;
+}
+function evCardSVG(k, id, eyebrow){
+  var E=EVBY[k], h='<svg viewBox="0 0 300 400" class="nt-evsvg" role="img" aria-label="Event card: '+esc(E.n)+'">'+ntDefs(id);
+  h+='<rect x="6" y="6" width="288" height="388" rx="16" fill="#fbf5e6" stroke="'+INK+'" stroke-width="2.2" filter="url(#'+id+'-r)"/>';
+  h+='<rect x="18" y="18" width="264" height="364" rx="10" fill="none" stroke="#8a6a2f" stroke-width="1.3"/>';
+  h+='<rect x="23" y="23" width="254" height="354" rx="8" fill="none" stroke="#8a6a2f" stroke-width=".6"/>';
+  [[30,30],[270,30],[30,370],[270,370]].forEach(function(p2){
+    h+='<path d="M'+p2[0]+','+(p2[1]-6)+' L'+(p2[0]+6)+','+p2[1]+' L'+p2[0]+','+(p2[1]+6)+' L'+(p2[0]-6)+','+p2[1]+' Z" fill="#8a6a2f"/>'; });
+  h+='<text x="150" y="50" text-anchor="middle" class="nt-sc">'+esc(eyebrow||'Event card')+'</text>';
+  h+='<path d="M96,60 H204" stroke="#8a6a2f" stroke-width=".8"/>';
+  h+=evArt(k, id);
+  h+='<text x="150" y="324" text-anchor="middle" class="nt-evtitle">'+esc(E.n)+'</text>';
+  h+='<text x="150" y="350" text-anchor="middle" class="nt-sc" style="fill:'+(E.good?'#2D6A4F':'#A4373A')+'">'+(E.good?'Good years':'Hard years')+'</text>';
+  return h+'</svg>';
+}
+
 /* the projected copy during design: every nation's flag as it locks in */
 var boardSeen={};
 function drawBoard(svg){
@@ -2294,7 +2645,7 @@ function drawBoard(svg){
   keys.forEach(function(k,i){
     var cx=20+tw*(i%cols), cy=62+th*Math.floor(i/cols), d=D[k], fresh=d && !boardSeen[k];
     if(d) boardSeen[k]=1;
-    h.push('<g class="'+(fresh?'nt-pop':'')+'">');
+    h.push('<g class="'+(fresh?'nt-pop':'')+'"'+(d? ' data-nk="'+esc(k)+'" style="cursor:pointer"' : '')+'>');
     if(!d){
       h.push('<rect x="'+f1(cx+4)+'" y="'+f1(cy+4)+'" width="'+f1(tw-8)+'" height="'+f1(th-8)+'" rx="8" fill="none" stroke="#c9b893" stroke-width="1.5" stroke-dasharray="5 5"/>');
       if(th>50) h.push('<text x="'+f1(cx+tw/2)+'" y="'+f1(cy+th/2+4)+'" text-anchor="middle" class="nt-tsub">founding…</text>');
@@ -2355,7 +2706,9 @@ function pyrHtml(p, id){
     h+='<text x="'+f1(cx-lw/2-hw/2)+'" y="'+f1(p.y+p.h+20)+'" text-anchor="middle" class="nt-cap">Men</text>'
       +'<text x="'+f1(cx+lw/2+hw/2)+'" y="'+f1(p.y+p.h+20)+'" text-anchor="middle" class="nt-cap">Women</text>'
       +'<text x="'+f1(p.x)+'" y="'+f1(p.y+p.h+20)+'" class="nt-ax" data-pm="'+p.key+'"></text>'
-      +'<text x="'+f1(p.x+p.w)+'" y="'+f1(p.y+p.h+20)+'" text-anchor="end" class="nt-ax" data-pm2="'+p.key+'"></text>';
+      +'<text x="'+f1(p.x+p.w)+'" y="'+f1(p.y+p.h+20)+'" text-anchor="end" class="nt-ax" data-pm2="'+p.key+'"></text>'
+      +'<g data-pgl="'+p.key+'"><path d="M'+f1(cx-92)+','+f1(p.y+p.h+36)+' h24" stroke="#8a6a2f" stroke-width="2" stroke-dasharray="5 4"/>'
+      +'<text x="'+f1(cx-62)+'" y="'+f1(p.y+p.h+40)+'" class="nt-tk">Year 0 shape, for comparison</text></g>';
   }
   return h;
 }
@@ -2366,6 +2719,7 @@ function pyrUpdate(svg, p){
     if(m) m.style.transform='scaleX('+(p.cur.M[i]/p.max).toFixed(4)+')';
     if(f) f.style.transform='scaleX('+(p.cur.F[i]/p.max).toFixed(4)+')';
   }
+  var gl=svg.querySelector('[data-pgl="'+p.key+'"]'); if(gl) gl.style.display = p.ghost? '' : 'none';
   var g=svg.querySelector('[data-pg="'+p.key+'"]');
   if(g){
     if(!p.ghost){ g.setAttribute('d',''); }
@@ -2429,7 +2783,7 @@ function drawMineRun(svg, sim, t, label){
   var x=sim.nat[PK], s=x.snap[t], s0=x.snap[0], d=x.d;
   var max=maxBar(x.snap);
   var p={key:'me', x:40, y:120, w:540, h:390, labels:true, cur:s, ghost:t? s0 : null, max:max,
-         title:d.nm+' · year '+(t*STEPY), sub:(label||x.pr.A.n)+(t? ' · dashed: year 0' : '')};
+         title:d.nm+' · year '+(t*STEPY), sub:(label||x.pr.A.n)};
   drawPyramids(svg, 'me', [p], function(){
     return miniFlag(d, 905, 110, 1.15)
       +'<text x="640" y="150" class="nt-big" data-mv="pop"></text><text x="640" y="170" class="nt-cap sm">people</text>'
@@ -2439,7 +2793,7 @@ function drawMineRun(svg, sim, t, label){
       +'<text x="640" y="530" class="nt-cap" data-mv="stage"></text>';
   }, function(){
     function T(k,v){ var e=svg.querySelector('[data-mv="'+k+'"]'); if(e) e.textContent=v; }
-    T('pop', mil(s.N)); T('tfr', 'TFR '+s.tfr.toFixed(1)); T('e', Math.round(s.e)+' years life expectancy');
+    T('pop', mil(s.N)); T('tfr', 'TFR '+s.tfr.toFixed(1)+' · replacement '+s.rep.toFixed(1)); T('e', Math.round(s.e)+' years life expectancy');
     T('med', 'Median age '+Math.round(s.med)); T('rates', Math.round(s.cbr)+' births, '+Math.round(s.cdr)+' deaths per 1,000');
     T('stage', STAGEN[s.stage]);
     dtmMove(svg,640,330,s.stage);
@@ -2458,7 +2812,12 @@ function classPanels(sim, t){
   });
   return P;
 }
-function drawClassRun(svg, sim, t){ drawPyramids(svg, 'class', classPanels(sim,t)); }
+function drawClassRun(svg, sim, t){
+  drawPyramids(svg, 'class', classPanels(sim,t), function(){
+    return '<g data-pglc><path d="M500,548 h24" stroke="#8a6a2f" stroke-width="2" stroke-dasharray="5 4"/>'
+      +'<text x="530" y="552" class="nt-tk">Dashed outline: each pyramid at year 0</text></g>';
+  }, function(){ var e=svg.querySelector('[data-pglc]'); if(e) e.style.display = t? '' : 'none'; });
+}
 
 /* ── THE BRIEFING: where the whole class is starting ── */
 function drawBriefing(svg, sim){
@@ -2516,6 +2875,205 @@ function drawBriefing(svg, sim){
   svg.innerHTML=h.join(''); svg.dataset.mode='brief';
 }
 
+/* ── the two runs on one pyramid: what the policy change did, age by age ── */
+var DLESS='#3f6b73', DMORE='#b5533c', DSHM='#a8bccb', DSHF='#e0c3a8';
+function drawDiffPyr(svg, simA, simB, who, t){
+  var A = who? simA.nat[who].snap : aggSnaps(simA,null);
+  var B = who? simB.nat[who].snap : aggSnaps(simB,null);
+  var a=A[t], b=B[t], id=UID+'d', i;
+  var max=1; [A,B].forEach(function(ss){ ss.forEach(function(s2){ for(i=0;i<NA;i++) max=Math.max(max,s2.F[i],s2.M[i]); }); });
+  var x=60, y=118, w=520, h=386, lw=46, cx=x+w/2, hw=(w-lw)/2, rh=h/NA;
+  var h2=[ntDefs(id), '<rect x="-700" y="-700" width="2400" height="1960" fill="#f7f0e0"/>'];
+  var name = who? simA.nat[who].d.nm : 'The class’s world';
+  h2.push('<text x="'+x+'" y="'+(y-34)+'" class="nt-ptitle">'+esc(name)+' · year '+(t*STEPY)+', the two runs</text>');
+  h2.push('<text x="'+x+'" y="'+(y-14)+'" class="nt-psub">Muted: people in both runs. Colored: the difference the policy changes made.</text>');
+  h2.push('<g filter="url(#'+id+'-r)">');
+  function bar(side, i2, va, vb){
+    var yy=y+h-(i2+1)*rh, bh=rh*0.84, lo=Math.min(va,vb), hi=Math.max(va,vb);
+    var sh=(side<0? DSHM : DSHF), col=(vb<va? DLESS : DMORE);
+    var xLo=cx+side*(lw/2+hw*lo/max), xHi=cx+side*(lw/2+hw*hi/max), x0=cx+side*lw/2;
+    var out='<rect x="'+f1(Math.min(x0,xLo))+'" y="'+f1(yy)+'" width="'+f1(Math.abs(xLo-x0))+'" height="'+f1(bh)+'" fill="'+sh+'" stroke="'+INK+'" stroke-width=".8"/>';
+    if(Math.abs(hi-lo)>max*0.002)
+      out+='<rect x="'+f1(Math.min(xLo,xHi))+'" y="'+f1(yy)+'" width="'+f1(Math.abs(xHi-xLo))+'" height="'+f1(bh)+'" fill="'+col+'" fill-opacity=".9" stroke="'+INK+'" stroke-width=".8"/>';
+    return out;
+  }
+  for(i=0;i<NA;i++){
+    h2.push(bar(-1,i,a.M[i],b.M[i]));
+    h2.push(bar(1,i,a.F[i],b.F[i]));
+    if(i%2===0 || i===NA-1) h2.push('<text x="'+f1(cx)+'" y="'+f1(y+h-(i+1)*rh+rh*0.7)+'" text-anchor="middle" class="nt-ax">'+AGEL[i]+'</text>');
+  }
+  h2.push('</g>');
+  var L=[], R=[];
+  for(i=0;i<NA;i++){
+    var y0=y+h-i*rh-rh*0.08, y1=y+h-(i+1)*rh;
+    var xm=cx-lw/2-hw*a.M[i]/max, xf=cx+lw/2+hw*a.F[i]/max;
+    L.push(f1(xm)+','+f1(y0)+' '+f1(xm)+','+f1(y1)); R.push(f1(xf)+','+f1(y0)+' '+f1(xf)+','+f1(y1));
+  }
+  h2.push('<path d="M'+L.join(' L')+' M'+R.join(' L')+'" fill="none" stroke="#8a6a2f" stroke-width="2" stroke-dasharray="5 4"/>');
+  h2.push('<path d="M'+x+','+(y+h+2)+' H'+(x+w)+'" stroke="'+INK+'" stroke-width="1"/>');
+  h2.push('<text x="'+f1(cx-lw/2-hw/2)+'" y="'+(y+h+20)+'" text-anchor="middle" class="nt-cap">Men</text>');
+  h2.push('<text x="'+f1(cx+lw/2+hw/2)+'" y="'+(y+h+20)+'" text-anchor="middle" class="nt-cap">Women</text>');
+  var ly=y+h+44;
+  [[DLESS,'Fewer after change'],[DMORE,'More after change'],[DSHF,'In both runs']].forEach(function(r,i2){
+    h2.push('<rect x="'+(x+i2*150)+'" y="'+(ly-10)+'" width="14" height="11" fill="'+r[0]+'" stroke="'+INK+'" stroke-width=".8"/>'
+      +'<text x="'+(x+i2*150+20)+'" y="'+ly+'" class="nt-tk">'+r[1]+'</text>');
+  });
+  h2.push('<path d="M'+(x+452)+','+(ly-5)+' h18" stroke="#8a6a2f" stroke-width="2" stroke-dasharray="5 4"/>'
+    +'<text x="'+(x+476)+'" y="'+ly+'" class="nt-tk">First run</text>');
+  function band(s2, lo, hi){ var v=0; for(var j=lo;j<=hi;j++) v+=s2.F[j]+s2.M[j]; return v; }
+  var rows=[['Everyone', a.N, b.N],
+            ['Children under 15', band(a,0,2), band(b,0,2)],
+            ['Working ages 15–64', band(a,3,12), band(b,3,12)],
+            ['Aged 65 and over', band(a,13,16), band(b,13,16)]];
+  h2.push('<g transform="translate(640,'+y+')"><text x="0" y="-16" class="nt-sc">What changed by year '+(t*STEPY)+'</text>');
+  rows.forEach(function(r,i2){
+    var d=r[2]-r[1], yy=i2*64;
+    h2.push('<text x="0" y="'+yy+'" class="nt-tk">'+r[0]+'</text>');
+    h2.push('<text x="0" y="'+(yy+26)+'" class="nt-brief">'+mil(r[2])+'</text>');
+    h2.push('<text x="300" y="'+(yy+26)+'" text-anchor="end" class="nt-brief" style="fill:'+(Math.abs(d)<50?'#8a8069':(d<0?DLESS:DMORE))+'">'
+      +(Math.abs(d)<50? 'no change' : (d<0?'−':'+')+mil(Math.abs(d)))+'</text>');
+    h2.push('<path d="M0,'+(yy+38)+' H300" stroke="rgba(120,100,60,.22)" stroke-width="1"/>');
+  });
+  h2.push('<text x="0" y="284" class="nt-tk">Total fertility rate</text>');
+  h2.push('<text x="0" y="310" class="nt-brief">'+b.tfr.toFixed(1)+'</text>');
+  h2.push('<text x="300" y="310" text-anchor="end" class="nt-brief" style="fill:'+(Math.abs(b.tfr-a.tfr)<0.05?'#8a8069':(b.tfr<a.tfr?DLESS:DMORE))+'">'
+    +diffTxt(sgnN(b.tfr-a.tfr,1))+'</text>');
+  h2.push('<text x="0" y="344" class="nt-tk">Median age</text>');
+  h2.push('<text x="0" y="370" class="nt-brief">'+Math.round(b.med)+'</text>');
+  h2.push('<text x="300" y="370" text-anchor="end" class="nt-brief" style="fill:'+(Math.abs(b.med-a.med)<0.5?'#8a8069':(b.med<a.med?DMORE:DLESS))+'">'
+    +diffTxt(sgnN(b.med-a.med,0))+'</text>');
+  h2.push('</g>');
+  svg.innerHTML=h2.join(''); svg.dataset.mode='diff';
+}
+
+/* ── six measures, first run against the revised run ── */
+var DMET=[
+ {k:'pop',  n:'People',               f:function(v){ return mil(v); }},
+ {k:'tfr',  n:'Total fertility rate',  f:function(v){ return v.toFixed(1); }},
+ {k:'fpc',  n:'Footprint per person',  f:function(v){ return v.toFixed(1); }},
+ {k:'foot', n:'Footprint, in Earths',  f:function(v){ return v.toFixed(2); }},
+ {k:'e',    n:'Life expectancy',       f:function(v){ return Math.round(v)+' yrs'; }},
+ {k:'med',  n:'Median age',            f:function(v){ return String(Math.round(v)); }}
+];
+function metSeries(sim, who, k){
+  var snaps = who? sim.nat[who].snap : aggSnaps(sim,null);
+  var cap = who? capacityOf(sim.nat[who].d)/1000 : sim.cap/1000;
+  return snaps.map(function(s2){
+    return k==='pop'? s2.N : k==='tfr'? s2.tfr : k==='fpc'? s2.fpc : k==='foot'? s2.foot/cap : k==='e'? s2.e : s2.med;
+  });
+}
+function drawDeltaPanels(svg, simA, simB, who){
+  var name = who? simA.nat[who].d.nm : 'The class’s world';
+  var h=[ntDefs(UID+'q'), '<rect x="-700" y="-700" width="2400" height="1960" fill="#fbf6ea"/>'];
+  h.push('<text x="'+CL+'" y="38" class="nt-ctitle">What the changes did · '+esc(name)+'</text>');
+  h.push('<text x="'+CL+'" y="60" class="nt-csub">Each panel runs from year 0 to year 60. Solid: the first run. Dashed: after the changes.</text>');
+  var pw=276, ph=166, x0=CL, y0=CT+4;
+  DMET.forEach(function(M,i){
+    var a=metSeries(simA,who,M.k), b=metSeries(simB,who,M.k);
+    var px=x0+(i%3)*(pw+22), py=y0+Math.floor(i/3)*(ph+70);
+    var lo=Infinity, hi=-Infinity;
+    a.concat(b).forEach(function(v){ lo=Math.min(lo,v); hi=Math.max(hi,v); });
+    if(hi-lo<1e-9){ hi=lo+1; }
+    var pad=(hi-lo)*0.18; lo-=pad; hi+=pad;
+    if(M.k!=='e' && M.k!=='med' && lo>0) lo=Math.min(lo, 0);
+    function X(i2){ return px+pw*i2/STEPS; }
+    function Y(v){ return py+ph-ph*(v-lo)/((hi-lo)||1); }
+    var d=b[STEPS]-a[STEPS], tiny=Math.abs(d)<(hi-lo)*0.004 || parseFloat(M.f(Math.abs(d)))===0;
+    var col=tiny? '#8a8069' : (d<0? DLESS : DMORE);
+    h.push('<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="'+ph+'" rx="8" fill="#fffdf6" stroke="rgba(120,100,60,.28)"/>');
+    h.push('<text x="'+px+'" y="'+(py-8)+'" class="nt-ptitle sm">'+M.n+'</text>');
+    var up=b.map(function(v,i2){ return f1(X(i2))+','+f1(Y(v)); });
+    var dn=a.map(function(v,i2){ return f1(X(i2))+','+f1(Y(v)); }).reverse();
+    h.push('<path d="M'+up.join(' L')+' L'+dn.join(' L')+' Z" fill="'+col+'" opacity=".22"/>');
+    h.push('<path d="M'+a.map(function(v,i2){ return f1(X(i2))+','+f1(Y(v)); }).join(' L')+'" fill="none" stroke="'+INK+'" stroke-width="2.2"/>');
+    h.push('<path d="M'+b.map(function(v,i2){ return f1(X(i2))+','+f1(Y(v)); }).join(' L')+'" fill="none" stroke="'+col+'" stroke-width="2.8" stroke-dasharray="8 5"/>');
+    h.push('<circle cx="'+f1(X(STEPS))+'" cy="'+f1(Y(b[STEPS]))+'" r="4.5" fill="'+col+'" stroke="'+INK+'" stroke-width=".8"/>');
+    h.push('<text x="'+px+'" y="'+(py+ph+18)+'" class="nt-ax">year 0 · '+M.f(a[0])+'</text>');
+    h.push('<text x="'+(px+pw)+'" y="'+(py+ph+18)+'" text-anchor="end" class="nt-ax">year 60</text>');
+    h.push('<text x="'+(px+pw)+'" y="'+(py+ph+38)+'" text-anchor="end" class="nt-tk b">'+M.f(b[STEPS])+'</text>');
+    h.push('<text x="'+px+'" y="'+(py+ph+38)+'" class="nt-tk" style="fill:'+col+'">'
+      +(tiny? 'no change' : (d<0?'−':'+')+M.f(Math.abs(d)))+' vs first run</text>');
+  });
+  svg.innerHTML=h.join(''); svg.dataset.mode='chart';
+}
+
+/* ── WHAT MATTERED MOST: the controlled effects, in plain words, for one nation
+   (or the class average on the projector), biggest first ── */
+function jobsIcon(x,y){
+  return '<rect x="'+f1(x-14)+'" y="'+f1(y-18)+'" width="9" height="18" fill="#dac8a6" stroke="'+INK+'" stroke-width="1.3"/>'
+    +'<rect x="'+f1(x-4)+'" y="'+f1(y-28)+'" width="10" height="28" fill="#c8b08a" stroke="'+INK+'" stroke-width="1.3"/>'
+    +'<rect x="'+f1(x+7)+'" y="'+f1(y-14)+'" width="9" height="14" fill="#e4d6b9" stroke="'+INK+'" stroke-width="1.3"/>'
+    +'<path d="M'+f1(x-2)+','+f1(y-22)+'h6 M'+f1(x-2)+','+f1(y-15)+'h6 M'+f1(x-2)+','+f1(y-8)+'h6" stroke="#8a7a5c" stroke-width="1.6"/>';
+}
+var PLAIN={tfr:'births per woman (TFR)', grow:'people', foot:'footprint per person'};
+function drawMattered(svg, sim, who){
+  var mf=marginal(sim), metric=(yOut==='old')? 'tfr' : yOut, rows=[], ICON={health:clinic, edu:school, fp:fpPost, jobs:jobsIcon, care:elders, clean:solar, land:grove};
+  LEVERS.forEach(function(L){
+    if(metric==='foot' && (L.k==='health'||L.k==='edu')) return;
+    var v=0;
+    if(who) v=mf[who][L.k][metric];
+    else { sim.ks.forEach(function(k){ v+=mf[k][L.k][metric]; }); v/=Math.max(1,sim.ks.length); }
+    rows.push({L:L, v:v});
+  });
+  rows.sort(function(a,b){ return Math.abs(b.v)-Math.abs(a.v); });
+  var max=Math.max.apply(null, rows.map(function(r){ return Math.abs(r.v); }))||1;
+  var N0=who? sim.nat[who].s0.N : 0;
+  function tiny(v){ return metric==='grow'? Math.abs(v)<0.002 : Math.abs(v)<0.01; }
+  function amount(v){
+    if(metric==='tfr') return Math.abs(v).toFixed(2)+(v<0?' fewer':' more')+' births per woman';
+    if(metric==='grow') return who? 'about '+peopleTxt(Math.abs(v)*N0)+(v<0?' fewer':' more')+' people'
+                                  : 'about '+(Math.abs(v)*100).toFixed(1)+'%'+(v<0?' fewer':' more')+' people';
+    return 'each person’s footprint '+Math.abs(v).toFixed(2)+(v<0?' smaller':' larger');
+  }
+  var id=UID+'m', name=who? sim.nat[who].d.nm : '';
+  var h=[ntDefs(id), '<rect x="-700" y="-700" width="2400" height="1960" fill="#fbf6ea"/>'];
+  h.push('<text x="60" y="40" class="nt-ctitle">'+(who? 'What mattered most in '+esc(name) : 'What mattered most across the class')+'</text>');
+  h.push('<text x="60" y="62" class="nt-csub">What one more point on each policy would have done to '+PLAIN[metric]+' by year 60'
+    +(who? '' : ', on average')+(sim.kind==='revised'? ', in the revised run' : '')+'. Biggest first.</text>');
+  var y0=84, x0=590, bw=270, room=(who && revisedDone())? 406 : 448, rh=Math.min(64, room/rows.length);
+  rows.forEach(function(r,i){
+    var y=y0+i*rh, mid=y+rh/2, small=tiny(r.v);
+    h.push('<text x="62" y="'+f1(mid+9)+'" class="nt-rank">'+(i+1)+'</text>');
+    h.push('<g filter="url(#'+id+'-r)" transform="translate(0,0)"><g transform="translate(126,'+f1(mid+13)+') scale(.9)">'+ICON[r.L.k](0,0)+'</g></g>');
+    h.push('<text x="176" y="'+f1(mid-4)+'" class="nt-rowname" style="fill:'+(small?'#9a917c':INK)+'">'+r.L.n+'</text>');
+    h.push('<text x="176" y="'+f1(mid+15)+'" class="nt-tk" style="fill:'+(small?'#9a917c':'#5e5340')+'">'
+      +(small? 'Almost no effect on '+PLAIN[metric]+'.' : 'One more point: '+amount(r.v)+'.')+'</text>');
+    var w=Math.max(small? 2 : 6, bw*Math.abs(r.v)/max), col=small? '#d8cfbd' : (r.v<0? DLESS : DMORE);
+    h.push('<g filter="url(#'+id+'-r)"><rect x="'+x0+'" y="'+f1(mid-11)+'" width="'+f1(w)+'" height="22" rx="4" fill="'+col+'" fill-opacity=".85" stroke="'+INK+'" stroke-width="1.2"/></g>');
+    if(i<rows.length-1) h.push('<path d="M60,'+f1(y+rh)+' H'+(x0+bw+20)+'" stroke="rgba(120,100,60,.14)" stroke-width="1"/>');
+  });
+  if(metric==='foot') h.push('<text x="60" y="'+f1(y0+rows.length*rh+(who&&revisedDone()? 80 : 24))+'" class="nt-ax">Child health and girls’ education are left out here: they do not act on footprint directly.</text>');
+  h.push('<g transform="translate('+(x0+bw+28)+',96)"><text x="0" y="0" class="nt-sc">Bars</text>'
+    +'<rect x="0" y="12" width="14" height="11" fill="'+DLESS+'"/><text x="20" y="22" class="nt-tk">Lowers</text>'
+    +'<rect x="0" y="32" width="14" height="11" fill="'+DMORE+'"/><text x="20" y="42" class="nt-tk">Raises</text></g>');
+  /* after the revision: the student's own changes, held apart from the class's */
+  if(who && revisedDone()){
+    var SHORT={health:'Child health', edu:'Education', fp:'Family planning', jobs:'Jobs', care:'Elder care', clean:'Clean energy', land:'Land'};
+    var first=cleanDesigns()[who], now=cleanDesigns2()[who], chg=[];
+    LKEYS.forEach(function(k){ var d2=now.s[k]-first.s[k]; if(d2) chg.push(SHORT[k]+' '+(d2>0?'+':'−')+Math.abs(d2)); });
+    var sA=simulate('first'), base=sA.nat[who], c1=controlledRevision(sA)[who][STEPS], l1, l2='';
+    if(!chg.length) l1='In the revision you kept your first policies.';
+    else {
+      var dv = metric==='tfr'? c1.tfr-base.s1.tfr : metric==='grow'? (c1.N-base.s1.N)/base.s0.N : c1.fpc-base.s1.fpc;
+      l1='Your revision: '+chg.join(', ')+'.';
+      l2='By itself, it meant '+(tiny(dv)? 'almost no change in '+PLAIN[metric] : amount(dv))+' by year 60.';
+    }
+    var by=y0+rows.length*rh+10, bh2=l2? 52 : 32;
+    h.push('<rect x="60" y="'+by+'" width="880" height="'+bh2+'" rx="8" fill="#f3ead8" stroke="rgba(138,106,47,.35)"/>');
+    h.push('<text x="76" y="'+(by+21)+'" class="nt-tk b" data-fitw="848">'+esc(l1)+'</text>');
+    if(l2) h.push('<text x="76" y="'+(by+41)+'" class="nt-tk" data-fitw="848">'+esc(l2)+'</text>');
+  }
+  svg.innerHTML=h.join(''); svg.dataset.mode='chart';
+  fitTexts(svg);
+}
+/* shrink any line marked data-fitw until it fits its box */
+function fitTexts(svg){
+  Array.prototype.forEach.call(svg.querySelectorAll('[data-fitw]'),function(t){
+    var w=+t.getAttribute('data-fitw'), fs=13;
+    try{ while(t.getComputedTextLength()>w && fs>8){ fs-=0.5; t.style.fontSize=fs+'px'; } }catch(e){}
+  });
+}
+
 /* ══ CHARTS ══ */
 var CL=78, CR=36, CT=86, CB=86, CW=1000, CH=560;
 function axisY(min, max, fmt, lbl, x0, x1, t0, t1){
@@ -2564,11 +3122,12 @@ function ratesPanel(snaps, x0, y0, x1, y1, big, title){
   return h;
 }
 function chartRates(svg, sim, who){
-  var sfx=sim.kind==='revised'? ' — after the changes' : '';
+  var sfx=sim.kind==='revised'? ', after the changes' : '';
   if(who){
     var x=sim.nat[who];
     var h=[chartHead('Birth and death rates in '+x.d.nm+sfx, 'Shaded: births minus deaths, the growth rate. The strip on top is the stage of the transition.', '')];
     h.push(ratesPanel(x.snap, CL, CT+40, CW-CR, CH-CB, true));
+    h.push(evMarks(CL,CW-CR,CT+40,CH-CB));
     h.push(ratesKey());
     svg.innerHTML=h.join(''); svg.dataset.mode='chart'; return;
   }
@@ -2583,7 +3142,7 @@ function chartRates(svg, sim, who){
   svg.innerHTML=H.join(''); svg.dataset.mode='chart';
 }
 function ratesKey(){
-  return '<g transform="translate('+(CW-CR-360)+',44)"><path d="M0,0 h24" stroke="'+WOMEN+'" stroke-width="3"/><text x="30" y="4" class="nt-tk">Births</text>'
+  return '<g data-legend transform="translate('+(CW-CR-360)+',44)"><path d="M0,0 h24" stroke="'+WOMEN+'" stroke-width="3"/><text x="30" y="4" class="nt-tk">Births</text>'
     +'<path d="M84,0 h24" stroke="'+INK+'" stroke-width="2.4" stroke-dasharray="7 4"/><text x="114" y="4" class="nt-tk">Deaths</text>'
     +'<rect x="176" y="-6" width="18" height="12" fill="#e7cfae"/><text x="200" y="4" class="nt-tk">Growth</text></g>';
 }
@@ -2617,17 +3176,48 @@ function chartGrowth(svg, simA, simB, who){
     h.push('<text x="'+(CW-CR-4)+'" y="'+f1(Y(vals[STEPS])-10)+'" text-anchor="end" class="nt-mine">'+esc(me.d.nm)+'</text>');
   }
   h.push(yearAxis(CL,CW-CR,CH-CB,true));
+  h.push(evMarks(CL,CW-CR,CT,CH-CB));
   h.push(archKey(CW-CR-470, CH-10));
   svg.innerHTML=h.join(''); svg.dataset.mode='chart';
 }
+function evMarks(x0,x1,y0,y1){
+  if(!evOn()) return '';
+  return EVSTEPS.map(function(st){
+    var x=x0+(x1-x0)*st/STEPS;
+    return '<path d="M'+f1(x)+','+(y0-2)+' V'+y1+'" stroke="#8a6a2f" stroke-width="1.4" stroke-dasharray="2 4"/>'
+      +'<rect x="'+f1(x-7)+'" y="'+(y0-16)+'" width="14" height="18" rx="2.5" fill="#fbf5e6" stroke="#8a6a2f" stroke-width="1.2"/>'
+      +'<text x="'+f1(x+10)+'" y="'+(y0-3)+'" class="nt-ax">Event cards</text>';
+  }).join('');
+}
+var PR=CW-CR-236;   /* right edge of a plot that keeps a legend column beside it */
+function archKeyV(x,y){
+  var h='<g data-legend transform="translate('+x+','+y+')"><text x="0" y="0" class="nt-sc">Started as</text>';
+  START.forEach(function(A,i){ h+='<rect x="0" y="'+(10+i*19)+'" width="12" height="11" fill="'+A.c+'" stroke="'+INK+'" stroke-width=".7"/>'
+    +'<text x="18" y="'+(20+i*19)+'" class="nt-tk">'+A.n+'</text>'; });
+  return h+'</g>';
+}
 function archKey(x,y){
-  var h='<g transform="translate('+x+','+y+')">', off=0;
+  var h='<g data-legend transform="translate('+x+','+y+')">', off=0;
   START.forEach(function(A){ h+='<rect x="'+off+'" y="-8" width="14" height="10" fill="'+A.c+'"/><text x="'+(off+19)+'" y="1" class="nt-tk">'+A.sh+'</text>'; off+=A.sh.length*8+44; });
   return h+'</g>';
 }
+/* effects are small, so they get one more digit than levels do */
+function slopeTxt(sl){
+  var a=Math.abs(sl), t = (yOut==='grow'||yOut==='old')? (a*100).toFixed(1)+(yOut==='grow'?'%':' pts') : a.toFixed(2);
+  if(parseFloat(t)===0) return t;   /* no "−0.00": a rounding-to-zero effect has no sign */
+  return (sl>=0?'+':'−')+t;
+}
+/* the straight-line fit through a set of [x,y] pairs */
+function slopeOf(pairs){
+  if(pairs.length<3) return null;
+  var n=pairs.length, mx=0, my=0, sxy=0, sxx=0, i;
+  for(i=0;i<n;i++){ mx+=pairs[i][0]/n; my+=pairs[i][1]/n; }
+  for(i=0;i<n;i++){ var dx=pairs[i][0]-mx; sxy+=dx*(pairs[i][1]-my); sxx+=dx*dx; }
+  return sxx? sxy/sxx : null;
+}
 /* III · what made an impact */
-var xLever='fp', yOut='tfr';
-var OUTN={tfr:'Total fertility rate in year 60', grow:'Population change over 60 years', old:'Share aged 65 and over, year 60', foot:'Footprint per person, year 60 (global hectares)'};
+var xLever='fp', yOut='tfr', lMode='point', detail=false;
+var OUTN={tfr:'Total fertility rate in year 60', grow:'Population change over 60 years', old:'Share aged 65 and over, year 60', foot:'Footprint per person, year 60 (relative units)'};
 var OUTS={tfr:'TFR, year 60', grow:'Population change', old:'Aged 65+', foot:'Footprint per person'};
 function outValOf(x){
   return yOut==='tfr'? x.s1.tfr : yOut==='grow'? x.grow : yOut==='old'? x.s1.old : x.s1.fpc;
@@ -2640,21 +3230,36 @@ function chartLevers(svg, sim, who){
   else if(yOut==='old'){ lo=0; hi=Math.max(0.2,Math.ceil(hi*10)/10); }
   else if(yOut==='foot'){ lo=0; hi=Math.max(2,Math.ceil(hi)); }
   else { lo=Math.min(0,Math.floor(lo*5)/5); hi=Math.max(0.2,Math.ceil(hi*5)/5); }
-  var h=[chartHead(OUTN[yOut]+', by points on '+LBY[xLever].n.toLowerCase(),
-    'One dot per nation'+(sim.kind==='revised'? ', after the changes' : '')+'. Color: where it started. Lines: the average for each starting point.', '')];
-  h.push(axisY(lo,hi,outFmt,''));
-  var xw=(CW-CL-CR)/6, yb=CH-CB, ph=CH-CB-CT;
+  var h=[chartHead('Class pattern: '+OUTN[yOut]+', by points on '+LBY[xLever].n.toLowerCase(),
+    'Nations chose their own points, so this shows association, not cause. For effects, see One extra point.', '')];
+  h.push(axisY(lo,hi,outFmt,OUTS[yOut],CL,PR));
+  var xw=(PR-CL)/6, yb=CH-CB, ph=CH-CB-CT;
   function X(v,k){ return CL+xw*(v+0.5)+(CG.rnd(k+':jx')-.5)*xw*0.5; }
   function Y(v){ return yb-ph*(v-lo)/((hi-lo)||1); }
-  if(lo<0) h.push('<path d="M'+CL+','+f1(Y(0))+' H'+(CW-CR)+'" stroke="'+INK+'" stroke-width="1.4"/>');
+  if(lo<0) h.push('<path d="M'+CL+','+f1(Y(0))+' H'+PR+'" stroke="'+INK+'" stroke-width="1.4"/>');
   for(var v=0;v<=SMAX;v++) h.push('<text x="'+f1(CL+xw*(v+.5))+'" y="'+(yb+22)+'" text-anchor="middle" class="nt-ax">'+v+'</text>');
-  h.push('<text x="'+f1((CL+CW-CR)/2)+'" y="'+(yb+46)+'" text-anchor="middle" class="nt-axl">Points on '+LBY[xLever].n.toLowerCase()+'</text>');
+  h.push('<text x="'+f1((CL+PR)/2)+'" y="'+(yb+46)+'" text-anchor="middle" class="nt-axl">Points on '+LBY[xLever].n.toLowerCase()+'</text>');
+  var slopes=[];
   START.forEach(function(A){
-    var sm=[0,0,0,0,0,0], cn=[0,0,0,0,0,0], pts=[];
-    ks.forEach(function(k){ var x=sim.nat[k]; if(x.pr.k!==A.k) return; var p=x.d.s[xLever]; sm[p]+=outValOf(x); cn[p]++; });
+    var sm=[0,0,0,0,0,0], cn=[0,0,0,0,0,0], pts=[], pairs=[];
+    ks.forEach(function(k){ var x=sim.nat[k]; if(x.pr.k!==A.k) return; var p=x.d.s[xLever]; sm[p]+=outValOf(x); cn[p]++; pairs.push([p,outValOf(x)]); });
     for(var i=0;i<=SMAX;i++) if(cn[i]) pts.push(f1(CL+xw*(i+.5))+','+f1(Y(sm[i]/cn[i])));
     if(pts.length>1) h.push('<path d="M'+pts.join(' L')+'" fill="none" stroke="'+A.c+'" stroke-width="3" stroke-linejoin="round" opacity=".9"/>');
+    var sl=slopeOf(pairs);
+    if(sl!=null && pairs.length>2) slopes.push({A:A, sl:sl});
   });
+  var bx=PR+20, by=CT, bw=CW-CR-bx;
+  if(slopes.length){
+    h.push('<g data-legend><rect x="'+bx+'" y="'+by+'" width="'+bw+'" height="'+(26+slopes.length*20)+'" rx="7" fill="#fffdf6" stroke="rgba(120,100,60,.3)"/>');
+    h.push('<text x="'+(bx+10)+'" y="'+(by+17)+'" class="nt-sc">Per extra point</text>');
+    slopes.forEach(function(r,i2){
+      h.push('<rect x="'+(bx+10)+'" y="'+(by+27+i2*20)+'" width="10" height="10" fill="'+r.A.c+'"/>');
+      h.push('<text x="'+(bx+26)+'" y="'+(by+36+i2*20)+'" class="nt-tk">'+r.A.sh+'</text>');
+      h.push('<text x="'+(bx+bw-10)+'" y="'+(by+36+i2*20)+'" text-anchor="end" class="nt-tk b">'+slopeTxt(r.sl)+'</text>');
+    });
+    h.push('</g>');
+  }
+  h.push(archKeyV(bx, by+(slopes.length? 26+slopes.length*20+30 : 12)));
   var mk=null;
   ks.forEach(function(k){
     var x=sim.nat[k], cx=X(x.d.s[xLever],k), cy=Y(outValOf(x));
@@ -2662,7 +3267,104 @@ function chartLevers(svg, sim, who){
     if(k===who) mk={x:cx, y:cy, nm:x.d.nm};
   });
   if(mk) h.push('<circle cx="'+f1(mk.x)+'" cy="'+f1(mk.y)+'" r="12" fill="none" stroke="#8a6a2f" stroke-width="3"/><text x="'+f1(mk.x+16)+'" y="'+f1(mk.y-10)+'" class="nt-mine">'+esc(mk.nm)+'</text>');
-  h.push(archKey(CW-CR-470, CH-10));
+  svg.innerHTML=h.join(''); svg.dataset.mode='chart';
+}
+/* III-a · the controlled view: what ONE extra point on each policy did ── */
+function chartOnePoint(svg, sim, who){
+  var mf=marginal(sim), ks=sim.ks, rows=[], lim=0;
+  LEVERS.forEach(function(L){
+    var all=0, n=0, grp={};
+    ks.forEach(function(k){
+      var v=mf[k][L.k][yOut]; all+=v; n++;
+      var a=sim.nat[k].pr.k; grp[a]=grp[a]||{s:0,n:0}; grp[a].s+=v; grp[a].n++;
+    });
+    var r={L:L, avg:n? all/n : 0, grp:grp, mine:(who && mf[who])? mf[who][L.k][yOut] : null};
+    lim=Math.max(lim, Math.abs(r.avg));
+    START.forEach(function(A){ if(grp[A.k]) lim=Math.max(lim, Math.abs(grp[A.k].s/grp[A.k].n)); });
+    if(r.mine!=null) lim=Math.max(lim, Math.abs(r.mine));
+    rows.push(r);
+  });
+  lim=(lim||1)*1.18;
+  var h=[chartHead('What one extra point does: '+OUTS[yOut],
+    'Every nation rerun with one more point on one policy. Everything else, the planet included, held fixed.', '')];
+  var lx=CL+170, rx=PR, yt=CT+14, rh=(CH-CB-yt)/rows.length;
+  function X(v){ return lx+(rx-lx)*(v+lim)/(2*lim); }
+  for(var t=-2;t<=2;t++){ var v=lim*t/2;
+    h.push('<path d="M'+f1(X(v))+','+(yt-6)+' V'+(CH-CB)+'" class="nt-grid"/>'
+      +'<text x="'+f1(X(v))+'" y="'+(CH-CB+18)+'" text-anchor="middle" class="nt-ax">'+(t? slopeTxt(v) : '0')+'</text>'); }
+  h.push('<path d="M'+f1(X(0))+','+(yt-6)+' V'+(CH-CB)+'" stroke="'+INK+'" stroke-width="1.6"/>');
+  h.push('<text x="'+f1((lx+rx)/2)+'" y="'+(CH-CB+42)+'" text-anchor="middle" class="nt-axl">Change in '+OUTS[yOut]+' from one extra point</text>');
+  rows.forEach(function(r,i){
+    var y=yt+rh*i+rh/2;
+    h.push('<rect x="'+(lx-160)+'" y="'+f1(y-8)+'" width="10" height="16" rx="2" fill="'+r.L.c+'"/>');
+    h.push('<text x="'+(lx-144)+'" y="'+f1(y+4)+'" class="nt-tk b">'+r.L.n+'</text>');
+    var x0=X(0), x1=X(r.avg);
+    h.push('<rect x="'+f1(Math.min(x0,x1))+'" y="'+f1(y-9)+'" width="'+f1(Math.max(1.5,Math.abs(x1-x0)))+'" height="18" rx="3" fill="#d9c49c" stroke="#8a6a2f" stroke-width="1.2"/>');
+    START.forEach(function(A,j){
+      var g=r.grp[A.k]; if(!g) return;
+      h.push('<circle cx="'+f1(X(g.s/g.n))+'" cy="'+f1(y+(j-1.5)*3)+'" r="5.5" fill="'+A.c+'" stroke="'+INK+'" stroke-width=".8"/>');
+    });
+    if(r.mine!=null) h.push('<circle cx="'+f1(X(r.mine))+'" cy="'+f1(y)+'" r="10" fill="none" stroke="#8a6a2f" stroke-width="2.6"/>');
+    h.push('<text x="'+f1(x1)+'" y="'+f1(y+24)+'" text-anchor="middle" class="nt-ax b">'+slopeTxt(r.avg)+'</text>');
+  });
+  var bx=PR+20;
+  h.push('<g data-legend><rect x="'+bx+'" y="'+CT+'" width="20" height="14" rx="3" fill="#d9c49c" stroke="#8a6a2f" stroke-width="1.2"/>'
+    +'<text x="'+(bx+28)+'" y="'+(CT+12)+'" class="nt-tk">Class average</text>'
+    +(who? '<circle cx="'+(bx+10)+'" cy="'+(CT+34)+'" r="8" fill="none" stroke="#8a6a2f" stroke-width="2.4"/><text x="'+(bx+28)+'" y="'+(CT+38)+'" class="nt-tk">Your nation</text>' : '')
+    +'</g>');
+  h.push(archKeyV(bx, CT+(who? 70 : 46)));
+  h.push('<text x="'+(bx)+'" y="'+(CT+(who?70:46)+110)+'" class="nt-ax">A model effect, not a</text>'
+    +'<text x="'+(bx)+'" y="'+(CT+(who?70:46)+125)+'" class="nt-ax">measured one.</text>');
+  svg.innerHTML=h.join(''); svg.dataset.mode='chart';
+}
+/* III-b · each nation's revision, with the planet held fixed ── */
+function chartEffect(svg, simA, simB, who){
+  var ks=simA.ks, pairs=[], lo=0, hi=0, ctl=controlledRevision(simA);
+  ks.forEach(function(k){
+    var dx=simB.nat[k].d.s[xLever]-simA.nat[k].d.s[xLever], dy=outOfSnaps(ctl[k])[yOut]-outValOf(simA.nat[k]);
+    pairs.push({k:k, dx:dx, dy:dy, A:simA.nat[k].pr.A});
+    lo=Math.min(lo,dy); hi=Math.max(hi,dy);
+  });
+  var span=Math.max(Math.abs(lo),Math.abs(hi))*1.2 || 1;
+  lo=-span; hi=span;
+  var moved=pairs.filter(function(p){ return p.dx!==0; }).length;
+  var sl=slopeOf(pairs.filter(function(p){ return p.dx!==0; }).map(function(p){ return [p.dx,p.dy]; }));
+  var h=[chartHead('Revisions: changing '+LBY[xLever].n.toLowerCase(),
+    'Each nation against itself, with its classmates\u2019 changes held out. Other policies it moved still count.',
+    moved+'<tspan class="nt-csub"> of '+simA.n+' moved it</tspan>')];
+  h.push(axisY(lo,hi,function(v){ return (v>0?'+':'')+outFmt(v).replace('+',''); }, 'Change in '+OUTS[yOut], CL+40, PR));
+  var x0=CL+40, x1=PR, yb=CH-CB, ph=CH-CB-CT, mid=(x0+x1)/2, step=(x1-x0)/12;
+  function X(v,k){ return mid+v*step+(k? (CG.rnd(k+':jx2')-.5)*step*0.5 : 0); }
+  function Y(v){ return yb-ph*(v-lo)/((hi-lo)||1); }
+  for(var t=-5;t<=5;t++) h.push('<text x="'+f1(X(t))+'" y="'+(yb+22)+'" text-anchor="middle" class="nt-ax">'+(t>0?'+':'')+t+'</text>');
+  h.push('<path d="M'+f1(mid)+','+CT+' V'+yb+'" stroke="'+INK+'" stroke-width="1.6"/>');
+  h.push('<path d="M'+x0+','+f1(Y(0))+' H'+x1+'" stroke="'+INK+'" stroke-width="1.6"/>');
+  h.push('<text x="'+f1((x0+x1)/2)+'" y="'+(yb+46)+'" text-anchor="middle" class="nt-axl">Points moved on '+LBY[xLever].n.toLowerCase()+' (− took away, + added)</text>');
+  if(sl!=null){
+    var xa=-5, xb=5;
+    h.push('<path d="M'+f1(X(xa))+','+f1(Y(clamp(sl*xa,lo,hi)))+' L'+f1(X(xb))+','+f1(Y(clamp(sl*xb,lo,hi)))+'" stroke="#8a6a2f" stroke-width="3" stroke-dasharray="9 5" opacity=".85"/>');
+  }
+  var bx=PR+20, bw=CW-CR-bx;
+  h.push('<g data-legend><rect x="'+bx+'" y="'+CT+'" width="'+bw+'" height="68" rx="7" fill="#fffdf6" stroke="rgba(120,100,60,.3)"/>'
+    +'<text x="'+(bx+10)+'" y="'+(CT+17)+'" class="nt-sc">Fitted across the class</text>'
+    +'<text x="'+(bx+10)+'" y="'+(CT+38)+'" class="nt-tk">Each point added:</text>'
+    +'<text x="'+(bx+10)+'" y="'+(CT+58)+'" class="nt-tk b">'+(sl!=null? slopeTxt(sl)+' '+OUTS[yOut] : 'too few changes to fit')+'</text></g>');
+  h.push('<g data-legend><path d="M'+bx+','+(CT+92)+' h26" stroke="#8a6a2f" stroke-width="3" stroke-dasharray="9 5"/>'
+    +'<text x="'+(bx+32)+'" y="'+(CT+96)+'" class="nt-tk">Fitted line</text>'
+    +'<circle cx="'+(bx+6)+'" cy="'+(CT+114)+'" r="4" fill="#c9bfa6" stroke="'+INK+'" stroke-width=".8"/>'
+    +'<text x="'+(bx+32)+'" y="'+(CT+118)+'" class="nt-tk">Left this policy alone</text></g>');
+  h.push(archKeyV(bx, CT+146));
+  var mk=null;
+  pairs.forEach(function(p){
+    var cx=X(p.dx,p.k), cy=Y(p.dy);
+    h.push('<circle cx="'+f1(cx)+'" cy="'+f1(cy)+'" r="'+(p.dx?6:4)+'" fill="'+(p.dx? p.A.c : '#c9bfa6')+'" stroke="'+INK+'" stroke-width=".8" opacity="'+(p.dx?'.9':'.6')+'"/>');
+    if(p.k===who) mk={x:cx, y:cy, nm:simA.nat[p.k].d.nm, dx:p.dx, dy:p.dy};
+  });
+  if(mk){
+    h.push('<circle cx="'+f1(mk.x)+'" cy="'+f1(mk.y)+'" r="12" fill="none" stroke="#8a6a2f" stroke-width="3"/>');
+    h.push('<text x="'+f1(mk.x+16)+'" y="'+f1(mk.y-10)+'" class="nt-mine">'+esc(mk.nm)+'</text>');
+  }
+  h.push('<text x="'+(CL+40)+'" y="'+(CH-14)+'" class="nt-ax">Grey dots still move, because those nations changed other policies.</text>');
   svg.innerHTML=h.join(''); svg.dataset.mode='chart';
 }
 /* IV · the planet */
@@ -2670,7 +3372,7 @@ function chartPlanet(svg, sim){
   var W=sim.world, cap=sim.cap/1000, max=1.5;
   W.forEach(function(w){ max=Math.max(max, w.earths); });
   max=Math.ceil(max*2)/2;
-  var h=[chartHead('The class’s footprint, measured in Earths'+(sim.kind==='revised'? ' — after the changes' : ''),
+  var h=[chartHead('The class’s footprint, measured in Earths'+(sim.kind==='revised'? ', after the changes' : ''),
     'Stacked by starting point. Above the line, the class uses more than its share of the planet renews.',
     W[STEPS].earths.toFixed(2)+'<tspan class="nt-csub"> Earths in year 60</tspan>')];
   h.push(axisY(0,max,function(v){ return v.toFixed(1); }, 'Earths'));
@@ -2779,6 +3481,7 @@ function startReveal(){ if(rvRAF===null){ rvSig=''; drawReveal(); } }
 /* ══ THE DESIGNER ══ */
 function revising(){ return phase()==='revise'; }
 function myBase(){ return revising()? (myDesign2()||myDesign()) : myDesign(); }
+function renamedMine(){ return (state.nameOverride||{})[PK]||''; }
 function freshDesign(){
   var s={}; LKEYS.forEach(function(k){ s[k]=0; });
   return {s:s, g:5, fc:CG.pick(PK+':fc',FLAGC.length), em:CG.pick(PK+':em',EMBLEMS.length),
@@ -2791,17 +3494,22 @@ function renderDesign(force){
   box.hidden=!show;
   if(!show){ designSig=''; return; }
   if(!myD){ var m=myBase(); myD=m? JSON.parse(JSON.stringify(m)) : freshDesign(); if(myD.nr==null) myD.nr=0; }
+  if(renamedMine()) myD.nm=renamedMine();
   var sig=JSON.stringify(myD)+'|'+JSON.stringify(myBase())+'|'+ph;
   if(!force && sig===designSig) return;
   designSig=sig;
   var d=myD, left=PTS-spent(d), rev=revising(), first=myDesign(), h='';
+  if(goalKey()) h+='<div class="nt-goal"><span>Class goal</span><b>'+esc(GOALS[goalKey()].n)+'</b><em>'+esc(GOALS[goalKey()].why)+'</em></div>';
   if(rev){
     h+='<div class="nt-dsec rev"><div class="nt-dlbl"><span>Revision</span></div>'
       +'<div class="nt-revnote">Same nation, same sixty years. Move your '+PTS+' points and we run it again.</div></div>';
   } else {
     h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Your nation</span></div>'
-      +'<div class="nt-namerow"><input class="nt-nameinput" data-nameinput maxlength="24" value="'+esc(d.nm)+'" aria-label="Name your nation" spellcheck="false">'
-      +'<button type="button" class="nt-mini" data-rename title="Suggest a name">&#8635;</button></div>'
+      +(renamedMine()
+        ? '<div class="nt-namerow"><b>'+esc(renamedMine())+'</b></div><div class="nt-namewarn">Your instructor renamed this nation.</div>'
+        : '<div class="nt-namerow"><input class="nt-nameinput" data-nameinput maxlength="24" value="'+esc(d.nm)+'" aria-label="Name your nation" spellcheck="false">'
+          +'<button type="button" class="nt-mini" data-rename title="Suggest a name">&#8635;</button></div>'
+          +'<div class="nt-namewarn" data-namewarn hidden></div>')
       +'<div class="nt-flagrow"><span class="nt-flabel">Flag</span><span class="nt-swatches">';
     FLAGC.forEach(function(c,i){ h+='<button type="button" class="nt-sw'+(i===d.fc?' on':'')+'" data-fc="'+i+'" style="background:'+c+'" aria-label="Flag color '+(i+1)+'"></button>'; });
     h+='</span></div><div class="nt-flagrow"><span class="nt-flabel">Emblem</span><span class="nt-swatches">';
@@ -2820,9 +3528,19 @@ function renderDesign(force){
       +'<button type="button" class="nt-tb" data-inc="'+l.k+'"'+(v<SMAX&&left?'':' disabled')+' aria-label="More '+l.n+'">+</button></div>';
   });
   h+='</div>';
-  h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Economy</span></div>'
+  h+='<details class="nt-how"><summary>How each policy works in this game</summary><ul>'
+    +'<li><b>Child health:</b> fewer children die. Families then want fewer births, after a lag.</li>'
+    +'<li><b>Girls’ education:</b> lowers the number of children families want. It takes about twelve years, as schoolgirls grow up.</li>'
+    +'<li><b>Family planning:</b> closes the gap between the births families want and the births they have. It acts within about five years.</li>'
+    +'<li><b>Jobs and cities:</b> raises incomes, which lowers fertility and slows deaths, and grows the footprint.</li>'
+    +'<li><b>Elder care:</b> longer adult lives, and less need for children as security in old age.</li>'
+    +'<li><b>Clean energy and air:</b> cuts each person’s footprint by up to about 40%, and slightly lowers deaths.</li>'
+    +'<li><b>Farmland and forests:</b> raises what your land renews by up to about a third, and softens famine.</li>'
+    +'</ul><p>These are simplified mechanisms chosen to teach, not measured policy effects.</p></details>';
+  h+='<div class="nt-dsec"><div class="nt-dlbl"><span>Economy</span><span class="nt-free">no points</span></div>'
     +'<input type="range" min="0" max="10" step="1" value="'+d.g+'" class="nt-range" data-g aria-label="Economy setting">'
-    +'<div class="nt-ends"><span>Green and modest</span><span>Fast and resource-heavy</span></div></div>';
+    +'<div class="nt-ends"><span>Green and modest</span><span>Fast and resource-heavy</span></div>'
+    +'<div class="nt-tradeoff">Faster means higher incomes, which lower fertility, and a bigger footprint.</div></div>';
   h+='<div class="nt-dsec" data-est></div>';
   var locked=myBase(), same=locked && JSON.stringify(cleanOne(d))===JSON.stringify(locked);
   h+='<button type="button" class="cg-btn go big" data-lock'+(left?' disabled':'')+'>'
@@ -2861,10 +3579,14 @@ function designEstHtml(rows){
     h+='<text x="'+W+'" y="'+(y+4)+'" text-anchor="end" class="nt-etk">'+r.s0.tfr.toFixed(1)+'→'+r.s1.tfr.toFixed(1)+'</text>';
   });
   h+='</svg>';
-  var fpc=0, old=0; rows.forEach(function(r){ fpc+=r.s1.fpc/rows.length; old+=r.s1.old/rows.length; });
-  h+=statRow('Footprint per person', fpc.toFixed(1)+' gha', 'year 60, average start');
-  h+=statRow('Aged 65 and over', pct(old), 'year 60, average start');
-  h+='<div class="ev-hint">Which start you get is drawn after design.</div>';
+  var fpc=0, old=0, fl=Infinity, fh=-Infinity, ol=Infinity, oh=-Infinity;
+  rows.forEach(function(r){ var w=r.A.p; fpc+=r.s1.fpc*w; old+=r.s1.old*w;
+    fl=Math.min(fl,r.s1.fpc); fh=Math.max(fh,r.s1.fpc); ol=Math.min(ol,r.s1.old); oh=Math.max(oh,r.s1.old); });
+  h+=statRow('Footprint per person', fpc.toFixed(1), 'expected · range '+fl.toFixed(1)+' to '+fh.toFixed(1));
+  h+=statRow('Aged 65 and over', pct(old), 'expected · range '+pct(ol)+' to '+pct(oh));
+  h+='<div class="ev-hint nt-small">Expected values weight each start by its chance: 30%, 30%, 25% and 15%. Footprint is in the game’s relative units.</div>';
+  h+='<div class="ev-hint">Which start you get is drawn after design.'
+    +(evOn()? ' <b>Event cards are on:</b> two surprises land, at years 20 and 40. This projection leaves them out.' : '')+'</div>';
   return h;
 }
 function reviseEstHtml(r){
@@ -2958,48 +3680,64 @@ function runHtml(sim, t){
 }
 function leverEffects(sim){
   var ks=sim.ks.filter(function(k){ var a=sim.nat[k].pr.k; return a==='young'||a==='early'; });
-  if(ks.length<4) return null;
-  var out={};
-  LKEYS.forEach(function(l){
-    var gm={}, sxy=0, sxx=0;
-    ks.forEach(function(k){ var x=sim.nat[k], a=x.pr.k; gm[a]=gm[a]||{x:0,y:0,n:0}; gm[a].x+=x.d.s[l]; gm[a].y+=x.s1.tfr; gm[a].n++; });
-    ks.forEach(function(k){ var x=sim.nat[k], m=gm[x.pr.k], dx=x.d.s[l]-m.x/m.n, dy=x.s1.tfr-m.y/m.n; sxy+=dx*dy; sxx+=dx*dx; });
-    out[l]=sxx? sxy/sxx : 0;
-  });
+  if(!ks.length) return null;
+  var mf=marginal(sim), out={};
+  LKEYS.forEach(function(l){ var t=0; ks.forEach(function(k){ t+=mf[k][l].tfr; }); out[l]=t/ks.length; });
   return out;
 }
 function finalHtml(){
   var sA=simulate('first'), sB=revisedDone()? simulate('revised') : null, ks=sA.ks, n=ks.length, h=svSummaryHtml();
   if(!n) return h+blk(bhead('','Nothing to summarize'));
-  var me=(!HOST && sA.nat[PK])? PK : null, R=['I','II','III','IV','V'], ri=0;
+  var me=(!HOST && sA.nat[PK])? PK : null, R=['I','II','III','IV','V','VI','VII','VIII'], ri=0;
   if(me){
     var x=sA.nat[me];
     h+=blk(bhead(R[ri++],'Your nation, first run')
-      +'<div class="ev-hint">'+esc(x.pr.A.n)+' — '+esc(x.pr.A.desc)+'</div>'
+      +'<div class="ev-hint">'+esc(x.pr.A.n)+': '+esc(x.pr.A.desc)+'</div>'
       +statRow('Started', x.pr.A.st)
       +statRow('People', mil(x.s0.N)+' → '+mil(x.s1.N), sgn(x.grow))
       +statRow('Total fertility rate', x.s0.tfr.toFixed(1)+' → '+x.s1.tfr.toFixed(1))
       +statRow('Life expectancy', Math.round(x.s0.e)+' → '+Math.round(x.s1.e))
       +statRow('Median age', Math.round(x.s0.med)+' → '+Math.round(x.s1.med))
-      +statRow('Stage', x.s0.stage+' → '+x.s1.stage));
+      +statRow('Stage', x.s0.stage+' → '+x.s1.stage)
+      +statRow('Replacement level', x.s1.rep.toFixed(1), 'TFR, year 60')
+      +((x.s1.tfr<x.s1.rep && x.s1.N>x.snap[STEPS-2].N)? '<div class="ev-hint"><b>Momentum:</b> your TFR is below replacement, but the population is still growing. Many people are still at child-bearing ages.</div>' : ''));
     if(sB){
       var y=sB.nat[me], first=myDesign(), now=myDesign2(), chg=[];
       LKEYS.forEach(function(k){ var d2=now.s[k]-first.s[k]; if(d2) chg.push(LBY[k].n+' '+(d2>0?'+':'−')+Math.abs(d2)); });
       h+=blk(bhead(R[ri++],'After your changes')
         +(chg.length? '<div class="ev-hint">'+esc(chg.join(' · '))+'</div>' : '<div class="ev-hint">You kept your first policies.</div>')
         +statRow('People', mil(y.s1.N), diffTxt(sgnN((y.s1.N-x.s1.N)/1000,1))+(Math.abs(y.s1.N-x.s1.N)>=50?'M':''))
+        +(function(){
+          var c1=controlledRevision(sA)[me][STEPS].N, a1=c1-x.s1.N, b1=y.s1.N-c1;
+          function m1(v){ return diffTxt(sgnN(v/1000,1))+(Math.abs(v)>=50?'M':''); }
+          return statRow('&nbsp;&nbsp;from your changes', m1(a1))+statRow('&nbsp;&nbsp;from the class’s changes', m1(b1));
+        })()
         +statRow('Total fertility rate', y.s1.tfr.toFixed(1), diffTxt(sgnN(y.s1.tfr-x.s1.tfr,1)))
         +statRow('Life expectancy', Math.round(y.s1.e), diffTxt(sgnN(y.s1.e-x.s1.e,0)))
         +statRow('Footprint per person', y.s1.fpc.toFixed(1), diffTxt(sgnN(y.s1.fpc-x.s1.fpc,1))));
     }
   }
-  var W0=sA.world[0], W1=sA.world[STEPS], shrink=0, repl=0;
-  ks.forEach(function(k){ var x=sA.nat[k]; if(x.grow<0) shrink++; if(x.s1.tfr<=2.15) repl++; });
+  if(me && evOn() && sA.nat[me].evFx){
+    var eb='';
+    sA.nat[me].evFx.forEach(function(fx,m){
+      if(!fx) return;
+      var E=EVBY[fx.k], share=fx.full>0? (fx.full-Math.max(0,fx.act))/fx.full : 0;
+      eb+=statRow('Year '+(EVSTEPS[m]*STEPY)+' · '+E.n, E.good? 'good years' : (share>0? pct(share) : '0%'), E.good? '' : 'absorbed');
+    });
+    if(eb) h+=blk(bhead(R[ri++],'Your event cards')+eb);
+  }
+  var W0=sA.world[0], W1=sA.world[STEPS], shrink=0, below=0, mom=0;
+  ks.forEach(function(k){
+    var x=sA.nat[k]; if(x.grow<0) shrink++;
+    if(x.s1.tfr<x.s1.rep){ below++; if(x.s1.N>x.snap[STEPS-2].N) mom++; }
+  });
   h+=blk(bhead(R[ri++],'The class’s world, 60 years')
     +statRow('People', mil(W0.N)+' → '+mil(W1.N), sgn(W1.N/W0.N-1))
     +statRow('Planet', W0.earths.toFixed(2)+' → '+W1.earths.toFixed(2), 'Earths')
     +statRow('Nations shrinking', shrink+' <i>/</i> '+n)
-    +statRow('TFR at or below 2.1', repl+' <i>/</i> '+n, 'year 60'));
+    +statRow('Below replacement', below+' <i>/</i> '+n, 'each at its own level')
+    +statRow('Still growing anyway', mom+' <i>/</i> '+n, 'momentum')
+    +(mom? '<div class="ev-hint">Below replacement yet still growing: so many people are at child-bearing ages that births still outnumber deaths. That is demographic momentum.</div>' : ''));
   if(sB){
     var B1=sB.world[STEPS];
     h+=blk(bhead(R[ri++],'After the class revised')
@@ -3007,11 +3745,20 @@ function finalHtml(){
       +statRow('People', mil(B1.N), diffTxt(sgnN((B1.N-W1.N)/1000,1))+(Math.abs(B1.N-W1.N)>=50?'M':''))
       +statRow('Planet', B1.earths.toFixed(2), diffTxt(sgnN(B1.earths-W1.earths,2))+(Math.abs(B1.earths-W1.earths)>=0.005?' Earths':'')));
   }
+  if(goalKey()){
+    var gsim=sB||sA, G=GOALS[goalKey()], ranked=gsim.ks.slice().sort(function(a,b){ return goalOf(gsim.nat[b]).score-goalOf(gsim.nat[a]).score; });
+    var gb='<div class="ev-hint">'+esc(G.why)+(sB? ' Scored on the revised run.' : '')+'</div>';
+    if(me){ var mg=goalOf(gsim.nat[me]), rk=ranked.indexOf(me)+1;
+      gb+=statRow('Your nation', mg.val, mg.note)+statRow('Class rank', ordinal(rk)+' <i>/</i> '+n); }
+    ranked.slice(0,3).forEach(function(k,i){ var g=goalOf(gsim.nat[k]);
+      gb+=statRow((i+1)+'. '+esc(gsim.nat[k].d.nm), g.val, g.note); });
+    h+=blk(bhead(R[ri++],'Class goal: '+G.n)+gb);
+  }
   var eff=leverEffects(sB||sA);
   if(eff){
     var best=LKEYS.slice().sort(function(a,b){ return eff[a]-eff[b]; });
     h+=blk(bhead(R[ri++],'What moved the TFR')
-      +'<div class="ev-hint">Change in TFR in year 60 per point spent, in young and early nations</div>'
+      +'<div class="ev-hint">One extra point, everything else held fixed: the change in TFR by year 60, averaged over young and early nations.</div>'
       +statRow(LBY[best[0]].n, eff[best[0]].toFixed(2), 'strongest')
       +statRow(LBY[best[1]].n, eff[best[1]].toFixed(2), 'next'));
   }
@@ -3063,7 +3810,20 @@ function renderTabs(){
   bar.querySelector('[data-scen="diff"]').hidden = tab!=='pyr';
   if(scen==='diff' && tab!=='pyr') scen='revised';
   show('[data-yrwrap]', tab==='pyr');
-  show('[data-lvwrap]', tab==='levers');
+  var simple=(tab==='levers' && !(HOST && detail));
+  bar.querySelector('[data-tab="levers"]').textContent='What mattered most';
+  show('[data-detailwrap]', HOST && tab==='levers');
+  var db=bar.querySelector('[data-detail]'); db.classList.toggle('on', detail); db.textContent=detail? 'Detail views: on' : 'Detail views';
+  show('[data-lvwrap]', tab==='levers' && !simple && lMode!=='point');
+  show('[data-lmodewrap]', tab==='levers' && !simple);
+  /* the simple view speaks plainly and skips the least intuitive outcome */
+  if(simple && yOut==='old') yOut='tfr';
+  var OL=simple? {tfr:'Births per woman (TFR)', grow:'Population', old:'Aged 65+', foot:'Footprint'} : {tfr:'TFR', grow:'Growth', old:'Aged 65+', foot:'Footprint'};
+  Array.prototype.forEach.call(bar.querySelectorAll('[data-out]'),function(b){ b.textContent=OL[b.dataset.out]; });
+  bar.querySelector('[data-out="old"]').hidden=simple;
+  bar.querySelector('[data-lmode="effect"]').hidden=!revisedDone();
+  if(lMode==='effect' && !revisedDone()) lMode='point';
+  mark('[data-lmode]','data-lmode',lMode);
   show('[data-outwrap]', tab==='levers'||tab==='compare');
   mark('[data-scope]','data-scope',scope); mark('[data-scen]','data-scen',scen);
   mark('[data-yr]','data-yr',yrSel); mark('[data-lv]','data-lv',xLever); mark('[data-out]','data-out',yOut);
@@ -3071,7 +3831,11 @@ function renderTabs(){
 var stageSig='';
 function drawStage(force){
   var svg=q('[data-scene]'), ph=phase();
-  var sig=[ph,tab,scope,scen,yrSel,xLever,yOut,step(),step2(),revisedDone(),cleanSig,cleanSig2,HOST?'h':JSON.stringify(myD),Object.keys(players()).length].join('|');
+  /* while a student designs, the map depends only on their own plan: classmates' saves
+     arrive several times a second in a big class and must not redraw it */
+  var sig = ((ph==='design'||ph==='revise') && !HOST && myD)
+    ? ph+'|'+JSON.stringify(myD)
+    : [ph,tab,scope,scen,yrSel,xLever,yOut,lMode,detail,goalKey(),evOn(),step(),step2(),revisedDone(),cleanSig,cleanSig2,HOST?'h':JSON.stringify(myD),Object.keys(players()).length].join('|');
   if(!force && sig===stageSig) return;
   stageSig=sig;
   if((ph==='design'||ph==='revise') && !HOST && myD){ drawNation(svg, myD, lastDrawn); lastDrawn=JSON.parse(JSON.stringify(myD)); return; }
@@ -3099,23 +3863,135 @@ function drawStage(force){
   }
   else if(tab==='rates') chartRates(svg, simS, (who && scope==='mine')? who : null);
   else if(tab==='growth') chartGrowth(svg, simFirst, simB, who);
-  else if(tab==='levers') chartLevers(svg, simS, who);
+  else if(tab==='levers' && !(HOST && detail)) drawMattered(svg, simS, who);
+  else if(tab==='levers'){
+    if(lMode==='effect' && simB) chartEffect(svg, simFirst, simB, who);
+    else if(lMode==='level') chartLevers(svg, simS, who);
+    else chartOnePoint(svg, simS, who);
+  }
   else if(tab==='planet') chartPlanet(svg, simS);
   else if(tab==='compare' && simB) chartCompare(svg, simFirst, simB, who);
   else if(tab==='delta' && simB) drawDeltaPanels(svg, simFirst, simB, (who && scope==='mine')? who : null);
   else chartGrowth(svg, simFirst, simB, who);
 }
 
+/* ══ EVENT CARDS on screen ══ */
+var evDismissed={};
+function evMoment(){
+  if(!evOn()) return -1;
+  var ph=phase(), t= ph==='run'? step() : ph==='rerun'? step2() : -1;
+  return EVSTEPS.indexOf(t);
+}
+function peopleTxt(k){ var v=Math.abs(k)*1000; return v>=1e6? (v/1e6).toFixed(1)+' million' : num(Math.round(v/1000)*1000); }
+var EVWHO={plague:[['health',0.5],['care',0.3]], famine:[['land',0.7]], boom:[['fp',0.35]]};
+var EVICON={health:clinic, care:elders, land:grove, fp:fpPost};
+var EVNAME={health:'clinics', care:'elder care', land:'farmland and forests', fp:'family planning'};
+/* one bar: the card's full toll, split into what landed and what the policies held back */
+function absorbedHtml(fx, d, nm){
+  var E=EVBY[fx.k];
+  if(E.good){
+    return '<div class="nt-evgood"><b>Good news for '+esc(nm)+'.</b> '
+      +(fx.k==='harvest'? 'Child deaths fall by a quarter from now on, and incomes rise.' : 'Child deaths fall by a third from now on, and lives get longer.')+'</div>';
+  }
+  var unit=fx.k==='boom'? 'extra births' : 'extra deaths';
+  var full=Math.max(0,fx.full), act=Math.max(0,Math.min(full,fx.act)), saved=full-act, share=full? saved/full : 0;
+  var parts=EVWHO[fx.k].map(function(w){ return {k:w[0], v:w[1]*d.s[w[0]]/SMAX}; }).filter(function(p){ return p.v>0; });
+  var tot=parts.reduce(function(a,p){ return a+p.v; },0);
+  var id=UID+'eb', X0=6, X1=314, y=34, bh=46, xa=X0+(X1-X0)*(full? act/full : 1);
+  var h='<svg viewBox="0 0 320 128" class="nt-evbar" role="img" aria-label="The card at full force, and the share your policies absorbed">'
+    +'<defs><pattern id="'+id+'-h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#f6e3d6"/><path d="M0,0 V7" stroke="#b5533c" stroke-width="2.4"/></pattern>'
+    +'<filter id="'+id+'-r"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="2"/></filter></defs>';
+  h+='<text x="'+X0+'" y="16" class="nt-evlab">At full force</text><text x="'+X1+'" y="16" text-anchor="end" class="nt-evlab b">'+peopleTxt(full)+' '+unit+'</text>';
+  h+='<g filter="url(#'+id+'-r)">';
+  h+='<rect x="'+X0+'" y="'+y+'" width="'+(X1-X0)+'" height="'+bh+'" rx="6" fill="url(#'+id+'-h)" stroke="'+INK+'" stroke-width="1.6"/>';
+  var fw=X1-X0, aw=xa-X0, anim=saved>0;
+  h+='<rect x="'+X0+'" y="'+y+'" width="'+f1(anim? fw : aw)+'" height="'+bh+'" rx="6" fill="#b5533c" stroke="'+INK+'" stroke-width="1.6">'
+    +(anim? '<animate attributeName="width" from="'+f1(fw)+'" to="'+f1(aw)+'" begin="1.1s" dur="1.3s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .2 1"/>' : '')+'</rect>';
+  /* the shield: each policy's share of what was held back, in its own color, with its map icon */
+  h+='<g opacity="'+(anim?0:1)+'">'+(anim? '<animate attributeName="opacity" from="0" to="1" begin="1.6s" dur=".7s" fill="freeze"/>' : '');
+  var cx=xa;
+  parts.forEach(function(p2){
+    var w=(X1-xa)*p2.v/tot;
+    h+='<rect x="'+f1(cx)+'" y="'+y+'" width="'+f1(w)+'" height="'+bh+'" fill="'+LBY[p2.k].c+'" fill-opacity=".85" stroke="'+INK+'" stroke-width="1.2"/>';
+    if(w>34) h+='<g transform="translate('+f1(cx+w/2)+','+(y+bh-8)+') scale(.9)"><rect x="-22" y="-32" width="44" height="36" rx="5" fill="#fbf6ea" opacity=".85"/>'+EVICON[p2.k](0,0)+'</g>';
+    cx+=w;
+  });
+  h+='</g></g>';
+  var fade=anim? '<animate attributeName="opacity" from="0" to="1" begin="2.2s" dur=".6s" fill="freeze"/>' : '';
+  if(saved>0) h+='<path d="M'+f1(xa)+','+(y-5)+' V'+(y+bh+5)+'" stroke="'+INK+'" stroke-width="2.4" stroke-dasharray="4 3" opacity="0">'+fade+'</path>';
+  h+='<text x="'+X0+'" y="'+(y+bh+22)+'" class="nt-evlab"'+(anim?' opacity="0"':'')+'>Landed: '+peopleTxt(act)+fade+'</text>';
+  if(saved>0) h+='<text x="'+X1+'" y="'+(y+bh+22)+'" text-anchor="end" class="nt-evlab b" style="fill:#2D6A4F" opacity="0">Absorbed: '+pct(share)+fade+'</text>';
+  h+='</svg>';
+  var cap;
+  if(saved>0){
+    var names=parts.map(function(p2){ return EVNAME[p2.k]; });
+    cap = fx.k==='boom'
+      ? 'Your '+names.join(' and ')+' kept this boom '+pct(share)+' smaller: about '+peopleTxt(saved)+' fewer births.'
+      : 'Your '+names.join(' and ')+' absorbed '+pct(share)+' of the blow: about '+peopleTxt(saved)+' lives.';
+  } else {
+    var want=EVWHO[fx.k].map(function(w){ return LBY[w[0]].n.toLowerCase(); });
+    cap='Nothing in your plan softened this one. Points on '+want.join(' or ')+' would have.';
+  }
+  return h+'<div class="nt-evcap'+(saved>0?' late':'')+'">'+cap+'</div>';
+}
+function renderEvent(){
+  var box=q('[data-evbox]'), m=evMoment(), key=phase()+':'+m+':'+gid();
+  var show = m>=0 && !evDismissed[key];
+  box.hidden=!show;
+  if(!show){ box.dataset.sig=''; return; }
+  if(box.dataset.sig===key) return;
+  box.dataset.sig=key;
+  var kind=phase()==='rerun'? 'revised' : 'first', sim=simulate(kind), yr=EVSTEPS[m]*STEPY, h;
+  var x=(!HOST)? sim.nat[PK] : null;
+  if(x){
+    var fx=(x.evFx||[])[m] || {k:cardFor(PK,m), full:0, act:0};
+    var E=EVBY[fx.k];
+    h='<div class="nt-evwrap"><div class="nt-evcardbox">'+evCardSVG(fx.k, UID+'ec'+m, 'Year '+yr)+'</div>'
+      +'<div class="nt-evside"><div class="nt-evey">Event card · year '+yr+(kind==='revised'?' · revised run':'')+'</div>'
+      +'<div class="nt-evhead">'+esc(E.n)+' hits '+esc(x.d.nm)+'</div>'
+      +'<div class="nt-evtxt">'+esc(E.txt)+'</div>'
+      +absorbedHtml(fx, x.d, x.d.nm)
+      +'<button type="button" class="cg-btn go" data-evclose>Keep watching &#9654;</button></div></div>';
+  } else {
+    var cnt={}, full=0, saved=0;
+    EVENTS.forEach(function(e){ cnt[e.k]=0; });
+    sim.ks.forEach(function(k){
+      var f=((sim.nat[k].evFx)||[])[m]; if(!f) return;
+      cnt[f.k]++;
+      if(f.k==='plague'||f.k==='famine'){ full+=Math.max(0,f.full); saved+=Math.max(0,f.full-Math.max(0,f.act)); }
+    });
+    h='<div class="nt-evwrap host"><div class="nt-evey">Event cards · year '+yr+(kind==='revised'?' · revised run':'')+'</div>'
+      +'<div class="nt-evhead">Every nation drew a card</div><div class="nt-evrow">';
+    EVENTS.forEach(function(e,i){
+      h+='<div class="nt-evmini" style="--i:'+i+'">'+evCardSVG(e.k, UID+'hc'+m+i, 'Year '+yr)
+        +'<div class="nt-evcount">'+cnt[e.k]+'</div><div class="nt-evcl">'+(cnt[e.k]===1?'nation':'nations')+'</div></div>';
+    });
+    h+='</div>';
+    if(full>0) h+='<div class="nt-evcap">Across the class, policies absorbed <b>'+pct(saved/full)+'</b> of the deaths from pandemics and famines: about '+peopleTxt(saved)+' lives.</div>';
+    h+='<button type="button" class="cg-btn go" data-evclose>Keep watching &#9654;</button></div>';
+  }
+  q('[data-evcard]').innerHTML=h;
+}
+
 /* ══ phase clock ══ */
-var STEPSEC=4.6, RERUNSEC=3.4;
+var STEPSEC=4.6, RERUNSEC=3.4, EVPAUSE=8, EVPAUSE2=6;
+function runSecs(next, rerun){
+  var base=rerun? RERUNSEC : STEPSEC;
+  return base + ((evOn() && EVSTEPS.indexOf(next)>-1)? (rerun? EVPAUSE2 : EVPAUSE) : 0);
+}
 var clockWrap=q('[data-clockwrap]'), clockEl=q('[data-clock]'), autoLocked='';
+var autoAt=2500+Math.floor(CG.rnd(PK+':autosave')*12500);   /* 2.5 to 15 s before the deadline */
 function tick(){
   var dl=state.deadline, left=dl? dl-Date.now() : null, ph=phase(), timed=(ph==='design'||ph==='revise');
   clockWrap.hidden=!(timed && dl);
-  if(timed && dl){ clockEl.textContent=CG.clock(left); clockEl.classList.toggle('low', left<30000);
+  if(timed && dl){ clockEl.textContent=CG.clock(Math.max(0,left)); clockEl.classList.toggle('low', left<30000);
                    q('[data-phasename]').textContent = ph==='revise'? 'Revision' : 'Design'; }
-  if(HOST && dl && left<=0) advance();
-  if(!HOST && timed && dl && left<1800 && myD && spent(myD)===PTS){
+  /* the host waits a few seconds past a design deadline, so saves still in flight land
+     before the reveal draws from them */
+  if(HOST && dl && left<=(timed? -3000 : 0)) advance();
+  /* each student auto-saves at their own moment in the last fifteen seconds, not all at
+     once: two hundred saves in the same instant is more than the database takes smoothly */
+  if(!HOST && timed && dl && left<autoAt && myD && spent(myD)===PTS){
     var s=JSON.stringify(cleanOne(myD));
     if(s!==JSON.stringify(myBase()) && autoLocked!==s){ autoLocked=s; lockIn(); }
   }
@@ -3134,9 +4010,9 @@ function advance(){
   if(ph==='design') setPhase('reveal', rvMs()/1000);
   else if(ph==='reveal') setPhase('briefing', null);
   else if(ph==='briefing') setPhase('run', STEPSEC, {st:1});
-  else if(ph==='run'){ if(step()<STEPS) setPhase('run', STEPSEC, {st:step()+1}); else setPhase('discuss', null); }
+  else if(ph==='run'){ if(step()<STEPS) setPhase('run', runSecs(step()+1,false), {st:step()+1}); else setPhase('discuss', null); }
   else if(ph==='revise') setPhase('rerun', RERUNSEC, {st2:1});
-  else if(ph==='rerun'){ if(step2()<STEPS) setPhase('rerun', RERUNSEC, {st2:step2()+1}); else setPhase('final', null, {revised:1}); }
+  else if(ph==='rerun'){ if(step2()<STEPS) setPhase('rerun', runSecs(step2()+1,true), {st2:step2()+1}); else setPhase('final', null, {revised:1}); }
   else if(ph==='discuss') setPhase('final', null);
 }
 
@@ -3145,7 +4021,7 @@ function render(){
   var ph=phase();
   q('[data-joinbox]').hidden = HOST || joined() || !(ph==='lobby'||ph==='design');
   root.classList.toggle('designing', (ph==='design'||ph==='revise') && !HOST);
-  renderDesign(); renderMine(); renderReadout(); renderTabs(); renderSurvey();
+  renderDesign(); renderMine(); renderReadout(); renderTabs(); renderSurvey(); renderEvent();
   if(ph==='reveal') startReveal(); else q('[data-reveal]').hidden=true;
   drawStage();
   var gb=q('[data-genbadge]'), running=(ph==='run'||ph==='rerun');
@@ -3173,6 +4049,10 @@ function render(){
     q('[data-step]').hidden = !(ph==='run'||ph==='rerun');
     q('[data-skip]').hidden = !(ph==='design'||ph==='run'||ph==='rerun'||ph==='discuss'||ph==='revise');
     q('[data-revise]').hidden = ph!=='discuss';
+    var evcb=q('[data-events]'), gsel=q('[data-goal]'), locked=['run','discuss','revise','rerun','final'].indexOf(ph)>-1;
+    evcb.checked=evOn(); evcb.disabled=locked;
+    q('[data-renamebtn]').hidden = !nDesigns();
+    if(gsel.value!==goalKey()) gsel.value=goalKey(); gsel.disabled=locked;
     q('[data-again]').hidden = ph!=='final' || againOpen();
     q('[data-survey]').hidden = ph!=='final' || svOpen();
     q('[data-surveyclose]').hidden = !svOpen();
@@ -3187,7 +4067,7 @@ function render(){
       : ph==='revise'? (nRevised()+' of '+nDesigns()+' have changed a policy.')
       : ph==='rerun'? 'Revised run, year '+(step2()*STEPY)+' of 60.'
       : 'Done.';
-    if(svOpen()) hs.textContent='Survey is open on every student screen — '+svSummary().n+' answered. Nothing from it is shown here.';
+    if(svOpen()) hs.textContent='Survey is open on every student screen: '+svSummary().n+' answered. Nothing from it is shown here.';
   } else {
     st.hidden=false;
     st.textContent = ph==='idle'? 'Waiting for the instructor.'
@@ -3233,7 +4113,12 @@ q('[data-design]').addEventListener('input',function(ev){
   if(!myD) return;
   if(ev.target.hasAttribute('data-nameinput')){
     /* the field the student is typing in must survive, so only the map redraws */
-    myD.nm=safeName(ev.target.value)||myD.nm;
+    var typed=safeName(ev.target.value), warn=q('[data-namewarn]'), msg='';
+    if(typed && nameBlocked(typed)) msg='Please choose a different name.';
+    else if(typed && takenNames()[typed.toLowerCase()]) msg='Another nation already has that name.';
+    ev.target.classList.toggle('bad', !!msg);
+    if(warn){ warn.textContent=msg; warn.hidden=!msg; }
+    if(!msg && typed) myD.nm=typed;
     designSig=JSON.stringify(myD)+'|'+JSON.stringify(myBase())+'|'+phase();
     drawStage(true);
     return;
@@ -3253,6 +4138,8 @@ q('[data-tabs]').addEventListener('click',function(ev){
   else if(b.dataset.scen) scen=b.dataset.scen;
   else if(b.dataset.yr) yrSel=parseInt(b.dataset.yr,10);
   else if(b.dataset.lv) xLever=b.dataset.lv;
+  else if(b.dataset.lmode) lMode=b.dataset.lmode;
+  else if(b.hasAttribute('data-detail')) detail=!detail;
   else if(b.dataset.out) yOut=b.dataset.out;
   else return;
   renderTabs(); drawStage(true);
@@ -3263,6 +4150,10 @@ q('[data-readout]').addEventListener('click',function(ev){
 q('[data-againyes]').addEventListener('click',function(){ againVote(true); });
 q('[data-againno]').addEventListener('click',function(){ againVote(false); });
 q('[data-surveyform]').addEventListener('submit', svSubmit);
+q('[data-evbox]').addEventListener('click',function(ev){
+  if(!ev.target.closest('[data-evclose]')) return;
+  evDismissed[phase()+':'+evMoment()+':'+gid()]=true; renderEvent();
+});
 
 /* ══ PLAY AGAIN ══ */
 function againUntil(){ return state.againUntil||0; }
@@ -3287,7 +4178,7 @@ function againClose(){
   var t=againTally();
   if(t.yes>t.no){
     backend.setDoc('polls',GID,{phase:'design', st:0, st2:0, revised:0, players:state.players||{}, designs:{}, designs2:{},
-      gameId:Date.now()%100000, deadline:Date.now()+mins()*60*1000, againUntil:0, again:{}});
+      gameId:Date.now()%100000, deadline:Date.now()+mins()*60*1000, againUntil:0, again:{}, events:evOn()?1:0, goal:goalKey(), nameOverride:{}});
   } else backend.mergeDoc('polls',GID,{againUntil:0, again:{}});
 }
 
@@ -3327,7 +4218,7 @@ var svMsg='';
 function svSummaryHtml(){
   var d=svSummary();
   if(!HOST || (!d.n && !svOpen())) return '';
-  return blk(bhead('', svOpen()? 'Survey — open' : 'Survey')+statRow('Answers in', d.n, d.n===1?'response':'responses')
+  return blk(bhead('', svOpen()? 'Survey (open)' : 'Survey')+statRow('Answers in', d.n, d.n===1?'response':'responses')
     +'<button class="cg-btn go sv-mail" type="button" data-surveymail'+(d.n?'':' disabled')+'>Email me the results</button>'
     +'<div class="ev-hint" data-surveymailmsg>'+(svMsg||'Nothing from the survey is shown on this screen.')+'</div>');
 }
@@ -3361,7 +4252,29 @@ function svMail(){
 function wireHost(){
   var bar=q('[data-hostbar]'); bar.hidden=false; root.classList.add('cg-host');
   bar.querySelector('[data-open]').addEventListener('click',function(){
-    backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:Date.now()%100000});
+    backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:Date.now()%100000, events:evOn()?1:0, goal:goalKey(), nameOverride:{}});
+  });
+  bar.querySelector('[data-events]').addEventListener('change',function(){
+    backend.mergeDoc('polls',GID,{events:this.checked?1:0});
+  });
+  function renameNation(k){
+    var D=cleanDesigns(); if(!D[k]) return;
+    if(!confirm('Replace the name "'+D[k].nm+'" with a new one for everyone?')) return;
+    var o={nameOverride:{}}; o.nameOverride[k]=safeRawName(gid()+':host:'+k+':'+Date.now()%1000);
+    backend.mergeDoc('polls',GID,o);
+  }
+  bar.querySelector('[data-renamebtn]').addEventListener('click',function(){
+    var want=(prompt('Type the nation name to replace:')||'').trim().toLowerCase();
+    if(!want) return;
+    var D=cleanDesigns(), hit=Object.keys(D).filter(function(k){ return D[k].nm.toLowerCase()===want; })[0];
+    if(hit) renameNation(hit); else alert('No nation has that name.');
+  });
+  q('[data-scene]').addEventListener('click',function(ev){
+    var t=ev.target.closest && ev.target.closest('[data-nk]');
+    if(t && phase()==='design') renameNation(t.getAttribute('data-nk'));
+  });
+  bar.querySelector('[data-goal]').addEventListener('change',function(){
+    backend.mergeDoc('polls',GID,{goal:this.value||''});
   });
   bar.querySelector('[data-start]').addEventListener('click',function(){
     if(!Object.keys(players()).length && !confirm('Nobody has joined yet. Start anyway?')) return;
@@ -3382,7 +4295,7 @@ function wireHost(){
     if(!againOpen()) backend.mergeDoc('polls',GID,{againUntil:Date.now()+30000, again:{}});
   });
   bar.querySelector('[data-reset]').addEventListener('click',function(){
-    if(confirm('Reset the game for everyone?')) backend.setDoc('polls',GID,{phase:'idle'});
+    if(confirm('Reset the game for everyone?')) backend.setDoc('polls',GID,{phase:'idle', events:evOn()?1:0, goal:goalKey()});
   });
 }
 
@@ -3396,17 +4309,26 @@ function demoRun(){
              {health:3,edu:3,fp:2,jobs:2,care:1,clean:2,land:1},{health:3,edu:2,fp:1,jobs:4,care:1,clean:2,land:1},
              {health:1,edu:2,fp:5,jobs:1,care:1,clean:3,land:1},{health:2,edu:3,fp:1,jobs:3,care:2,clean:1,land:2},
              {health:5,edu:1,fp:0,jobs:2,care:2,clean:3,land:1},{health:2,edu:4,fp:3,jobs:1,care:1,clean:3,land:0}];
+  /* every simulated student builds a slightly different plan */
   function mk(i){
-    var p=PLANS[(i*5)%PLANS.length], s={};
+    var p=PLANS[(i*5)%PLANS.length], s={}, j;
     LKEYS.forEach(function(k){ s[k]=p[k]||0; });
+    for(j=0;j<2;j++){
+      var from=LKEYS[CG.pick('demo:'+i+':f'+j, LKEYS.length)], to=LKEYS[CG.pick('demo:'+i+':t'+j, LKEYS.length)];
+      if(s[from]>0 && s[to]<SMAX && from!==to){ s[from]--; s[to]++; }
+    }
     return {s:s, g:(i*7)%11, fc:i%FLAGC.length, em:(i*3)%EMBLEMS.length, nm:nationName('demo'+i)};
   }
-  /* the revision: everyone moves two points toward schooling and family planning */
+  /* the revision: a real room pulls in different directions, so this one does too */
   function mk2(i){
-    var d=mk(i), moved=0;
-    ['jobs','care','health'].forEach(function(k){ while(d.s[k]>0 && moved<2){ d.s[k]--; moved++; } });
-    var into=['edu','fp'];
-    for(var j=0;j<moved;j++){ var k2=into[j%2]; if(d.s[k2]<SMAX) d.s[k2]++; else d.s.clean++; }
+    var d=mk(i), move=CG.pick('demo:'+i+':rev', 10), n2, from, to, j;
+    if(move===0) return d;                       /* some students leave it alone */
+    n2 = move<4? 1 : move<8? 2 : 3;              /* others move one, two or three points */
+    for(j=0;j<n2;j++){
+      from=LKEYS[CG.pick('demo:'+i+':rf'+j, LKEYS.length)];
+      to=LKEYS[CG.pick('demo:'+i+':rt'+j, LKEYS.length)];
+      if(d.s[from]>0 && d.s[to]<SMAX && from!==to){ d.s[from]--; d.s[to]++; }
+    }
     return d;
   }
   var bar=document.createElement('div');
@@ -3428,8 +4350,8 @@ function demoRun(){
     }, 'Students name their own country, then every point shows up on the map: clinics, schools, family-planning posts, solar arrays, protected groves.'];
   }
   var S=[
-    [300, function(){ backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:(DSEED||Date.now()%100000)}); },
-      'Build a Nation — one hypothetical class, played out. A real one varies.'],
+    [300, function(){ backend.setDoc('polls',GID,{phase:'lobby', st:0, st2:0, revised:0, players:{}, designs:{}, designs2:{}, gameId:(DSEED||Date.now()%100000), events:1, goal:'lives'}); },
+      'Build a Nation: one hypothetical class, played out. A real one varies.'],
     [2200, function(){ var pl={}; for(var i=0;i<N;i++) pl['d'+i]={t:i}; pl[PK]={t:0}; doc({players:pl}); },
       N+' students join on their own devices. You are one of them.'],
     [2200, function(){ doc({phase:'design', deadline:Date.now()+60000}); },
@@ -3447,20 +4369,22 @@ function demoRun(){
   S.push([6000, function(){ doc({phase:'run', st:1}); },
       'The instructor starts the clock. Year 5: the pyramid reshapes as each cohort ages.']);
   for(var y=2;y<=STEPS;y++) (function(yy){
-    S.push([3600, function(){ doc({st:yy}); }, 'Year '+(yy*STEPY)+' of 60. Each bar is one five-year age group; the marker shows the stage of the transition.']);
+    S.push([EVSTEPS.indexOf(yy)>-1? 10500 : 3600, function(){ doc({st:yy}); },
+      EVSTEPS.indexOf(yy)>-1? 'Year '+(yy*STEPY)+': event cards. Each nation draws one, and the bar shows how much its policies absorbed.'
+        : 'Year '+(yy*STEPY)+' of 60. Each bar is one five-year age group; the marker shows the stage of the transition.']);
   })(y);
   S.push([1400, function(){ doc({phase:'discuss'}); }, 'After 60 years: the pyramid, year by year.']);
   S.push([5200, function(){ tab='rates'; renderTabs(); drawStage(true); }, 'Birth and death rates, and the stage each five years fell in.']);
   S.push([5200, function(){ tab='levers'; xLever='fp'; renderTabs(); drawStage(true); }, 'What made an impact: the TFR in year 60, by points spent on each policy.']);
   S.push([5600, function(){ doc({phase:'revise', deadline:Date.now()+45000}); },
-      'Now students revise. Same nation, same starting point, same sixty years — only the policies move.']);
+      'Now students revise. Same nation, same starting point, same sixty years. Only the policies move.']);
   S.push([1800, function(){ if(myD){ myD.s.jobs=Math.max(0,myD.s.jobs-1); myD.s.care=Math.max(0,myD.s.care-1); myD.s.edu=Math.min(SMAX,myD.s.edu+1); myD.s.fp=Math.min(SMAX,myD.s.fp+1); renderDesign(true); } },
       'The panel projects the change against the first run before anything is locked in.']);
   S.push([2600, function(){ var d={}; for(var i=0;i<N;i++) d['d'+i]=mk2(i); if(myD) d[PK]=cleanOne(myD); doc({designs2:d}); },
-      'The class moves points toward schooling and family planning.']);
+      'Every student revises differently: some move points into schooling, some into clean energy, some leave their plan alone.']);
   S.push([2400, function(){ doc({phase:'rerun', st2:1}); }, 'The same sixty years run again with the revised policies.']);
   for(var m=2;m<=STEPS;m++) (function(mm){
-    S.push([2600, function(){ doc({st2:mm}); }, 'Revised run, year '+(mm*STEPY)+' of 60.']);
+    S.push([EVSTEPS.indexOf(mm)>-1? 8000 : 2600, function(){ doc({st2:mm}); }, 'Revised run, year '+(mm*STEPY)+' of 60.']);
   })(m);
   S.push([1200, function(){ doc({phase:'final', revised:1}); }, 'Both runs, side by side, for every nation.']);
   S.push([6500, function(){ rep.hidden=false; }, 'Solid is what they chose first; hatched is what they changed to. Results vary with every draw.']);
@@ -3495,6 +4419,11 @@ window.__deckLiveReady.then(function(live){
   });
   render();
   if(DEMO) setTimeout(demoRun, 400);
+  /* demo builds only: a handle for checking the model from the console */
+  if(DEMO) window.__ntDebug={simulate:simulate, runWith:runWith, marginal:marginal, controlledRevision:controlledRevision,
+    outOfSnaps:outOfSnaps, STEPS:STEPS, LKEYS:LKEYS, PK:PK,
+    rawName:rawName, joinName:joinName, genBlocked:genBlocked, nameBlocked:nameBlocked, NM_A:NM_A, NM_B:NM_B, nationName:nationName,
+    backend:backend, GID:GID};
 });
 
 })();</script>
@@ -3525,7 +4454,7 @@ window.__deckLiveReady.then(function(live){
     
   </div>
   <div class="embed-wrap">
-    <iframe class="embed-frame" data-src="ecological-footprint-calculator/index.html?embed=1&amp;focus=calc" title="Ecological Footprint Calculator" loading="lazy"></iframe>
+    <iframe class="embed-frame" data-src="../Ecological Footprint Calculator/index.html?embed=1&amp;focus=calc" title="Ecological Footprint Calculator" loading="lazy"></iframe>
   </div>
 </section>
 <section class="slide" data-type="content" style="--accent:#52796F">

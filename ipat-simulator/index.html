@@ -559,9 +559,9 @@
         </div>
         <div class="col-value vc-a" id="va">$11,000</div>
         <div class="vslider-area">
-          <div class="vrange-lbl" id="vrange-top-a">$21,000 / person</div>
+          <div class="vrange-lbl" id="vrange-top-a">$50,000 / person</div>
           <div class="vslider-track">
-            <input type="range" id="slA" class="sl-a" min="1" max="21" step="0.5" value="11">
+            <input type="range" id="slA" class="sl-a" min="1" max="50" step="0.5" value="11">
           </div>
           <div class="vrange-lbl" id="vrange-bot-a">$1,000 / person</div>
         </div>
@@ -697,7 +697,7 @@ const CONTEXTS = {
     // Slider values — P in billions, A in k$/yr, T in kg CO₂/$
     // Unit algebra: [B people] × [k$/person/yr] × [kg CO₂/$] = Gt CO₂/yr
     pBase: 8,    pMin: 1,    pMax: 15,   pStep: 0.1,
-    aBase: 11,   aMin: 1,    aMax: 21,   aStep: 0.5,
+    aBase: 11,   aMin: 1,    aMax: 50,   aStep: 0.5,
     tBase: 0.39, tMin: 0,    tMax: 0.78, tStep: 0.01,
     iUnit: 'Gt CO₂/yr',
     pLabel: 'Population',     aLabel: 'GDP per Capita',  tLabel: 'Carbon Intensity',
@@ -709,7 +709,7 @@ const CONTEXTS = {
     fmtI: v => `${v.toFixed(1)} Gt`,
     fmtILong: v => `${v.toFixed(1)} Gt CO₂/yr`,
     vRangeTopP: '15 billion', vRangeBotP: '1 billion',
-    vRangeTopA: '$21,000 / person', vRangeBotA: '$1,000 / person',
+    vRangeTopA: '$50,000 / person', vRangeBotA: '$1,000 / person',
     vRangeTopT: '0.78 kg/$ (2× baseline)', vRangeBotT: '0 kg/$ (no emissions)',
     colTitleP: 'Population', colTitleA: 'GDP per Capita', colTitleT: 'Carbon Intensity',
     lcPLabel: 'Population', lcALabel: 'GDP per Capita', lcTLabel: 'Carbon Intensity',
